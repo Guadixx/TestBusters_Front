@@ -4,6 +4,7 @@ import { Route, Routes } from 'react-router-dom';
 
 import Footer from './components/Footer';
 import Header from './components/Header';
+import RequiredAuth from './components/RequiredAuth/RequiredAuth';
 import Community from './pages/Community';
 import Home from './pages/Home';
 import Login from './pages/Login';
@@ -19,10 +20,38 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/community" element={<Community />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/tests" element={<Tests />} />
-        <Route path="/tests/:id" element={<TestDetail />} />
+        <Route
+          path="/community"
+          element={
+            <RequiredAuth>
+              <Community />
+            </RequiredAuth>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <RequiredAuth>
+              <Profile />
+            </RequiredAuth>
+          }
+        />
+        <Route
+          path="/tests"
+          element={
+            <RequiredAuth>
+              <Tests />
+            </RequiredAuth>
+          }
+        />
+        <Route
+          path="/tests/:id"
+          element={
+            <RequiredAuth>
+              <TestDetail />
+            </RequiredAuth>
+          }
+        />
         <Route path="/*" element={<NotFound />} />
       </Routes>
       <Footer />
