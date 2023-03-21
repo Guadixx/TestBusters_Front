@@ -10,7 +10,7 @@ const ImageStyled = styled.div`
   }
 `;
 
-const Image = ({ src = ' ', name = ' ' }) => {
+const Image = ({ src, name }) => {
   return (
     <ImageStyled>
       <img src={src} alt={name} />
