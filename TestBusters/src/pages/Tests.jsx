@@ -1,9 +1,7 @@
-import './Tests.css'
+import './Tests.css';
 
 const Tests = () => {
-  return (
-    <div>Tests</div>
-  )
-}
+  return <div>Tests</div>;
+};
 
-export default Tests
+export default Tests;
