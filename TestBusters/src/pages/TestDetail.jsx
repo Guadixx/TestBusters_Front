@@ -1,9 +1,7 @@
-import './TestDetail.css'
+import './TestDetail.css';
 
 const TestDetail = () => {
-  return (
-    <div>TestDetail</div>
-  )
-}
+  return <div>TestDetail</div>;
+};
 
-export default TestDetail
+export default TestDetail;

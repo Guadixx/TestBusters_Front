@@ -1,9 +1,7 @@
-import './NotFound.css'
+import './NotFound.css';
 
 function NotFound() {
-  return (
-    <div>NotFound</div>
-  )
+  return <div>NotFound</div>;
 }
 
 export default NotFound;
