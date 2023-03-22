@@ -9,7 +9,7 @@ const RatingButton = styled.button`
   border: none;
   background-color: transparent;
 
-  .on {
+  &.on {
     background: url('https://res.cloudinary.com/dva9zee9r/image/upload/v1679484972/achievements%20icons/star_icon_filled_small_bhkc31.svg');
   }
 `;
@@ -23,16 +23,18 @@ const RatingStar = styled.div`
 const Rating = ({ width, height }) => {
   const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(0);
+  const stars = [1, 2, 3, 4, 5];
   return (
     <RatingStyled>
-      {[...Array(5)].map((star, index) => {
-        index += 1;
+      {stars.map((star) => {
         return (
           <RatingButton
-            key={index}
-            className={index <= (hover || rating) && 'on'}
-            onClick={() => setRating(index)}
-            onMouseEnter={() => setHover(index)}
+            key={star}
+            className={star <= hover ? 'on' : 'off'}
+            onClick={() => setRating(star)}
+            onMouseEnter={() => {
+              setHover(star);
+            }}
             onMouseLeave={() => setHover(rating)}
           >
             <RatingStar width={width} height={height} />
