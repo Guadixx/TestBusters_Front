@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+import Palette from '../styles/Palette';
+
 const AvatarStyled = styled.img`
   display: flex;
   justify-content: ${({ justify }) =>
@@ -26,20 +28,37 @@ const AvatarStyled = styled.img`
       : align === 'space-between'
       ? 'space-between'
       : 'center'};
-  width: ${({ width }) => width};
-  height: ${({ height }) => height};
+  width: ${({ width }) =>
+    width === 's'
+      ? '20px'
+      : width === 'm'
+      ? '50px'
+      : width === 'l'
+      ? '100px'
+      : width === 'xl'
+      ? '200px'
+      : '200px'};
+  height: ${({ height }) =>
+    height === 's'
+      ? '20px'
+      : height === 'm'
+      ? '50px'
+      : height === 'l'
+      ? '100px'
+      : height === 'xl'
+      ? '200px'
+      : '200px'};
   padding: ${({ padding }) => padding};
   margin: ${({ margin }) => margin};
   position: ${({ position }) => position};
-  border-radius: 0.8rem;
+  border-radius: 100rem;
+  border: 5px solid ${Palette.color_bg};
   object-fit: cover;
-  filter: ${({ filter }) => filter};
 `;
 
-const Avatar = ({ filter, justify, align, src, alt, height, width, position }) => {
+const Avatar = ({ justify, align, src, alt, height, width, position }) => {
   return (
     <AvatarStyled
-      filter={filter}
       justify={justify}
       align={align}
       src={src}
