@@ -6,11 +6,11 @@ import { Spacing } from '../styles/Spacing';
 import { Heading_3, Heading_4 } from './Headings';
 
 const CircleBarStyled = styled.div`
-  height: 240px;
-  width: 240px;
+  height: 150px;
+  width: 150px;
   border-radius: 50%;
-  margin-top: 8vh;
-  margin-left: 20vw;
+  /*   margin-top: 8vh;
+  margin-left: 20vw; */
   display: flex;
   flex-direction: column;
   gap: ${Spacing._1};
@@ -28,8 +28,8 @@ const CircleBarStyled = styled.div`
 `;
 const CircleInside = styled.div`
   background-color: #ffffff;
-  height: 200px;
-  width: 200px;
+  height: 125px;
+  width: 125px;
   border-radius: 50%;
   position: absolute;
   top: 50%;
@@ -80,10 +80,10 @@ const CircleBar = ({ value, label, level = '' }) => {
       {label == 'BETTER THAN' ? (
         <Heading_3 text={`${Math.floor(animatedValue)}%`} size="65px" z={1} />
       ) : (
-        <Heading_3 text={level} size="65px" z={1} />
+        <Heading_3 text={level} size="45px" z={1} weigth="500" />
       )}
-      {label == 'LEVEL' && <Heading_4 text={label} z={1} size="25px" />}
-      {label == 'LEVEL' && <Heading_4 text={nextLevel} z={1} size="15px" />}
+      {label == 'LEVEL' && <Heading_4 text={label} z={1} size="16px" weigth="600" />}
+      {label == 'LEVEL' && <Heading_4 text={nextLevel} z={1} size="10px" weigth="500" />}
       <CircleInside />
     </CircleBarStyled>
   );

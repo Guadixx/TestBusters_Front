@@ -1,30 +1,30 @@
 import styled from 'styled-components';
 
 import Palette from '../styles/Palette';
+import { Spacing } from '../styles/Spacing';
 
 const StaticsStyled = styled.div`
-  padding: 3rem;
-  margin: 1rem;
+  width: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const StaticPercentage = styled.h2`
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 2rem;
-  letter-spacing: 2.5px;
+  font-size: ${Spacing._8};
   color: ${Palette.color_primary};
-  margin: 0.2rem;
 `;
 
 const StaticText = styled.h4`
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 1rem;
-  letter-spacing: 1.8px;
+  font-size: ${Spacing._3};
   color: ${Palette.color_primary};
-  margin: 0.6rem;
+  margin-top: ${Spacing._1};
   text-transform: uppercase;
 `;
 

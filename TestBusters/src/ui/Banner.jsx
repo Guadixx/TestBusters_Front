@@ -19,11 +19,26 @@ const BannerStyled = styled.div`
         ? '4.5rem '
         : '6rem'};
   }
+  border-radius: ${({ radius }) =>
+    radius === 'xl'
+      ? '0 0 10px 10px'
+      : radius === 'm'
+      ? '0 0 8px 8px'
+      : radius === 's'
+      ? '0 0 5px 5px '
+      : '0'};
+  overflow: hidden;
 `;
 
-const Banner = ({ size, src, name, position, margin, padding }) => {
+const Banner = ({ size, src, name, position, margin, padding, radius }) => {
   return (
-    <BannerStyled size={size} position={position} margin={margin} padding={padding}>
+    <BannerStyled
+      size={size}
+      position={position}
+      margin={margin}
+      padding={padding}
+      radius={radius}
+    >
       <img src={src} alt={name} />
     </BannerStyled>
   );

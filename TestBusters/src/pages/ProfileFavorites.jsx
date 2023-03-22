@@ -1,11 +1,11 @@
-import './Profile.css';
+import './ProfileFavorites.css';
 
 import Avatar from '../ui/Avatar';
 import Banner from '../ui/Banner';
 import NavBar from '../ui/NavBar';
 import ProfileInfo from '../ui/ProfileInfo';
 
-export const Profile = () => {
+const ProfileFavorites = () => {
   const links = [
     {
       link: '/profile/statistics',
@@ -21,7 +21,7 @@ export const Profile = () => {
     },
   ];
   return (
-    <section className="profile">
+    <section className="profile-favorites">
       <Banner
         size="xl"
         src="https://res.cloudinary.com/dva9zee9r/image/upload/v1679500998/testbuster/4975027_v4c4p9.jpg"
@@ -46,4 +46,5 @@ export const Profile = () => {
     </section>
   );
 };
-export default Profile;
+
+export default ProfileFavorites;
