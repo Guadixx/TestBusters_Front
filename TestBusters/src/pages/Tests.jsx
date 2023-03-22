@@ -1,7 +1,13 @@
 import './Tests.css';
 
+import TestCard from '../components/TestCard';
+
 const Tests = () => {
-  return <div>Tests</div>;
+  return (
+    <div className="home">
+      <TestCard />
+    </div>
+  );
 };
 
 export default Tests;

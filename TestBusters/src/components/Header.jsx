@@ -1,22 +1,88 @@
 import './Header.css';
 
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { UserContext } from '../context/UserContext';
 
 const Header = () => {
-  const { logout } = useContext(UserContext);
+  const navigate = useNavigate();
+  const { logout, user } = useContext(UserContext);
+  const [showModal, setShowModal] = useState(false);
+
+  const showModalToggle = () => {
+    setShowModal(!showModal);
+  };
   return (
-    <div>
+    <div className="header">
       <nav>
-        <NavLink to="/"> Home </NavLink>
-        <NavLink to="/login"> Login </NavLink>
-        <NavLink to="/community"> Community </NavLink>
-        <NavLink to="/profile"> Profile </NavLink>
-        <NavLink to="/tests"> Tests </NavLink>
-        <button onClick={() => logout()}>logout</button>
+        <ul>
+          <div className="header-pages">
+            <li>
+              <button onClick={() => navigate('/')} className="logo-button">
+                <img
+                  src="https://res.cloudinary.com/dva9zee9r/image/upload/v1679412796/achievements%20icons/testbusters_logo1_cty2np.png"
+                  alt="testbusters logo"
+                />
+              </button>
+            </li>
+
+            {user !== null && (
+              <>
+                <li>
+                  <NavLink to="/"> Home </NavLink>
+                </li>
+                <li>
+                  <NavLink to="/tests"> Tests </NavLink>
+                </li>
+                <li>
+                  <NavLink to="/community"> Community </NavLink>
+                </li>
+              </>
+            )}
+          </div>
+
+          {user == null ? (
+            <div className="user-login">
+              <li>
+                <button onClick={() => navigate('/register')} className="register-button">
+                  Register
+                </button>
+              </li>
+              <li>
+                <button onClick={() => navigate('/login')} className="login-button">
+                  Sign in
+                </button>
+              </li>
+            </div>
+          ) : (
+            <div className="user-header">
+              <li>
+                <button onClick={() => showModalToggle()} className="avatar-button">
+                  <img src={user.avatar} alt="user avatar" />
+                </button>
+              </li>
+              <li>Level {user.level[0]}</li>
+            </div>
+          )}
+        </ul>
       </nav>
+      {showModal && (
+        <div className="user-modal">
+          <a href="/profile" onClick={() => showModalToggle}>
+            Profile
+          </a>
+          <button
+            onClick={() => {
+              logout();
+              showModalToggle();
+            }}
+          >
+            Sign out
+          </button>
+        </div>
+      )}
     </div>
   );
 };
