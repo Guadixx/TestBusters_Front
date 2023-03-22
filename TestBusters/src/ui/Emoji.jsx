@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
+import Palette from '../styles/Palette';
 const EmojiStyled = styled.div`
   display: flex;
   position: relative;
@@ -18,7 +19,7 @@ const EmojiStyled = styled.div`
     border: none;
     justify-content: center;
     align-items: center;
-    background-color: white;
+    background-color: ${Palette.color_bg};
     :hover {
       transform: scale(1.2);
       transition: all 0.2s ease-in-out;
