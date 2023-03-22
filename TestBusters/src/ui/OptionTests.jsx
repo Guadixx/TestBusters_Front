@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const OptionStyled = styled.div`
+const OptionStyled = styled.button`
   width: 20rem;
   height: 3rem;
   padding: 1rem;
