@@ -1,10 +1,16 @@
 import './TestCard.css';
 
+import { useNavigate } from 'react-router-dom';
+
+import Icons from '../styles/Icons';
+
 //le entra por prop el test, todavía falta poner
 
 const TestCard = () => {
+  const navigate = useNavigate();
+
   return (
-    <div className="testcard">
+    <div className="testcard" onClick={() => navigate('/')}>
       <img
         src="https://upload.wikimedia.org/wikipedia/commons/8/80/Collection-national-flags.png"
         alt="test thumbnail"
@@ -14,11 +20,7 @@ const TestCard = () => {
         <div className="test-info-first">
           <h4>Guess the flag</h4>
           <div className="test-info-played">
-            <img
-              src="https://res.cloudinary.com/dva9zee9r/image/upload/v1679431586/achievements%20icons/tocar_uha26c.png"
-              alt="play icon"
-              className="play-icon"
-            />
+            <img src={Icons.play} alt="play icon" className="play-icon" />
             <h5>78294</h5>
           </div>
         </div>
