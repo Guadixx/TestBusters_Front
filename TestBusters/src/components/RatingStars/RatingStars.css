@@ -1,0 +1,17 @@
+.rating-stars {
+  display: flex;
+}
+
+.rating-stars button {
+  border: none;
+  background-color: transparent;
+}
+.star {
+  width: 20px;
+  height: 20px;
+  background: url('https://res.cloudinary.com/dva9zee9r/image/upload/v1679484972/achievements%20icons/star_icon_border_smalll_hqeujm.svg');
+}
+
+.on {
+  background: url('https://res.cloudinary.com/dva9zee9r/image/upload/v1679484972/achievements%20icons/star_icon_filled_small_bhkc31.svg');
+}
