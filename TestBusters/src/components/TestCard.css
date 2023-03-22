@@ -30,25 +30,17 @@
   gap: var(--spacing-0-2);
 }
 
-.testcard .test-info .test-info-first h4 {
-  font-size: 15px;
-}
-
 .testcard .test-info .test-info-first .test-info-played {
   display: flex;
   align-items: center;
   gap: 0.3rem;
+  max-width: 70px;
+  justify-content: flex-start;
 }
 .testcard .test-info .test-info-first .test-info-played img {
   width: 12px;
   filter: opacity(50%);
 }
-
-.testcard .test-info .test-info-first .test-info-played h5 {
-  font-weight: 400;
-  font-size: 12px;
-}
-
 .testcard .test-info .test-info-user {
   display: flex;
   align-items: center;
@@ -58,9 +50,4 @@
 .testcard .test-info .test-info-user img {
   width: 20px;
   height: 20px;
-}
-
-.testcard .test-info .test-info-user h5 {
-  font-weight: 400;
-  font-size: 12px;
 }

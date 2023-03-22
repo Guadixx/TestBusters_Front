@@ -7,6 +7,7 @@ import Header from './components/Header';
 import RequiredAuth from './components/RequiredAuth/RequiredAuth';
 import GridLayout from './Layout/GridLayout';
 import Community from './pages/Community';
+import Create from './pages/Create';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import NotFound from './pages/NotFound';
@@ -37,6 +38,22 @@ function App() {
             element={
               <RequiredAuth>
                 <Profile />
+              </RequiredAuth>
+            }
+          />
+          <Route
+            path="/community"
+            element={
+              <RequiredAuth>
+                <Community />
+              </RequiredAuth>
+            }
+          />
+          <Route
+            path="/create"
+            element={
+              <RequiredAuth>
+                <Create />
               </RequiredAuth>
             }
           />

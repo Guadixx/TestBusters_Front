@@ -3,6 +3,8 @@ import './Footer.css';
 import { NavLink } from 'react-router-dom';
 
 import Icons from '../styles/Icons';
+import Palette from '../styles/Palette';
+import { Heading_4 } from '../ui/Headings';
 
 const Footer = () => {
   return (
@@ -38,7 +40,7 @@ const Footer = () => {
             <NavLink to="/community">Community</NavLink>
           </li>
           <li>
-            <NavLink to="/profile">Profile</NavLink>
+            <NavLink to="/create">Create</NavLink>
           </li>
         </ul>
       </nav>
@@ -58,7 +60,11 @@ const Footer = () => {
           </li>
         </ul>
       </div>
-      <h4>© Copyright 2023 TestBusters, SA.</h4>
+      <Heading_4
+        size="12px "
+        color={Palette.color_secundary}
+        text=" © Copyright 2023 TestBusters, SA."
+      />
     </section>
   );
 };
