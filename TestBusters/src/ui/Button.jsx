@@ -75,7 +75,7 @@ const ButtonStyled = styled.button`
       ? Spacing._4
       : Spacing._4};
   &:hover {
-    filter: ${({ disabled }) => (disabled ? 'brightness(100%)' : 'brightness(125%)')};
+    filter: ${({ disabled }) => (disabled ? 'brightness(100%)' : 'brightness(90%)')};
   }
   &:active {
     transform: ${({ disabled }) => (disabled ? 'scale(100%)' : 'scale(99.5%)')};

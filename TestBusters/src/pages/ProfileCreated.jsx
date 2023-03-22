@@ -1,9 +1,14 @@
 import './ProfileCreated.css';
 
+import Palette from '../styles/Palette';
 import Avatar from '../ui/Avatar';
 import Banner from '../ui/Banner';
+import Button from '../ui/Button';
+import { Heading_3 } from '../ui/Headings';
 import NavBar from '../ui/NavBar';
 import ProfileInfo from '../ui/ProfileInfo';
+import Rating from '../ui/Rating';
+import Thumbnail from '../ui/Thumbnail';
 const ProfileCreated = () => {
   const links = [
     {
@@ -42,6 +47,24 @@ const ProfileCreated = () => {
         following="3"
       />
       <NavBar links={links} />
+      <section className="created-section">
+        <div className="test-preview">
+          <Thumbnail
+            src="https://upload.wikimedia.org/wikipedia/commons/8/80/Collection-national-flags.png"
+            alt="test thumbnail"
+            width="s"
+            height="s"
+          />
+          <div className="test-preview-first">
+            <div className="test-preview-info">
+              <Heading_3 text="Guess the flag" weigth="600" />
+              <Heading_3 text="by Rgrivas9" color={Palette.color_secundary} size="14px" />
+            </div>
+            <Rating width="18px" height="18px" />
+          </div>
+          <Button textBefore="Details" color={Palette.color_secundary} size="4" />
+        </div>
+      </section>
     </section>
   );
 };

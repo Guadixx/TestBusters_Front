@@ -6,3 +6,33 @@
   position: relative;
   gap: 2rem;
 }
+
+.created-section {
+  margin: var(--spacing-1);
+}
+
+.test-preview {
+  padding: 0.5rem 1rem;
+  /*  border: 1px solid black; */
+  border-radius: 5px;
+  box-shadow: rgba(154, 157, 160, 0.3) 0px 0px 2px 0px,
+    rgba(174, 178, 180, 0.15) 0px 1px 2px 1px;
+}
+
+.test-preview-first {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.test-preview {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-1);
+}
+
+.test-preview-info {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-0-5);
+}
