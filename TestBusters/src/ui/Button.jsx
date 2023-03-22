@@ -1,43 +1,146 @@
 import styled from 'styled-components';
 
+import { Spacing } from '../styles/Spacing';
 const ButtonStyled = styled.button`
-  background-color: ${({ variant }) => variant};
-  border: ${({ border }) => (border === 'yes' ? '2px solid black' : 'none')};
-  color: ${({ color }) => (color === 'white' ? 'white' : 'black')};
-  width: fit-content;
-  font-family: 'Helvetica';
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: ${({ fixed_width }) => (fixed_width ? fixed_width : 'max-content')};
   font-size: ${({ size }) =>
-    size === 'lg' ? '25px' : size === 'sm' ? '14px' : size === 'xm' ? '10px' : '16px'};
-  font-weight: 700;
-  letter-spacing: 0.5px;
-  outline: none;
+    size == 1
+      ? Spacing._1
+      : size == 2
+      ? Spacing._2
+      : size == 3
+      ? Spacing._3
+      : size == 4
+      ? Spacing._4
+      : size == 5
+      ? Spacing._5
+      : size == 6
+      ? Spacing._6
+      : size == 7
+      ? Spacing._7
+      : Spacing._8};
   padding: ${({ size }) =>
-    size === 'lg'
-      ? '1.3rem 4.5rem'
-      : size === 'sm'
-      ? '8px 16px'
-      : size === 'xm'
-      ? '0.2rem 0.3rem'
-      : '0.4rem 4rem'};
-  text-transform: uppercase;
-  transition: 0.5s ease-in-out;
+    size == 1
+      ? `${Spacing._1} ${Spacing._2}`
+      : size == 2
+      ? `${Spacing._1} ${Spacing._3}`
+      : size == 3
+      ? `${Spacing._1} ${Spacing._4}`
+      : size == 4
+      ? `${Spacing._1} ${Spacing._5}`
+      : size == 5
+      ? `${Spacing._2} ${Spacing._6}`
+      : size == 6
+      ? `${Spacing._2} ${Spacing._7}`
+      : size == 7
+      ? `${Spacing._2} ${Spacing._8}`
+      : `${Spacing._2} ${Spacing._9}`};
+  text-transform: capitalize;
+  background-color: ${({ background }) => background};
+  color: ${({ color }) => color};
+  border-radius: 5px;
+  border: ${({ variant, size, color }) =>
+    variant == 'border' && size < 7
+      ? `1px solid ${color}`
+      : variant == 'border' && size >= 7
+      ? `2px solid ${color}`
+      : 'none'};
+  /*  border-bottom: ${({ variant, size }) =>
+    variant == 'relief' && size < 5
+      ? `1px solid gray`
+      : variant == 'relief' && size >= 5 && `2px solid gray`}; */
+  box-shadow: ${({ variant, size }) =>
+    variant == 'relief' && size < 5
+      ? `0px 5px 8px -5px gray`
+      : variant == 'relief' && size >= 5 && `0px 6px 10px -5px  gray`};
+  opacity: ${({ disabled }) => (disabled ? '30%' : '100%')};
+  outline: none;
+  gap: ${({ size }) =>
+    size == 1
+      ? Spacing._1
+      : size == 2
+      ? Spacing._2
+      : size == 3
+      ? Spacing._3
+      : size == 4
+      ? Spacing._3
+      : size == 5
+      ? Spacing._3
+      : size == 6
+      ? Spacing._4
+      : size == 7
+      ? Spacing._4
+      : Spacing._4};
   &:hover {
-    background-color: cadetblue;
+    filter: ${({ disabled }) => (disabled ? 'brightness(100%)' : 'brightness(125%)')};
+  }
+  &:active {
+    transform: ${({ disabled }) => (disabled ? 'scale(100%)' : 'scale(99.5%)')};
+  }
+  & img {
+    width: ${({ size }) =>
+      size == 1
+        ? Spacing._1
+        : size == 2
+        ? Spacing._2
+        : size == 3
+        ? Spacing._3
+        : size == 4
+        ? Spacing._4
+        : size == 5
+        ? Spacing._5
+        : size == 6
+        ? Spacing._6
+        : size == 7
+        ? Spacing._7
+        : Spacing._8};
   }
 `;
-
-const Button = ({ action, variant, color, border, text, size, type }) => {
+const Button = ({
+  action,
+  variant,
+  color,
+  mode = false,
+  textBefore,
+  textAfter,
+  size,
+  fixed_width,
+  src,
+  alt,
+  background,
+}) => {
   return (
     <ButtonStyled
-      type={type}
+      disabled={mode}
       onClick={action}
       variant={variant}
       color={color}
-      border={border}
       size={size}
+      fixed_width={fixed_width}
+      background={background}
+      src={src}
+      alt={alt}
     >
-      {text}
+      {textBefore}
+      {src && <img src={src} alt={alt} />}
+      {textAfter}
     </ButtonStyled>
   );
 };
 export default Button;
+/* neutral: {
+      _50: "#FFFFFF",
+      _100: "#E6E6E6",
+      _200: "#CCCCCC",
+      _300: "#B3B3B3",
+      _400: "#999999",
+      _500: "#080808",
+      _600: "#666666",
+      _700: "#4D4D4D",
+      _800: "#333333",
+      _900: "#1A1A1A",
+      _950: "#000000",
+    }, */
