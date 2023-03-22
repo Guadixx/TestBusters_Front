@@ -75,7 +75,7 @@ const Header = () => {
       </header>
       {showModal && (
         <div className="user-modal">
-          <NavLink to="/profile" onClick={() => showModalToggle()}>
+          <NavLink to="/profile/statistics" onClick={() => showModalToggle()}>
             Profile
           </NavLink>
           <button

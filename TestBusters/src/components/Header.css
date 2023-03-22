@@ -102,7 +102,7 @@
   border-radius: 5px;
   border: 1.5px var(--color-primary) solid;
 }
-/* 
+
 .header .user-modal {
   display: flex;
   justify-content: center;
@@ -170,4 +170,3 @@
     filter: opacity(100%);
   }
 }
- */
