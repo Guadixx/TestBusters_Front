@@ -52,7 +52,7 @@ const AvatarStyled = styled.img`
   margin: ${({ margin }) => margin};
   position: ${({ position }) => position};
   border-radius: 100rem;
-  border: 5px solid ${Palette.color_bg};
+  border: 5px solid ${Palette.color_highlight_primary};
   object-fit: cover;
 `;
 
