@@ -1,14 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import { Spacing } from '../styles/Spacing';
+
 const Record = ({ position, thumbnail, name, score, time }) => {
   const RecordStyled = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px;
+    padding: 10px 0;
     border-radius: 5px;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
 
     &:last-child {
       margin-bottom: 0;
@@ -22,35 +24,36 @@ const Record = ({ position, thumbnail, name, score, time }) => {
   const Position = styled.div`
     font-size: 20px;
     font-weight: bold;
-    padding: 15px;
+    padding: 15px 15px 15px 0;
   `;
 
-  const Thumbsnail = styled.img`
+  const Thumbnail = styled.img`
     width: 50px;
     height: 50px;
     border-radius: 20%;
   `;
 
   const Name = styled.div`
-    font-size: 20px;
+    font-size: 18px;
     font-weight: bold;
     padding-left: 15px;
+    margin-bottom: ${Spacing._1};
     display: flex;
   `;
 
   const Score = styled.div`
-    font-size: 20px;
+    font-size: 1rem;
   `;
 
   const Time = styled.div`
-    font-size: 20px;
+    font-size: 1rem;
     padding-left: 10px;
   `;
 
   return (
     <RecordStyled>
       <Position>{position}</Position>
-      <Thumbsnail src={thumbnail} alt="thumbnail" />
+      <Thumbnail src={thumbnail} alt="thumbnail" />
       <div>
         <Name>{name}</Name>
         <div className="score">

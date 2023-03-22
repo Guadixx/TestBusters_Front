@@ -4,6 +4,8 @@ import Palette from '../styles/Palette';
 
 const AvatarStyled = styled.img`
   display: flex;
+  /*   transform: ${({ scale }) =>
+    scale == 'achievement' ? 'scale(1.5)' : 'scale(1)'}; */
   justify-content: ${({ justify }) =>
     justify === 'center'
       ? 'center'
@@ -32,31 +34,42 @@ const AvatarStyled = styled.img`
     width === 's'
       ? '20px'
       : width === 'm'
-      ? '50px'
+      ? '60px'
       : width === 'l'
       ? '100px'
       : width === 'xl'
       ? '200px'
-      : '200px'};
+      : '180px'};
   height: ${({ height }) =>
     height === 's'
       ? '20px'
       : height === 'm'
-      ? '50px'
+      ? '60px'
       : height === 'l'
       ? '100px'
       : height === 'xl'
       ? '200px'
-      : '200px'};
+      : '180px'};
   padding: ${({ padding }) => padding};
   margin: ${({ margin }) => margin};
   position: ${({ position }) => position};
   border-radius: 100rem;
-  border: 5px solid ${Palette.color_highlight_primary};
+  border: 5px solid ${Palette.color_bg};
   object-fit: cover;
 `;
 
-const Avatar = ({ justify, align, src, alt, height, width, position }) => {
+const Avatar = ({
+  justify,
+  align,
+  src,
+  alt,
+  height,
+  width,
+  position,
+  margin,
+  padding,
+  scale,
+}) => {
   return (
     <AvatarStyled
       justify={justify}
@@ -66,6 +79,9 @@ const Avatar = ({ justify, align, src, alt, height, width, position }) => {
       height={height}
       width={width}
       position={position}
+      margin={margin}
+      padding={padding}
+      scale={scale}
     />
   );
 };

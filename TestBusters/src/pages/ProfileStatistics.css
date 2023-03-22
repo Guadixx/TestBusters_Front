@@ -1,0 +1,42 @@
+.profile-statics {
+  min-height: 59vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  gap: var(--spacing-2);
+}
+
+.statistics-section {
+  margin: var(--spacing-1);
+  display: flex;
+  gap: 4rem;
+}
+
+.statistics-first {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  max-width: 40vw;
+}
+
+.statistics-numbers {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-1-5);
+}
+
+.achievements-icons {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+
+.separator {
+  height: 100%;
+  border-left: 1px solid #c5c2bc;
+}
+
+.profile-records {
+  margin-top: var(--spacing-1);
+}

@@ -1,11 +1,10 @@
 .header {
-  padding: 0.5rem 2rem;
-  border-bottom: 0.5px solid #c5c2bc;
+  padding: 0rem 2rem;
+  /*   border-bottom: 0.5px solid #c5c2bc; */
 }
 
-.header nav ul {
+.header header ul {
   display: flex;
-  align-items: center;
   justify-content: space-between;
 }
 
@@ -74,7 +73,7 @@
   border: 2px var(--color-highlight-primary) solid;
 }
 
-.active {
+.header .active {
   color: var(--color-highlight-primary);
 }
 
@@ -103,7 +102,7 @@
   border-radius: 5px;
   border: 1.5px var(--color-primary) solid;
 }
-
+/* 
 .header .user-modal {
   display: flex;
   justify-content: center;
@@ -171,3 +170,4 @@
     filter: opacity(100%);
   }
 }
+ */

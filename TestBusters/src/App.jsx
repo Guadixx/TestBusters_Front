@@ -12,6 +12,8 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import NotFound from './pages/NotFound';
 import Profile from './pages/Profile';
+import ProfileCreated from './pages/ProfileCreated';
+import ProfileStatistics from './pages/ProfileStatistics';
 import Register from './pages/Register';
 import TestDetail from './pages/TestDetail';
 import Tests from './pages/Tests';
@@ -35,6 +37,30 @@ function App() {
           />
           <Route
             path="/profile"
+            element={
+              <RequiredAuth>
+                <Profile />
+              </RequiredAuth>
+            }
+          />
+          <Route
+            path="/profile/statistics"
+            element={
+              <RequiredAuth>
+                <ProfileStatistics />
+              </RequiredAuth>
+            }
+          />
+          <Route
+            path="/profile/created"
+            element={
+              <RequiredAuth>
+                <ProfileCreated />
+              </RequiredAuth>
+            }
+          />
+          <Route
+            path="/profile/favorites"
             element={
               <RequiredAuth>
                 <Profile />

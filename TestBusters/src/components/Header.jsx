@@ -16,7 +16,7 @@ const Header = () => {
   };
   return (
     <div className="header">
-      <nav>
+      <header>
         <ul>
           <div className="header-pages">
             <li>
@@ -72,12 +72,12 @@ const Header = () => {
             </div>
           )}
         </ul>
-      </nav>
+      </header>
       {showModal && (
         <div className="user-modal">
-          <a href="/profile" onClick={() => showModalToggle}>
+          <NavLink to="/profile" onClick={() => showModalToggle()}>
             Profile
-          </a>
+          </NavLink>
           <button
             onClick={() => {
               logout();

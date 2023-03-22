@@ -1,5 +1,5 @@
 .grid-layout {
   display: grid;
-  grid-template-rows: 11vh 1fr 30vh;
+  grid-template-rows: 10vh 1fr 30vh;
   width: 100%;
 }
