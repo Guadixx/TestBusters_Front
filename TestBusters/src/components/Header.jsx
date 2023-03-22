@@ -59,6 +59,11 @@ const Header = () => {
           ) : (
             <div className="user-header">
               <li>
+                <button onClick={() => navigate('/create')} className="create-button">
+                  Create
+                </button>
+              </li>
+              <li>
                 <button onClick={() => showModalToggle()} className="avatar-button">
                   <img src={user.avatar} alt="user avatar" />
                 </button>

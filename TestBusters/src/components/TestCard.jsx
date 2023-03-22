@@ -3,6 +3,7 @@ import './TestCard.css';
 import { useNavigate } from 'react-router-dom';
 
 import Icons from '../styles/Icons';
+import { Heading_4, Heading_5 } from '../ui/Headings';
 
 //le entra por prop el test, todavía falta poner
 
@@ -18,10 +19,10 @@ const TestCard = () => {
       />
       <div className="test-info">
         <div className="test-info-first">
-          <h4>Guess the flag</h4>
+          <Heading_4 text="Guess the flag" size="15px" weigth="600" />
           <div className="test-info-played">
             <img src={Icons.play} alt="play icon" className="play-icon" />
-            <h5>78294</h5>
+            <Heading_5 text="7829467" size="12px" />
           </div>
         </div>
         <div className="test-info-user">
@@ -29,7 +30,7 @@ const TestCard = () => {
             src="https://res.cloudinary.com/dva9zee9r/image/upload/v1679405347/testbuster/byb4gfgoub2ayosybg1f.png"
             alt="user avatar"
           />
-          <h5>Rgrivas9</h5>
+          <Heading_5 text="Rgrivas9" size="12px" />
         </div>
       </div>
     </div>

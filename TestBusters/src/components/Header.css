@@ -1,5 +1,6 @@
 .header {
   padding: 0.5rem 2rem;
+  border-bottom: 0.5px solid #c5c2bc;
 }
 
 .header nav ul {
@@ -25,6 +26,14 @@
   align-items: center;
 }
 
+.header .header-pages a {
+  padding: 0.3rem;
+}
+
+.header .header-pages a:hover {
+  color: var(--color-highlight-primary);
+}
+
 .header .user-header {
   display: flex;
   gap: var(--spacing-0-5);
@@ -32,6 +41,17 @@
   font-size: 14px;
   font-weight: 500;
   margin-right: var(--spacing-0-5);
+}
+
+.header .user-header .create-button {
+  padding: 0.3rem 1rem;
+  width: 90px;
+  margin-right: var(--spacing-0-5);
+  font-size: 0.9rem;
+  color: var(--color-bg);
+  background-color: var(--color-highlight-primary);
+  border-radius: 5px;
+  border: 1.5px var(--color-highlight-primary) solid;
 }
 
 .header .user-header .avatar-button {
