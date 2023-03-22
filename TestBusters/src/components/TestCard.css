@@ -1,0 +1,66 @@
+.testcard {
+  margin: 2rem;
+  background-color: var(--color-bg);
+  width: 300px;
+  height: 220px;
+  border-radius: 8px;
+}
+.testcard .test-thumbnail {
+  width: 100%;
+  height: 150px;
+  border-radius: 8px;
+  object-fit: cover;
+  cursor: pointer;
+}
+.testcard .test-thumbnail:hover {
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.testcard .test-info {
+  padding: 0.2rem 0;
+  display: flex;
+  flex-direction: column;
+  padding-left: var(--spacing-0-2);
+  gap: var(--spacing-0-2);
+}
+
+.testcard .test-info .test-info-first {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--spacing-0-2);
+}
+
+.testcard .test-info .test-info-first h4 {
+  font-size: 15px;
+}
+
+.testcard .test-info .test-info-first .test-info-played {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+.testcard .test-info .test-info-first .test-info-played img {
+  width: 12px;
+  filter: opacity(50%);
+}
+
+.testcard .test-info .test-info-first .test-info-played h5 {
+  font-weight: 400;
+  font-size: 12px;
+}
+
+.testcard .test-info .test-info-user {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-0-5);
+}
+
+.testcard .test-info .test-info-user img {
+  width: 20px;
+  height: 20px;
+}
+
+.testcard .test-info .test-info-user h5 {
+  font-weight: 400;
+  font-size: 12px;
+}

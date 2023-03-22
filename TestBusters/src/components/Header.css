@@ -1,0 +1,153 @@
+.header {
+  padding: 0.5rem 2rem;
+}
+
+.header nav ul {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header .logo-button {
+  background-color: transparent;
+  border: none;
+  display: flex;
+  align-items: center;
+}
+
+.header .logo-button img {
+  width: 200px;
+}
+
+.header .header-pages {
+  display: flex;
+  gap: var(--spacing-1);
+  align-items: center;
+}
+
+.header .user-header {
+  display: flex;
+  gap: var(--spacing-0-5);
+  align-items: center;
+  font-size: 14px;
+  font-weight: 500;
+  margin-right: var(--spacing-0-5);
+}
+
+.header .user-header .avatar-button {
+  display: flex;
+  background-color: transparent;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  width: 40px;
+  overflow: hidden;
+}
+
+.header .user-header .avatar-button img {
+  width: 35px;
+  border-radius: 100%;
+  border: none;
+}
+
+.header .user-header .avatar-button img:hover {
+  border: 2px var(--color-highlight-primary) solid;
+}
+
+.active {
+  color: var(--color-highlight-primary);
+}
+
+.header .user-login {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-0-2);
+}
+
+.header .user-login .register-button {
+  padding: 0.3rem 1rem;
+  width: 90px;
+  font-size: 0.9rem;
+  color: var(--color-bg);
+  background-color: var(--color-highlight-primary);
+  border-radius: 5px;
+  border: 1.5px var(--color-highlight-primary) solid;
+}
+
+.header .user-login .login-button {
+  padding: 0.3rem 1rem;
+  width: 90px;
+  font-size: 0.9rem;
+  color: var(--color-primary);
+  background-color: transparent;
+  border-radius: 5px;
+  border: 1.5px var(--color-primary) solid;
+}
+
+.header .user-modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  background-color: var(--color-bg);
+  width: 95px;
+  padding: 0.8rem 0;
+  border-radius: 8px;
+  position: absolute;
+  right: 7%;
+  z-index: 1;
+  animation: modal 0.12s cubic-bezier(0.17, 0.67, 1, 1.23),
+    opacity 0.1s cubic-bezier(0.17, 0.67, 1, 1.23),
+    fadein 0.1s cubic-bezier(0.17, 0.67, 1, 1.23);
+}
+
+.header .user-modal a,
+.header .user-modal button {
+  animation: opacity 0.3s cubic-bezier(0.17, 0.67, 1, 1.23);
+}
+
+.header .user-modal a {
+  width: 100%;
+  text-align: center;
+  padding: 0.4rem 0;
+  font-size: 0.9rem;
+}
+
+.header .user-modal button {
+  width: 100%;
+  border: none;
+  padding: 0.4rem 0;
+  background-color: transparent;
+  font-size: 0.9rem;
+}
+
+.header .user-modal a:hover,
+.header .user-modal button:hover {
+  background-color: #ededed;
+}
+@keyframes modal {
+  0% {
+    height: 30px;
+  }
+  100% {
+    height: 80px;
+  }
+}
+@keyframes fadein {
+  0% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+@keyframes opacity {
+  0% {
+    filter: opacity(0);
+  }
+  100% {
+    filter: opacity(100%);
+  }
+}
