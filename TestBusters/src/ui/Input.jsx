@@ -10,7 +10,7 @@ const StyledInput = styled.input`
   border-radius: 10px;
   padding: 15px 10px;
   font-size: 16px;
-  width: 100%;
+  width: 300px;
   &:focus {
     outline: none;
   }
@@ -26,7 +26,7 @@ const PlaceholderLabel = styled.label`
   pointer-events: none;
 `;
 
-const Input = ({ placeholder }) => {
+const Input = ({ type, placeholder }) => {
   const [Onfocus, setOnFocus] = useState(false);
   const handleInputFocus = () => setOnFocus(true);
   const handleInputBlur = (event) => {
@@ -36,8 +36,8 @@ const Input = ({ placeholder }) => {
   };
 
   return (
-    <InputStyled>
-      <StyledInput onFocus={handleInputFocus} onBlur={handleInputBlur} />
+    <InputStyled type={type}>
+      <StyledInput type={type} onFocus={handleInputFocus} onBlur={handleInputBlur} />
       <PlaceholderLabel Onfocus={Onfocus}>{placeholder}</PlaceholderLabel>
     </InputStyled>
   );
