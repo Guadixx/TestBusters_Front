@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import Palette from '../styles/Palette';
 import Button from './Button';
-const ModalTestStyled = styled.div`
+import Rating from './Rating';
+
+const ModalRecordStyled = styled.div`
   & .hidden {
     display: none !important;
   }
@@ -35,9 +36,6 @@ const ModalTestStyled = styled.div`
     height: 100%;
     z-index: 999;
   }
-  & .buttons {
-    display: flex;
-  }
   @keyframes vibrar {
     0% {
       transform: scale(0.8);
@@ -48,12 +46,11 @@ const ModalTestStyled = styled.div`
   }
 `;
 
-const ModalTest = ({ text }) => {
+const ModalRecord = ({ text }) => {
   const [modal, setModal] = useState(false);
-  const navigate = useNavigate();
 
   return (
-    <ModalTestStyled>
+    <ModalRecordStyled>
       <div>
         <button
           onClick={() => {
@@ -65,33 +62,23 @@ const ModalTest = ({ text }) => {
       </div>
       <div className={modal ? 'modal' : 'hidden'}>
         <div className="modal-container">
-          <h3>Are you sure? You will lose all your progress.</h3>
-          <div className="buttons">
+          <Rating />
+          <div className="button">
             <Button
               fixed_width={'100px'}
-              textAfter="No"
+              textAfter="Close results"
               size="4"
-              margin={'10px'}
-              background={Palette.color_bg}
-              variant="border"
+              background={Palette.color_highlight_primary}
+              color={Palette.color_bg}
               action={() => {
                 setModal(!modal);
               }}
             />
-            <Button
-              fixed_width={'100px'}
-              textAfter="Yes"
-              size="4"
-              margin={'10px'}
-              background={Palette.color_highlight_primary}
-              color={Palette.color_bg}
-              action={() => navigate('/tests')}
-            />
           </div>
         </div>
       </div>
-    </ModalTestStyled>
+    </ModalRecordStyled>
   );
 };
 
-export default ModalTest;
+export default ModalRecord;
