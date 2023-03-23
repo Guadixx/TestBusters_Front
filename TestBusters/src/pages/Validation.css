@@ -1,0 +1,18 @@
+.code_content{
+    margin: 8px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.code_content > h4 {
+    margin: 0.4rem;
+    letter-spacing: 0.03rem;
+    color: black;
+    font-size: 1.2rem;
+}
+
+.code_container{
+    margin:2rem;
+}

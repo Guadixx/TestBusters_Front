@@ -17,6 +17,7 @@ import ProfileStatistics from './pages/ProfileStatistics';
 import Register from './pages/Register';
 import TestDetail from './pages/TestDetail';
 import Tests from './pages/Tests';
+import Validation from './pages/Validation';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/register/validate" element={<Validation />} />
           <Route
             path="/community"
             element={
