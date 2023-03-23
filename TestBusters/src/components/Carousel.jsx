@@ -6,9 +6,9 @@ import { useEffect, useRef, useState } from 'react';
 
 const Carousel = () => {
   const [clicked, setClicked] = useState(false);
-  const [position, setPosition] = useState(-window.innerWidth);
+  const [position, setPosition] = useState(-window.innerWidth / 2);
   const [firstClientXPosition, setFirstClientXPosition] = useState(0);
-  const [lastPosition, setLastPosition] = useState(-window.innerWidth);
+  const [lastPosition, setLastPosition] = useState(-window.innerWidth / 2);
   const [animation, setAnimation] = useState(false);
   const [loop, setLoop] = useState(false);
   const [lastLoop, setLastLoop] = useState(false);
@@ -16,7 +16,7 @@ const Carousel = () => {
   const div1 = useRef(null);
   const div2 = useRef(null);
   const div3 = useRef(null);
-  const list = [1, 2, 3, 4, 5, 6];
+  const list = ['../../bertin.jpeg', '../../colacao.jpg', '../../descarga1.jpg'];
   const [index, setIndex] = useState(() => {
     return Math.floor(list.length / 2);
   });
@@ -110,13 +110,13 @@ const Carousel = () => {
     }
     setTimeout(() => {
       moveLeft(700);
-    }, 2000);
+    }, 3500);
   }, [index, loop, firstRender]);
   useEffect(() => {
     setTimeout(() => {
       setLoop(false);
       setFirstRender(false);
-    }, 1000);
+    }, 100);
   }, []);
   useEffect(() => {
     if (loop) {
@@ -163,13 +163,16 @@ const Carousel = () => {
         }}
       >
         <div className="aruba aruba1" ref={div1}>
-          <h1>{index == 0 ? list[list.length - 1] : list[index - 1]}</h1>
+          <img src={index == 0 ? list[list.length - 1] : list[index - 1]} alt="a saber" />
+          {/* <h1>{index == 0 ? list[list.length - 1] : list[index - 1]}</h1> */}
         </div>
         <div className="aruba aruba2" ref={div2}>
-          <h1>{list[index]}</h1>
+          <img src={list[index]} alt="sdfd" />
+          {/* <h1>{list[index]}</h1> */}
         </div>
         <div className="aruba aruba3" ref={div3}>
-          <h1>{index == list.length - 1 ? list[0] : list[index + 1]}</h1>
+          <img src={index == list.length - 1 ? list[0] : list[index + 1]} alt="ala" />
+          {/* <h1>{index == list.length - 1 ? list[0] : list[index + 1]}</h1> */}
         </div>
       </div>
     </div>

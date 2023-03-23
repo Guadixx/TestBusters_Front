@@ -1,25 +1,34 @@
 .divcar {
-  width: 300vw;
-  height: 50vh;
+  width: 150vw;
+  height: 20vh;
   position: absolute;
   display: flex;
   align-items: center;
   justify-content: space-around;
-  background-color: red;
   z-index: 3;
 }
 .aruba {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100vw;
-  height: 50vh;
+  width: 50vw;
+  height: 20vh;
+  object-fit: cover;
+  overflow: hidden;
+}
+.aruba img {
+  width: 100%;
+  pointer-events: none;
 }
 .hola {
-  width: 100vw;
-  height: 50vh;
+  width: 50vw;
+  height: 20vh;
   position: relative;
   overflow-x: hidden;
+  cursor: grab;
+}
+.hola:active {
+  cursor: grabbing;
 }
 .aruba1{
   background-color: blue;
