@@ -18,7 +18,7 @@ const animation = (props) =>
   `;
 const ProgressBarStyled = styled.div`
   background-color: ${Palette.color_highlight_secondary};
-  height: 21px;
+  height: ${({ height }) => (height ? `${height - 3}px` : '21px')};
   width: ${({ width, type, range }) =>
     type != 'CountDown' ? `${width * range + 0.5}%` : '100%'};
   border-radius: 15px;
@@ -31,8 +31,8 @@ const ProgressBarStyled = styled.div`
 `;
 const ProgressTrackStyled = styled.div`
   background-color: #ffffff;
-  height: 24px;
-  width: 600px;
+  height: ${({ heighta }) => (heighta ? `${heighta - 3}px` : '24px')};
+  width: ${({ widtha }) => (widtha ? widtha : '600px')};
   border-radius: 15px;
   position: absolute;
   border: 3px solid ${Palette.color_highlight_secondary};
@@ -47,10 +47,20 @@ const DivProgressStyled = styled.div`
   position: relative;
   align-items: center;
   height: min-content;
-  width: 800px;
+  width: ${({ widthb }) => (widthb ? widthb : '800px')};
   gap: 0.2rem;
 `;
-const DivProgress = ({ type, text1 = '', value = 0, maxValue, className }) => {
+const DivProgress = ({
+  widtha,
+  widthb,
+  heighta,
+  height,
+  type,
+  text1 = '',
+  value = 0,
+  maxValue,
+  className,
+}) => {
   const [animatedWidth, setanimatedWidth] = useState(() => {
     return type == 'CountDown' ? maxValue : 0;
   });
@@ -108,11 +118,21 @@ const DivProgress = ({ type, text1 = '', value = 0, maxValue, className }) => {
   }, [incrementAnimatedWidth, animatedWidth]);
   const range = 100 / maxValue;
   return (
-    <DivProgressStyled text1={text1} type={type} value={value} maxValue={maxValue}>
+    <DivProgressStyled
+      widtha={widtha}
+      height={height}
+      heighta={heighta}
+      widthb={widthb}
+      text1={text1}
+      type={type}
+      value={value}
+      maxValue={maxValue}
+    >
       <Heading_3 text={text1} />
-      <ProgressTrackStyled>
+      <ProgressTrackStyled heighta={heighta} widtha={widtha}>
         {animatedWidth != 0 && (
           <ProgressBarStyled
+            height={height}
             width={animatedWidth}
             className={className}
             maxValue={maxValue}
