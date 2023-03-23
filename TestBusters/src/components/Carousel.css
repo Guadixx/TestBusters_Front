@@ -21,15 +21,22 @@
   position: relative;
   overflow-x: hidden;
 }
-.aruba1 {
+.aruba1{
   background-color: blue;
 }
-.aruba2 {
+.aruba2{
   background-color: rgb(49, 116, 60);
 }
-.aruba3 {
+.aruba3{
   background-color: rgb(229, 255, 0);
 }
 .animation {
-  transition: all 0.5s ease-in-out;
+  transition: all 0.7s ease-in-out;
+}
+.gibraltar {
+  position: absolute;
+  z-index: 5;
+  padding: 0.2rem 0.5rem;
+  top: 10px;
+  right: 20px;
 }
