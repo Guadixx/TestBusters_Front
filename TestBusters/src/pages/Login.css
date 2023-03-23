@@ -1,0 +1,125 @@
+
+.content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-transform: uppercase;
+  margin: 3rem;
+  font-size: 1.4rem;
+}
+.login_container {
+  margin: 0 auto;
+  width: 23rem;
+  height: 25rem;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-radius: 10px;
+}
+
+.input_user {
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 15px 10px;
+  font-size: 16px;
+  width: 300px;
+}
+.input_user:focus {
+  outline: none;
+}
+.custom-placeholder {
+  position: absolute;
+  pointer-events: none;
+  transition: all 0.2s ease-in-out;
+  bottom:7px;
+  left:9px;
+  text-transform: lowercase !important;
+  font-size: 16px !important;
+  color: rgba(51, 51, 51, 0.597);
+  background-color: var(--color-bg);
+  font-weight: 400 !important;
+}
+
+.input_user:focus ~ .custom-placeholder,
+.input_user:not(:placeholder-shown) ~ .custom-placeholder {
+  left:9px;
+  bottom:33px;
+  color:rgba(51, 51, 51, 0.597);
+}
+.user_container {
+  position:relative;
+  display: flex;
+  flex-direction: column;
+  margin: 1rem 2.5rem;
+}
+.user_container > label {
+  margin: 0.6rem 0.1rem;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+.password_container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin: 1rem 2.5rem;
+  font-size: 0.8rem;
+}
+
+.password_container > label {
+  margin: 0.6rem 0.1rem;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.btn_container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin: 1rem;
+}
+.login_btn {
+  padding: 0.8rem;
+  width: 300px;
+  font-size: 0.9rem;
+  color: var(--color-bg);
+  background-color: var(--color-highlight-primary);
+  border-radius: 5px;
+  border: 1.5px var(--color-highlight-primary) solid;
+}
+.see_btn {
+  position: absolute;
+  top: 208px;
+  right: 48px;
+  z-index: 2;
+  background-color: transparent;
+  border: none;
+}
+.see_btn > img {
+  width: 25px;
+  height: 25px;
+}
+
+.register_container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.register_container > h4 {
+  font-size: 1rem;
+  margin-top: 2rem;
+  font-weight: 500;
+}
+.register_nav {
+  display: flex;
+  margin: 0.5rem;
+  font-weight: 400;
+  color: var(--color-highlight-primary);
+}
