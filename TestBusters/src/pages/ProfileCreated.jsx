@@ -4,6 +4,7 @@ import { useContext, useEffect, useState } from 'react';
 
 import { UserContext } from '../context/UserContext';
 import { API } from '../services/API';
+import Icons from '../styles/Icons';
 import Avatar from '../ui/Avatar';
 import Banner from '../ui/Banner';
 import { Heading_4 } from '../ui/Headings';
@@ -61,6 +62,9 @@ const ProfileCreated = () => {
             level={userProfile.level[0]}
             followers={userProfile.followed_users.length}
             following={userProfile.following_users.length}
+            buttonimg={Icons.edit}
+            buttonalt="edit profile icon"
+            buttontext="Edit Profile"
           />
           <NavBar links={links} />
           <section className="created-section">

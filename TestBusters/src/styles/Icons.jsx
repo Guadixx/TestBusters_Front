@@ -11,6 +11,9 @@ const Icons = {
     'https://res.cloudinary.com/dva9zee9r/image/upload/v1679477031/achievements%20icons/notion_vwf9c1.png',
   github:
     'https://res.cloudinary.com/dva9zee9r/image/upload/v1679477155/achievements%20icons/25231_soafg5.png',
+  edit: 'https://res.cloudinary.com/dva9zee9r/image/upload/v1679580015/achievements%20icons/pencil_xxoanr.png',
+  camera:
+    'https://res.cloudinary.com/dva9zee9r/image/upload/v1679578247/achievements%20icons/photo-camera_wnyfok.png',
   play: 'https://res.cloudinary.com/dva9zee9r/image/upload/v1679431586/achievements%20icons/tocar_uha26c.png',
 };
 export default Icons;
