@@ -33,7 +33,7 @@ const ProfileStatistics = () => {
   const getUser = () => {
     API.get(`/users/${user._id}`).then((res) => {
       setUserProfile(res.data.user);
-      setAverageUser(user.data.average);
+      setAverageUser(res.data.average);
     });
   };
 
