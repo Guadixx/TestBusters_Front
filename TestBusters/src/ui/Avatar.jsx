@@ -4,8 +4,6 @@ import Palette from '../styles/Palette';
 
 const AvatarStyled = styled.img`
   display: flex;
-  /*   transform: ${({ scale }) =>
-    scale == 'achievement' ? 'scale(1.5)' : 'scale(1)'}; */
   justify-content: ${({ justify }) =>
     justify === 'center'
       ? 'center'

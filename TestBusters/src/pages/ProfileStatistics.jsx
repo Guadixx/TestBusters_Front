@@ -1,16 +1,36 @@
 import './ProfileStatistics.css';
 
+import { useContext, useEffect, useState } from 'react';
+
+import { UserContext } from '../context/UserContext';
+import { API } from '../services/API';
+import Palette from '../styles/Palette';
 import { Spacing } from '../styles/Spacing';
+import Achievement from '../ui/Achievement';
 import Avatar from '../ui/Avatar';
 import Banner from '../ui/Banner';
 import CircleBar from '../ui/CircleBar';
-import { Heading_3 } from '../ui/Headings';
+import { Heading_3, Heading_4 } from '../ui/Headings';
 import NavBar from '../ui/NavBar';
 import ProfileInfo from '../ui/ProfileInfo';
 import Record from '../ui/Record';
 import StaticsDiv from '../ui/StaticsDiv';
 
 const ProfileStatistics = () => {
+  const { user } = useContext(UserContext);
+  const [userProfile, setUserProfile] = useState([]);
+  const [averageUser, setAverageUser] = useState(0);
+
+  const getUser = () => {
+    API.get(`/users/${user._id}`).then((res) => {
+      setUserProfile(res.data.user);
+      setAverageUser(user.data.average);
+    });
+  };
+
+  useEffect(() => {
+    getUser();
+  }, []);
   const links = [
     {
       link: '/profile/statistics',
@@ -27,118 +47,110 @@ const ProfileStatistics = () => {
   ];
   return (
     <section className="profile-statics">
-      <Banner
-        size="xl"
-        src="https://res.cloudinary.com/dva9zee9r/image/upload/v1679500998/testbuster/4975027_v4c4p9.jpg"
-        name="profile banner"
-        radius="xl"
-      />
-      <Avatar
-        position="absolute"
-        src="https://res.cloudinary.com/dva9zee9r/image/upload/v1679405348/testbuster/g4sapoyeyuw2hq3fi7de.png"
-        alt="user avatar"
-        margin="4rem"
-        radius="xl"
-      />
-      <ProfileInfo
-        description="I like flags and motorcycles 🥸"
-        username="Rgrivas"
-        level="0"
-        followers="10"
-        following="3"
-      />
-      <NavBar links={links} />
-      <section className="statistics-section">
-        <section className="statistics-first">
-          <div className="statistics-numbers">
-            <CircleBar level="0" value="80" label="LEVEL" />
+      {console.log(averageUser)}
+      {userProfile.length != 0 ? (
+        <>
+          <Banner size="xl" src={userProfile.banner} name="profile banner" radius="xl" />
+          <Avatar
+            position="absolute"
+            src={userProfile.avatar}
+            alt="user avatar"
+            margin="4rem"
+            radius="xl"
+          />
+          <ProfileInfo
+            description="I like flags and motorcycles 🥸"
+            username={userProfile.username}
+            level={userProfile.level[0]}
+            followers={userProfile.followed_users.length}
+            following={userProfile.following_users.length}
+          />
+          <NavBar links={links} />
+          <section className="statistics-section">
+            <section className="statistics-first">
+              <div className="statistics-numbers">
+                <div className="circle-bar">
+                  <CircleBar
+                    level={userProfile.level[0]}
+                    value={userProfile.level[1]}
+                    label="LEVEL"
+                  />
+                </div>
 
-            <StaticsDiv text="TEST PLAYED" percentage="5" />
-            <StaticsDiv text="AVERAGE SCORE" percentage="83%" />
-          </div>
-          <div className="profile-achievements">
-            <Heading_3 text="ACHIEVEMENTS" weigth="700" />
-            <div className="achievements-icons">
-              <Avatar
-                src="https://res.cloudinary.com/dva9zee9r/image/upload/v1678977689/achievements%20icons/18.level08_MEDIUM_yp1q05.png"
-                width="m"
-                height="m"
-              />
-              <Avatar
-                src="https://res.cloudinary.com/dva9zee9r/image/upload/v1678977689/achievements%20icons/18.level08_MEDIUM_yp1q05.png"
-                width="m"
-                height="m"
-              />
-              <Avatar
-                src="https://res.cloudinary.com/dva9zee9r/image/upload/v1678977689/achievements%20icons/18.level08_MEDIUM_yp1q05.png"
-                width="m"
-                height="m"
-              />
-              <Avatar
-                src="https://res.cloudinary.com/dva9zee9r/image/upload/v1678977689/achievements%20icons/18.level08_MEDIUM_yp1q05.png"
-                width="m"
-                height="m"
-              />
-              <Avatar
-                src="https://res.cloudinary.com/dva9zee9r/image/upload/v1678977689/achievements%20icons/18.level08_MEDIUM_yp1q05.png"
-                width="m"
-                height="m"
-              />
-              <Avatar
-                src="https://res.cloudinary.com/dva9zee9r/image/upload/v1678977689/achievements%20icons/18.level08_MEDIUM_yp1q05.png"
-                width="m"
-                height="m"
-              />
-              <Avatar
-                src="https://res.cloudinary.com/dva9zee9r/image/upload/v1678977689/achievements%20icons/18.level08_MEDIUM_yp1q05.png"
-                width="m"
-                height="m"
-              />
-            </div>
-          </div>
-        </section>
-        <span className="separator"></span>
-        <section className="statistics-second">
-          <Heading_3 text="BEST RECORDS" weigth="700" size={Spacing._5} />
-          <div className="profile-records">
-            <Record
-              position="1"
-              thumbnail="https://upload.wikimedia.org/wikipedia/commons/8/80/Collection-national-flags.png"
-              name="Guess the flag"
-              score="25/25"
-              time="2:00"
-            />
-            <Record
-              position="2"
-              thumbnail="https://upload.wikimedia.org/wikipedia/commons/8/80/Collection-national-flags.png"
-              name="Guess the flag"
-              score="25/25"
-              time="2:00"
-            />
-            <Record
-              position="3"
-              thumbnail="https://upload.wikimedia.org/wikipedia/commons/8/80/Collection-national-flags.png"
-              name="Guess the flag"
-              score="25/25"
-              time="2:00"
-            />
-            <Record
-              position="4"
-              thumbnail="https://upload.wikimedia.org/wikipedia/commons/8/80/Collection-national-flags.png"
-              name="Guess the flag"
-              score="25/25"
-              time="2:00"
-            />
-            <Record
-              position="5"
-              thumbnail="https://upload.wikimedia.org/wikipedia/commons/8/80/Collection-national-flags.png"
-              name="Guess the flag"
-              score="25/25"
-              time="2:00"
-            />
-          </div>
-        </section>
-      </section>
+                <StaticsDiv text="TEST PLAYED" percentage={userProfile.tests_played} />
+                <StaticsDiv text="AVERAGE SCORE" percentage={`${averageUser}%`} />
+              </div>
+              <div className="profile-achievements">
+                <Heading_3 text="ACHIEVEMENTS" weigth="700" />
+                <div className="achievements-icons">
+                  {userProfile.achievements.length != 0 ? (
+                    userProfile.achievements.map((achievement) => (
+                      <Achievement
+                        src={achievement.image}
+                        width="m"
+                        height="m"
+                        key={achievement.name}
+                      />
+                    ))
+                  ) : (
+                    <div className="no-achievements">
+                      <Heading_4
+                        text="Not achievements yet"
+                        color={Palette.color_secundary}
+                      ></Heading_4>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </section>
+            <span className="separator"></span>
+            <section className="statistics-second">
+              <Heading_3 text="BEST RECORDS" weigth="700" size={Spacing._5} />
+              <div className="profile-records">
+                {userProfile.records.length != 0 ? (
+                  userProfile.records.map((record, index) => (
+                    <Record
+                      key={index}
+                      position={index}
+                      thumbnail={record.test.thumbnail}
+                      name={record.test.title}
+                      score={record.score.split('/')[0]}
+                      time={record.score.split('/')[2]}
+                    />
+                  ))
+                ) : (
+                  <div className="no-records">
+                    <Heading_4
+                      text="Not records yet"
+                      color={Palette.color_secundary}
+                    ></Heading_4>
+                  </div>
+                )}
+              </div>
+            </section>
+          </section>
+        </>
+      ) : (
+        <>
+          <Banner size="xl" src={user.banner} name="profile banner" radius="xl" />
+          <Avatar
+            position="absolute"
+            src={user.avatar}
+            alt="user avatar"
+            margin="4rem"
+            radius="xl"
+          />
+          <ProfileInfo
+            description="I like flags and motorcycles 🥸"
+            username={user.username}
+            level={user.level[0]}
+            followers={user.followed_users.length}
+            following={user.following_users.length}
+          />
+          <NavBar links={links} />
+          <div className="loading-statistics"></div>
+        </>
+      )}
     </section>
   );
 };
