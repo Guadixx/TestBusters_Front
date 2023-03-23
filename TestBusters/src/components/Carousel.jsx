@@ -13,7 +13,7 @@ const Carousel = () => {
   const div1 = useRef(null);
   const div2 = useRef(null);
   const div3 = useRef(null);
-  const list = [1, 2, 3, 4, 5];
+  const list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
   const [index, setIndex] = useState(() => {
     return Math.floor(list.length / 2);
   });
