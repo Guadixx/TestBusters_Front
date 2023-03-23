@@ -54,6 +54,7 @@ const AvatarStyled = styled.img`
   border-radius: 100rem;
   border: 5px solid ${Palette.color_bg};
   object-fit: cover;
+  z-index: ${({ zindex }) => zindex};
 `;
 
 const Avatar = ({
@@ -67,6 +68,7 @@ const Avatar = ({
   margin,
   padding,
   scale,
+  zindex,
 }) => {
   return (
     <AvatarStyled
@@ -80,6 +82,7 @@ const Avatar = ({
       margin={margin}
       padding={padding}
       scale={scale}
+      zindex={zindex}
     />
   );
 };

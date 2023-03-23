@@ -6,7 +6,7 @@ const BannerStyled = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 80vw;
+    width: 100%;
     padding: ${({ padding }) => padding};
     margin: ${({ margin }) => margin};
     position: ${({ position }) => position};
@@ -26,11 +26,23 @@ const BannerStyled = styled.div`
       ? '0 0 8px 8px'
       : radius === 's'
       ? '0 0 5px 5px '
-      : '0'};
+      : '5px 5px 5px 5px'};
   overflow: hidden;
+  z-index: ${({ zindex }) => zindex};
+  width: ${({ width }) => width};
 `;
 
-const Banner = ({ size, src, name, position, margin, padding, radius }) => {
+const Banner = ({
+  size,
+  src,
+  name,
+  position,
+  margin,
+  padding,
+  radius,
+  zindex,
+  width,
+}) => {
   return (
     <BannerStyled
       size={size}
@@ -38,6 +50,8 @@ const Banner = ({ size, src, name, position, margin, padding, radius }) => {
       margin={margin}
       padding={padding}
       radius={radius}
+      zindex={zindex}
+      width={width}
     >
       <img src={src} alt={name} />
     </BannerStyled>
