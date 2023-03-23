@@ -13,6 +13,7 @@ import Login from './pages/Login';
 import NotFound from './pages/NotFound';
 import Profile from './pages/Profile';
 import ProfileCreated from './pages/ProfileCreated';
+import ProfileFavorites from './pages/ProfileFavorites';
 import ProfileStatistics from './pages/ProfileStatistics';
 import Register from './pages/Register';
 import TestDetail from './pages/TestDetail';
@@ -63,7 +64,7 @@ function App() {
             path="/profile/favorites"
             element={
               <RequiredAuth>
-                <Profile />
+                <ProfileFavorites />
               </RequiredAuth>
             }
           />

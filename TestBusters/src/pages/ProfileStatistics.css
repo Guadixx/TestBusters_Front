@@ -17,7 +17,7 @@
   display: flex;
   flex-direction: column;
   gap: 3rem;
-  max-width: 40vw;
+  max-width: 500px;
 }
 
 .statistics-numbers {
@@ -29,7 +29,7 @@
 .achievements-icons {
   display: flex;
   flex-direction: row;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
 }
 
 .separator {
@@ -39,4 +39,23 @@
 
 .profile-records {
   margin-top: var(--spacing-1);
+}
+
+.no-achievements {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 33vw;
+  height: 10vw;
+}
+
+.loading-statistics {
+  margin: var(--spacing-1);
+  margin-bottom: 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 80vw;
+  gap: var(--spacing-1);
+  min-height: 10vh;
 }

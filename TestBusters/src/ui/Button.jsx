@@ -41,6 +41,8 @@ const ButtonStyled = styled.button`
   text-transform: capitalize;
   background-color: ${({ background }) => background};
   color: ${({ color }) => color};
+  padding: ${({ padding }) => padding};
+  margin: ${({ margin }) => margin};
   border-radius: 5px;
   border: ${({ variant, size, color }) =>
     variant == 'border' && size < 7
@@ -111,6 +113,8 @@ const Button = ({
   src,
   alt,
   background,
+  margin,
+  padding,
 }) => {
   return (
     <ButtonStyled
@@ -123,6 +127,8 @@ const Button = ({
       background={background}
       src={src}
       alt={alt}
+      margin={margin}
+      padding={padding}
     >
       {textBefore}
       {src && <img src={src} alt={alt} />}

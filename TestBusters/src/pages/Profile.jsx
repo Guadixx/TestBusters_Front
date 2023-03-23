@@ -1,11 +1,27 @@
 import './Profile.css';
 
+/* 
+import { useContext, useEffect, useState } from 'react';
+
+import { UserContext } from '../context/UserContext';
+import { API } from '../services/API'; */
 import Avatar from '../ui/Avatar';
 import Banner from '../ui/Banner';
 import NavBar from '../ui/NavBar';
 import ProfileInfo from '../ui/ProfileInfo';
 
 export const Profile = () => {
+  /*   const { user } = useContext(UserContext);
+  const [userProfile, setUserProfile] = useState([]);
+
+  const getUser = () => {
+    console.log(user._id);
+    API.get(`/users/${user._id}`).then((res) => console.log(res));
+  };
+
+  useEffect(() => {
+    getUser();
+  }, []); */
   const links = [
     {
       link: '/profile/statistics',

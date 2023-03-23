@@ -6,3 +6,26 @@
   position: relative;
   gap: 2rem;
 }
+
+.favorites-section {
+  margin: var(--spacing-1);
+  margin-bottom: 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  max-width: 80vw;
+  gap: var(--spacing-1);
+  min-height: 10vh;
+}
+
+.no-favorites-test {
+  margin: var(--spacing-1);
+  margin-bottom: 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 80vw;
+  gap: var(--spacing-1);
+  min-height: 10vh;
+}

@@ -26,6 +26,7 @@ const StaticText = styled.h4`
   color: ${Palette.color_primary};
   margin-top: ${Spacing._1};
   text-transform: uppercase;
+  text-align: center;
 `;
 
 const Statics = ({ text, percentage }) => {
