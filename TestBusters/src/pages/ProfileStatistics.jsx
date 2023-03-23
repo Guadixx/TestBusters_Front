@@ -1,6 +1,7 @@
 import './ProfileStatistics.css';
 
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
 
 import { UserContext } from '../context/UserContext';
 import { API } from '../services/API';
@@ -21,11 +22,13 @@ import StaticsDiv from '../ui/StaticsDiv';
 
 const ProfileStatistics = () => {
   const { user } = useContext(UserContext);
+  const { register, handleSubmit } = useForm();
   const [userProfile, setUserProfile] = useState([]);
   const [averageUser, setAverageUser] = useState(0);
-  const [onFocus, setOnFocus] = useState(false);
-  const avatarRef = useRef(null);
-  /*   const bannerRef = useRef(null); */
+  const [avatarFileName, setAvatarFileName] = useState('');
+  const [bannerFileName, setBannerFileName] = useState('');
+  const [avatarPreview, setAvatarPreview] = useState('');
+  const [bannerPreview, setBannerPreview] = useState('');
   const [showModal, setShowModal] = useState(false);
   const getUser = () => {
     API.get(`/users/${user._id}`).then((res) => {
@@ -34,9 +37,45 @@ const ProfileStatistics = () => {
     });
   };
 
+  const updateUser = (formData) => {
+    const updatedUser = {
+      username: formData.username,
+      bio: formData.bio,
+      avatar: formData.avatar[0],
+      banner: formData.banner[0],
+    };
+
+    console.log(formData);
+    API.put(`/users/${user._id}`, updatedUser, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    })
+      .then((res) => {
+        if (res.status === 200) {
+          console.log('user updated');
+          localStorage.setItem('user', JSON.stringify(res.data));
+          window.location.reload();
+        } else {
+          console.log('error updating');
+        }
+      })
+      .catch((error) => console.log(error));
+  };
+  const generateUrlAvatar = (item) => {
+    const url = URL.createObjectURL(item);
+    setAvatarPreview(url);
+    console.log(url);
+  };
+
+  const generateUrlBanner = (item) => {
+    const url = URL.createObjectURL(item);
+    setBannerPreview(url);
+    console.log(url);
+  };
+
   useEffect(() => {
     getUser();
   }, []);
+
   const links = [
     {
       link: '/profile/statistics',
@@ -57,36 +96,51 @@ const ProfileStatistics = () => {
         <>
           {showModal ? (
             <div className="edit-profile-modal">
-              <div className="edit-profile">
+              <form className="edit-profile" onSubmit={handleSubmit(updateUser)}>
                 <div className="edit-profile-images">
                   <div className="edit-profile-avatar">
                     <Avatar
-                      src={userProfile.avatar}
+                      src={avatarPreview != '' ? avatarPreview : userProfile.avatar}
                       alt="user avatar"
                       width="l"
                       height="l"
+                      id="avatarImg"
                     />
-                    <label htmlFor="avatar" className="avatar-label">
-                      Upload file
-                    </label>
                     <input
                       type="file"
                       id="avatar"
                       className="avatar-file"
-                      ref={avatarRef}
+                      {...register('avatar')}
+                      onChange={(ev) => {
+                        setAvatarFileName(ev.target.files[0].name);
+                        generateUrlAvatar(ev.target.files[0]);
+                      }}
                     />
+                    <label htmlFor="avatar" className="avatar-label">
+                      {avatarFileName != '' ? avatarFileName : 'Upload file'}
+                    </label>
                   </div>
                   <div className="edit-profile-banner">
                     <ImageTests
                       radius="xl"
                       width="200px"
                       height="100px"
-                      src={userProfile.banner}
+                      src={bannerPreview != '' ? bannerPreview : userProfile.banner}
                     />
-                    <label htmlFor="avatar" className="avatar-label">
-                      Upload file
+
+                    <input
+                      type="file"
+                      id="banner"
+                      className="banner-file"
+                      {...register('banner')}
+                      onChange={(ev) => {
+                        setBannerFileName(ev.target.files[0].name);
+                        generateUrlBanner(ev.target.files[0]);
+                      }}
+                    />
+                    <label htmlFor="banner" className="banner-label">
+                      {bannerFileName != '' ? bannerFileName : 'Upload file'}
                     </label>
-                    <input type="file" id="avatar" className="avatar-file" />
                   </div>
                 </div>
                 <div className="edit-username">
@@ -94,11 +148,10 @@ const ProfileStatistics = () => {
                     className="input_username"
                     type="text"
                     placeholder=" "
-                    onFocus={() => setOnFocus(true)}
-                    onBlur={() => setOnFocus(false)}
                     id="username"
                     name="username"
                     defaultValue={userProfile.username}
+                    {...register('username')}
                   />
                   <label htmlFor="username" className="custom-placeholder-profile">
                     Username
@@ -109,11 +162,10 @@ const ProfileStatistics = () => {
                     className="input_bio"
                     type="text"
                     placeholder=" "
-                    onFocus={() => setOnFocus(true)}
-                    onBlur={() => setOnFocus(false)}
                     id="bio"
                     name="bio"
                     defaultValue={userProfile.bio}
+                    {...register('bio')}
                   />
                   <label htmlFor="bio" className="custom-placeholder-profile-bio">
                     Description
@@ -136,9 +188,10 @@ const ProfileStatistics = () => {
                     textBefore=" Save "
                     size="4"
                     fixed_width="90px"
+                    type="submit"
                   />
                 </div>
-              </div>
+              </form>
             </div>
           ) : (
             <></>
@@ -159,7 +212,7 @@ const ProfileStatistics = () => {
             margin="4rem"
           />
           <ProfileInfo
-            description="I like flags and motorcycles 🥸"
+            description={userProfile.bio}
             username={userProfile.username}
             level={userProfile.level[0]}
             followers={userProfile.followed_users.length}
@@ -215,7 +268,7 @@ const ProfileStatistics = () => {
                   userProfile.records.map((record, index) => (
                     <Record
                       key={index}
-                      position={index}
+                      position={index + 1}
                       thumbnail={record.test.thumbnail}
                       name={record.test.title}
                       score={record.score.split('/')[0]}
@@ -236,7 +289,13 @@ const ProfileStatistics = () => {
         </>
       ) : (
         <>
-          <Banner size="xl" src={user.banner} name="profile banner" radius="xl" />
+          <Banner
+            size="xl"
+            src={user.banner}
+            name="profile banner"
+            radius="xl"
+            width="80vw"
+          />
           <Avatar
             position="absolute"
             src={user.avatar}
@@ -245,11 +304,15 @@ const ProfileStatistics = () => {
             radius="xl"
           />
           <ProfileInfo
-            description="I like flags and motorcycles 🥸"
+            description={user.bio}
             username={user.username}
             level={user.level[0]}
             followers={user.followed_users.length}
             following={user.following_users.length}
+            buttonimg={Icons.edit}
+            buttonalt="edit profile icon"
+            buttontext="Edit Profile"
+            action={() => setShowModal(true)}
           />
           <NavBar links={links} />
           <div className="loading-statistics"></div>

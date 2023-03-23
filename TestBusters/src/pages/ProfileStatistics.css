@@ -61,13 +61,13 @@
 }
 
 .edit-profile-modal {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  height: 100vh;
-  z-index: 3;
-  background-color: rgba(56, 56, 56, 0.514) 192, 192, 192;
+  height: 100%;
+  z-index: 5;
+  background-color: #38383883 192, 192, 192;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -104,20 +104,27 @@
   justify-content: center;
   gap: var(--spacing-0-5);
 }
-.avatar-label {
+.avatar-label,
+.banner-label {
   cursor: pointer;
   padding: var(--spacing-0-2) var(--spacing-1);
   border-radius: 5px;
   font-size: 12px;
   background-color: #dddddd;
   color: var(--color-primary);
+  max-width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.avatar-label:hover {
+.avatar-label:hover,
+.banner-label:hover {
   background-color: #b6b6b6;
 }
 
-.avatar-file {
+.avatar-file,
+.banner-file {
   width: 0.1px;
   height: 0.1px;
 }

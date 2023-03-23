@@ -115,6 +115,7 @@ const Button = ({
   background,
   margin,
   padding,
+  type,
 }) => {
   return (
     <ButtonStyled
@@ -129,6 +130,7 @@ const Button = ({
       alt={alt}
       margin={margin}
       padding={padding}
+      type={type}
     >
       {textBefore}
       {src && <img src={src} alt={alt} />}

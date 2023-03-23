@@ -5,6 +5,7 @@ import { NavLink } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
 import { UserContext } from '../context/UserContext';
+import Avatar from '../ui/Avatar';
 
 const Header = () => {
   const navigate = useNavigate();
@@ -65,7 +66,7 @@ const Header = () => {
               </li>
               <li>
                 <button onClick={() => showModalToggle()} className="avatar-button">
-                  <img src={user.avatar} alt="user avatar" />
+                  <Avatar src={user.avatar} alt="user avatar" width="m" height="m" />
                 </button>
               </li>
               <li>Level {user.level[0]}</li>
