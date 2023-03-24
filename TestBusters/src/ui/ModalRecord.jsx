@@ -56,6 +56,16 @@ const ModalRecordStyled = styled.div`
     text-align: left;
     gap: 20px;
   }
+  & .container {
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 20px 20px;
+  }
+  & .bar > h4 {
+    position: relative;
+    left: 10%;
+    top: 50px;
+  }
 
   @keyframes vibrar {
     0% {
@@ -102,7 +112,7 @@ const ModalRecord = ({ text }) => {
             <CircleBar widtha="200px" />
           </div>
           <div className="containers">
-            <div>
+            <div className="container">
               <h3>Last score</h3>
               <div className="bar">
                 <h4>score</h4>
@@ -113,7 +123,7 @@ const ModalRecord = ({ text }) => {
                 <DivProgress widtha="200px" widthb="400px" heighta="24" />
               </div>
             </div>
-            <div>
+            <div className="container">
               <h3>Record</h3>
               <div className="bar">
                 <h4>score</h4>
