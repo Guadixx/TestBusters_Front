@@ -1,8 +1,9 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import './TestDetail.css';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import useLocalStorage from '../customHooks/useLocalStorage';
@@ -24,8 +25,13 @@ const TestDetail = () => {
   const [questions, setQuestions] = useState([]);
   const [randomQuestions, setRandomQuestions] = useState([]);
   const [start, setStart] = useState(false);
+  const [finish, setFinish] = useState(false);
   const [index, setIndex] = useState(0);
   const [score, setScore] = useState(0);
+  const [seconds, setSeconds] = useState(0);
+  const [initialSeconds, setInitialSeconds] = useState(0);
+  const [userMinutes, setUserMinutes] = useState('');
+  const [userSeconds, setUserSeconds] = useState('');
   useEffect(() => {
     API.patch(`/${testType}/${testId}`, user)
       .then((res) => {
@@ -110,25 +116,75 @@ const TestDetail = () => {
       setRandomQuestions(newQuestions);
     }
   }, [questions]);
+  const countDown = useCallback(() => {
+    setSeconds((prevSeconds) => prevSeconds - 1);
+    setUserMinutes(() => {
+      return Math.floor((initialSeconds - seconds) / 60) >= 10
+        ? Math.floor((initialSeconds - seconds) / 60)
+        : `0${Math.floor((initialSeconds - seconds) / 60)}`;
+    });
+    setUserSeconds(() => {
+      return Math.round(
+        ((initialSeconds - seconds) / 60 - Math.floor((initialSeconds - seconds) / 60)) *
+          60,
+      ) >= 10
+        ? Math.round(
+            ((initialSeconds - seconds) / 60 -
+              Math.floor((initialSeconds - seconds) / 60)) *
+              60,
+          )
+        : `0${Math.round(
+            ((initialSeconds - seconds) / 60 -
+              Math.floor((initialSeconds - seconds) / 60)) *
+              60,
+          )}`;
+    });
+  });
+  useEffect(() => {
+    if (!start) {
+      return;
+    }
+    if (seconds == 0 || index == randomQuestions.length) {
+      setFinish(true);
+      return;
+    }
+    if (finish) {
+      return;
+    } else {
+      const timeoutSeconds = setInterval(countDown, 1000);
+      return () => {
+        clearInterval(timeoutSeconds);
+      };
+    }
+  }, [seconds]);
+  const handleStart = () => {
+    setStart(true);
+    setSeconds(() => {
+      return parseInt(test.time.split(':')[0] * 60) + parseInt(test.time.split(':')[1]);
+    });
+    setInitialSeconds(() => {
+      return parseInt(test.time.split(':')[0] * 60) + parseInt(test.time.split(':')[1]);
+    });
+    randomQuestions.forEach((question) => {
+      question.options[Math.round(Math.random() * 5)] = question.id;
+      let index = 0;
+      question.options.forEach((number) => {
+        if (number == 0) {
+          question.options[index] = 58;
+        }
+        index++;
+      });
+    });
+  };
   return (
     <div>
       <h1>{test != {} && test.title}</h1>
-      <p>{test != {} && test.description}</p>
+      <p>{test.description != undefined && test.description.split('/')[0]}</p>
       <h4>Creator {test.creator != undefined && test.creator.username}</h4>
       {!start && (
         <Button
           action={() => {
-            setStart(true);
-            randomQuestions.forEach((question) => {
-              question.options[Math.round(Math.random() * 5)] = question.id;
-              let index = 0;
-              question.options.forEach((number) => {
-                if (number == 0) {
-                  question.options[index] = 58;
-                }
-                index++;
-              });
-            });
+            handleStart();
           }}
           variant="border"
           color={Palette.color_highlight_primary}
@@ -136,37 +192,78 @@ const TestDetail = () => {
           size={5}
         />
       )}
-      {start & (index != randomQuestions.length) && (
+      {start & (index != randomQuestions.length) & !finish ? (
         <div>
-          <DivProgress
-            type="CountDown"
-            className="timer"
-            maxValue={
-              parseInt(test.time.split(':')[0] * 60) + parseInt(test.time.split(':')[1])
-            }
-          />
+          <DivProgress type="CountDown" className="timer" maxValue={initialSeconds} />
           <div>
-            <h3>
-              {`${test.question_text[0]} ${randomQuestions[index].question} ${test.question_text[1]}`}
-            </h3>
-            <div>
-              {randomQuestions[index].options.map((option) => (
-                <img
-                  key={option}
-                  alt="flag"
-                  src={featuredData.find((item) => item.id == option).flag}
-                  onClick={() => {
-                    if (option == randomQuestions[index].id) {
-                      setScore((prevScore) => prevScore + 1);
-                    }
-                    setIndex((prevIndex) => prevIndex + 1);
-                    console.log(score);
-                  }}
-                />
-              ))}
+            {randomQuestions[index].question.includes('https://res.cloudinary.com') ? (
+              <div className="questionDiv">
+                <h3>{`${test.question_text[0] == '.' ? '' : test.question_text[0]} `}</h3>
+                <img alt="question" src={randomQuestions[index].question} />
+                <h3>{` ${test.question_text[1] == '.' ? '' : test.question_text[1]}`}</h3>
+              </div>
+            ) : (
+              <h3>
+                {`${test.question_text[0] == '.' ? '' : test.question_text[0]} ${
+                  randomQuestions[index].question
+                } ${test.question_text[1] == '.' ? '' : test.question_text[1]}`}
+              </h3>
+            )}
+            <div className="optionDiv">
+              {randomQuestions[index].options.map((option) =>
+                featuredData
+                  .find((item) => item.id == option)
+                  [test.answer].includes('https://res.cloudinary.com') ? (
+                  <img
+                    key={option}
+                    alt="option"
+                    src={featuredData.find((item) => item.id == option)[test.answer]}
+                    onClick={() => {
+                      if (option == randomQuestions[index].id) {
+                        setScore((prevScore) => prevScore + 1);
+                      }
+                      setIndex((prevIndex) => prevIndex + 1);
+                    }}
+                  />
+                ) : (
+                  <div
+                    key={option}
+                    alt="option"
+                    onClick={() => {
+                      if (option == randomQuestions[index].id) {
+                        setScore((prevScore) => prevScore + 1);
+                      }
+                      setIndex((prevIndex) => prevIndex + 1);
+                    }}
+                  >
+                    <h4>{featuredData.find((item) => item.id == option)[test.answer]}</h4>
+                  </div>
+                ),
+              )}
             </div>
           </div>
         </div>
+      ) : (
+        <div></div>
+      )}
+      {index == randomQuestions.length && randomQuestions.length != 0 ? (
+        <div>
+          <h4>
+            Score: {score}/{randomQuestions.length}
+          </h4>
+          <h4>
+            Time: {userMinutes}:{userSeconds}
+          </h4>
+        </div>
+      ) : finish ? (
+        <div>
+          <h4>Time ran out!</h4>
+          <h4>
+            Score: {score}/{randomQuestions.length}
+          </h4>
+        </div>
+      ) : (
+        <div></div>
       )}
     </div>
   );
