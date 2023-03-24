@@ -20,6 +20,8 @@ const ProfileInfoUser = styled.div`
 
 const ProfileInfoDescription = styled.p`
   font-size: 14px;
+  text-align: center;
+  max-width: 50vw;
 `;
 
 const ProfileInfoFollows = styled.div`

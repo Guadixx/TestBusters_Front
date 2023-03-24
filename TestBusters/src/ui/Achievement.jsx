@@ -54,7 +54,7 @@ const AchievementStyled = styled.div`
   overflow: hidden;
 
   img {
-    transform: scale(0.14);
+    transform: scale(0.33);
     object-fit: cover;
   }
 `;
