@@ -8,6 +8,11 @@ import { API } from '../services/API';
 const Register = () => {
   const navigate = useNavigate();
   const [onFocus, setOnFocus] = useState(false);
+  const [see, setSee] = useState(false);
+  const handleClickTwo = (ev) => {
+    ev.preventDefault();
+    setSee(!see);
+  };
   const [newUser, setNewUser] = useState({
     email: ' ',
     username: ' ',
@@ -75,7 +80,7 @@ const Register = () => {
       <div className="password_container">
         <input
           className="input_content"
-          type="text"
+          type={see ? 'text' : 'password'}
           placeholder={onFocus ? ' ' : 'password'}
           onFocus={() => setOnFocus(true)}
           onBlur={() => setOnFocus(false)}
@@ -84,11 +89,24 @@ const Register = () => {
         <label htmlFor="custom-input" className="custom-placeholder">
           password
         </label>
+        <button className="see_btn" onClick={(ev) => handleClickTwo(ev)}>
+          {see ? (
+            <img
+              src="https://res.cloudinary.com/dva9zee9r/image/upload/v1679514213/invisible_ljwcqc.png"
+              alt="ojo cerrado"
+            />
+          ) : (
+            <img
+              src="https://res.cloudinary.com/dva9zee9r/image/upload/v1679514203/visibilidad_c7kgso.png"
+              alt="ojo"
+            />
+          )}
+        </button>
       </div>
       <div className="password_container">
         <input
           className="input_content"
-          type="text"
+          type={see ? 'text' : 'password'}
           placeholder={onFocus ? ' ' : 'confirm password'}
           onFocus={() => setOnFocus(true)}
           onBlur={() => setOnFocus(false)}
@@ -97,12 +115,36 @@ const Register = () => {
         <label htmlFor="custom-input" className="custom-placeholder">
           confirm password
         </label>
+        <button className="see_btn" onClick={(ev) => handleClickTwo(ev)}>
+          {see ? (
+            <img
+              src="https://res.cloudinary.com/dva9zee9r/image/upload/v1679514213/invisible_ljwcqc.png"
+              alt="ojo cerrado"
+            />
+          ) : (
+            <img
+              src="https://res.cloudinary.com/dva9zee9r/image/upload/v1679514203/visibilidad_c7kgso.png"
+              alt="ojo"
+            />
+          )}
+        </button>
       </div>
       <div className="continue_container">
+        {console.log(newUser.username.length)}
         <button
+          disabled={
+            newUser.username.length > 1 &&
+            newUser.email.length > 1 &&
+            newUser.password.length > 1 &&
+            newUser.confirmPassword.length > 1 &&
+            newUser.password == newUser.confirmPassword
+              ? false
+              : true
+          }
           className="continue_btn"
           onClick={() => {
             handleClick();
+            console.log('continue');
           }}
         >
           continue

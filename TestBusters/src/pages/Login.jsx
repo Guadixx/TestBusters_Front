@@ -7,9 +7,12 @@ import { NavLink } from 'react-router-dom';
 
 import { UserContext } from '../context/UserContext';
 import { API } from '../services/API';
+import { Heading_6 } from '../ui/Headings';
 
 const Login = () => {
   const [onFocus, setOnFocus] = useState(false);
+  const [userNotFound, setUserNotFound] = useState(false);
+  const [wrongPassword, setWrongPassword] = useState(false);
   const [see, setSee] = useState(false);
   const handleClick = (ev) => {
     ev.preventDefault();
@@ -31,7 +34,14 @@ const Login = () => {
         }
       })
       .catch((error) => {
-        console.log(error);
+        if (error.response.status === 418 && error.response.data == 'User not found') {
+          setUserNotFound(true);
+        } else if (
+          error.response.status == 418 &&
+          error.response.data == 'wrong password'
+        ) {
+          setWrongPassword(true);
+        }
       });
   };
   return (
@@ -52,6 +62,7 @@ const Login = () => {
               id="username"
               name="username"
               {...register('username')}
+              onChange={() => setUserNotFound(false)}
             />
             <label htmlFor="custom-input" className="custom-placeholder">
               username
@@ -67,12 +78,11 @@ const Login = () => {
               id="password"
               name="password"
               {...register('password')}
+              onChange={() => setWrongPassword(false)}
             />
             <label htmlFor="custom-input" className="custom-placeholder">
               password
             </label>
-          </div>
-          <div className="btn_container">
             <button className="see_btn" onClick={(ev) => handleClick(ev)}>
               {see ? (
                 <img
@@ -86,9 +96,20 @@ const Login = () => {
                 />
               )}
             </button>
+          </div>
+          <div className="btn_container">
             <button className="login_btn" type="submit">
               Login
             </button>
+          </div>
+          <div className="error_container">
+            <Heading_6
+              text={
+                userNotFound ? 'User not found' : wrongPassword ? 'Wrong Password' : ''
+              }
+              color="red"
+              size="16px"
+            />
           </div>
           <div className="register_container">
             <h4>Dont have an account yet?</h4>
