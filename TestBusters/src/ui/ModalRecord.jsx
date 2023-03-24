@@ -83,7 +83,7 @@ const ModalRecord = ({ text }) => {
   const [modal, setModal] = useState(false);
 
   /*const getUser = () => {
-    API.get(`/users/${user._id}`).then((res) => {
+    API.patch(`/ultimate/${user._id}`).then((res) => {
       setUserProfile(res.data.user);
     });
   };
