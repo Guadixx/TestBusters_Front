@@ -30,10 +30,6 @@ const Register = () => {
   };
   const navigate = useNavigate();
   const [onFocus, setOnFocus] = useState(false);
-  const [check, setChecked] = useState(false);
-  const handleChecked = () => {
-    setChecked(!check);
-  };
   const [see, setSee] = useState(false);
   const handleClickTwo = (ev) => {
     ev.preventDefault();
@@ -143,7 +139,6 @@ const Register = () => {
         <label htmlFor="custom-input" className="custom-placeholder">
           password
         </label>
-        <button className="see_bttn" onClick={(ev) => handleClickTwo(ev)}>
           {see ? (
             <img
               src="https://res.cloudinary.com/dva9zee9r/image/upload/v1679514213/invisible_ljwcqc.png"
@@ -169,7 +164,6 @@ const Register = () => {
         <label htmlFor="custom-input" className="custom-placeholder">
           confirm password
         </label>
-        <button className="see_bttn" onClick={(ev) => handleClickTwo(ev)}>
           {see ? (
             <img
               src="https://res.cloudinary.com/dva9zee9r/image/upload/v1679514213/invisible_ljwcqc.png"
@@ -183,27 +177,14 @@ const Register = () => {
           )}
         </button>
       </div>
-      <div className="agreement_container">
-        <input
-          id="checkbox_input"
-          type="checkbox"
-          name="check"
-          onChange={handleChecked}
-        />
-        <label>
-          {' '}
-          I accept the declaration of consent for data protection/terms and conditions.
-        </label>
-      </div>
       <div className="continue_container">
+        {console.log(newUser.username.length)}
         <button
           disabled={
             newUser.username.length > 1 &&
             newUser.email.length > 1 &&
             newUser.password.length > 1 &&
             newUser.confirmPassword.length > 1 &&
-            newUser.password == newUser.confirmPassword &&
-            check
               ? false
               : true
           }
@@ -211,6 +192,7 @@ const Register = () => {
           onClick={() => {
             setSubmit(true);
             handleClick();
+            console.log('continue');
           }}
         >
           continue

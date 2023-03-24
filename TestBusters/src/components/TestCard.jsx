@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import './TestCard.css';
 
 import { useNavigate } from 'react-router-dom';
@@ -11,6 +12,7 @@ const TestCard = () => {
   const navigate = useNavigate();
 
   return (
+    // eslint-disable-next-line jsx-a11y/no-static-element-interactions
     <div className="testcard" onClick={() => navigate('/')}>
       <img
         src="https://upload.wikimedia.org/wikipedia/commons/8/80/Collection-national-flags.png"
