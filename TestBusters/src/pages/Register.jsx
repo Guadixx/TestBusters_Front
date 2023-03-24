@@ -4,8 +4,30 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { API } from '../services/API';
+import { checkEmail, checkPassword, checkUser } from '../services/checkForm';
+import { Heading_6 } from '../ui/Headings';
 
 const Register = () => {
+  const [userValid, setUserValid] = useState(false);
+  const [emailValid, setEmailValid] = useState(false);
+  const [passwordValid, setPasswordValid] = useState(false);
+  const [submit, setSubmit] = useState(false);
+  const [matchUser, setMatchUser] = useState(false);
+  const password = {
+    spaces: 0,
+    lowerCase: 1,
+    upperCase: 1,
+    number: 1,
+    symbol: 1,
+  };
+  const user = {
+    spaces: 0,
+    lowerCase: -1,
+    upperCase: -1,
+    number: -1,
+    symbol: 0,
+    forbidden: ['pene', 'caca', 'pussy', 'penis', 'verga', 'puta'],
+  };
   const navigate = useNavigate();
   const [onFocus, setOnFocus] = useState(false);
   const [see, setSee] = useState(false);
@@ -20,23 +42,27 @@ const Register = () => {
     confirmPassword: ' ',
   });
   const handleClick = () => {
-    if (newUser.password != newUser.confirmPassword) {
-      console.log('Las contraseñas no coinciden');
-    } else {
+    if (
+      newUser.password == newUser.confirmPassword &&
+      userValid &&
+      emailValid &&
+      passwordValid
+    ) {
       const formData = new FormData();
       formData.append('email', newUser.email);
       formData.append('username', newUser.username);
       formData.append('password', newUser.password);
+
       API.post('/users', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       })
         .then((res) => {
           if (res.status === 201) {
-            console.log('creado');
             const paramsUser = {
               username: newUser.username,
               password: newUser.password,
               confirmation: res.data.confirmation,
+              id: res.data.user._id,
             };
             navigate('/register/validate', { state: paramsUser });
           } else {
@@ -44,8 +70,11 @@ const Register = () => {
           }
         })
         .catch((error) => {
+          setMatchUser(true);
           console.log(error);
         });
+    } else {
+      return;
     }
   };
   return (
@@ -58,7 +87,14 @@ const Register = () => {
           placeholder={onFocus ? ' ' : 'email'}
           onFocus={() => setOnFocus(true)}
           onBlur={() => setOnFocus(false)}
-          onChange={(ev) => setNewUser({ ...newUser, email: ev.target.value })}
+          onChange={(ev) => {
+            if (checkEmail(ev.target.value)) {
+              setEmailValid(true);
+            } else {
+              setEmailValid(false);
+            }
+            setNewUser({ ...newUser, email: ev.target.value });
+          }}
         />
         <label htmlFor="custom-input" className="custom-placeholder">
           email
@@ -71,7 +107,14 @@ const Register = () => {
           placeholder={onFocus ? ' ' : 'username'}
           onFocus={() => setOnFocus(true)}
           onBlur={() => setOnFocus(false)}
-          onChange={(ev) => setNewUser({ ...newUser, username: ev.target.value })}
+          onChange={(ev) => {
+            if (checkUser(ev.target.value, user)[0]) {
+              setUserValid(true);
+            } else {
+              setUserValid(false);
+            }
+            setNewUser({ ...newUser, username: ev.target.value });
+          }}
         />
         <label htmlFor="custom-input" className="custom-placeholder">
           username
@@ -84,12 +127,18 @@ const Register = () => {
           placeholder={onFocus ? ' ' : 'password'}
           onFocus={() => setOnFocus(true)}
           onBlur={() => setOnFocus(false)}
-          onChange={(ev) => setNewUser({ ...newUser, password: ev.target.value })}
+          onChange={(ev) => {
+            if (checkPassword(ev.target.value, password) && ev.target.value.length >= 8) {
+              setPasswordValid(true);
+            } else {
+              setPasswordValid(false);
+            }
+            setNewUser({ ...newUser, password: ev.target.value });
+          }}
         />
         <label htmlFor="custom-input" className="custom-placeholder">
           password
         </label>
-        <button className="see_btn" onClick={(ev) => handleClickTwo(ev)}>
           {see ? (
             <img
               src="https://res.cloudinary.com/dva9zee9r/image/upload/v1679514213/invisible_ljwcqc.png"
@@ -115,7 +164,6 @@ const Register = () => {
         <label htmlFor="custom-input" className="custom-placeholder">
           confirm password
         </label>
-        <button className="see_btn" onClick={(ev) => handleClickTwo(ev)}>
           {see ? (
             <img
               src="https://res.cloudinary.com/dva9zee9r/image/upload/v1679514213/invisible_ljwcqc.png"
@@ -137,18 +185,53 @@ const Register = () => {
             newUser.email.length > 1 &&
             newUser.password.length > 1 &&
             newUser.confirmPassword.length > 1 &&
-            newUser.password == newUser.confirmPassword
               ? false
               : true
           }
           className="continue_btn"
           onClick={() => {
+            setSubmit(true);
             handleClick();
             console.log('continue');
           }}
         >
           continue
         </button>
+      </div>
+      <div className="error_container">
+        <Heading_6
+          text={submit && !emailValid ? 'Email is not valid' : ''}
+          color="red"
+          size="16px"
+        />
+        <Heading_6
+          text={submit && !userValid ? 'This user is not valid' : ''}
+          color="red"
+          size="16px"
+        />
+        <Heading_6
+          text={
+            submit && !passwordValid
+              ? 'Password needs special character, minus, mayusc, a number and at least 8 characters'
+              : ''
+          }
+          color="red"
+          size="16px"
+        />
+        <Heading_6
+          text={
+            submit && newUser.password != newUser.confirmPassword
+              ? 'Passwords do not match'
+              : ''
+          }
+          color="red"
+          size="16px"
+        />
+        <Heading_6
+          text={submit && matchUser ? 'This user/email is already used' : ''}
+          color="red"
+          size="16px"
+        />
       </div>
     </div>
   );

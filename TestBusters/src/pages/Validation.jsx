@@ -7,7 +7,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { UserContext } from '../context/UserContext';
 import { API } from '../services/API';
 
-function Validation() {
+const Validation = () => {
+  /* const logout = useContext(UserContext); */
   const location = useLocation();
   const [confirmed, setConfirmed] = useState(false);
   const [code, setCode] = useState(0);
@@ -24,6 +25,32 @@ function Validation() {
     username: location.state.username,
     password: location.state.password,
   };
+  /* const notConfirmed = () => {
+    if (!confirmed) {
+      API.post('/users/login', credentials)
+        .then((res) => {
+          //res.confirmation === newUser.password? ?
+          if (res.status === 200) {
+            login(res.data.userInDB, res.data.token);
+            API.delete(`/users/${location.state.id}`)
+              .then((res) => {
+                if (res.status === 200) {
+                  logout();
+                }
+              })
+              .catch((error) => {
+                console.log(error);
+              });
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      return;
+    }
+  }; */
+  /*  useBeforeUnload(notConfirmed); */
   const handleClick = () => {
     API.post('/users/login', credentials)
       .then((res) => {
@@ -64,5 +91,5 @@ function Validation() {
       </div>
     </div>
   );
-}
+};
 export default Validation;
