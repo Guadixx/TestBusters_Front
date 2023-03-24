@@ -114,8 +114,23 @@ const Heading6Styled = styled.h6`
   color: ${({ color }) => (color ? color : Palette.color_primary)};
   font-weight: ${({ weigth }) => (weigth ? weigth : 400)};
   z-index: ${({ z }) => z};
+  position: ${({ position }) => position};
+  top: ${({ top }) => top};
+  right: ${({ right }) => right};
+  margin: ${({ margin }) => margin};
 `;
-export const Heading_6 = ({ font, size, color, text, z, weigth }) => {
+export const Heading_6 = ({
+  font,
+  size,
+  color,
+  text,
+  z,
+  weigth,
+  position,
+  top,
+  right,
+  margin,
+}) => {
   return (
     <Heading6Styled
       font={font}
@@ -124,6 +139,10 @@ export const Heading_6 = ({ font, size, color, text, z, weigth }) => {
       text={text}
       z={z}
       weigth={weigth}
+      position={position}
+      top={top}
+      right={right}
+      margin={margin}
     >
       {text}
     </Heading6Styled>
