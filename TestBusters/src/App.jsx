@@ -8,6 +8,8 @@ import RequiredAuth from './components/RequiredAuth/RequiredAuth';
 import GridLayout from './Layout/GridLayout';
 import Community from './pages/Community';
 import Create from './pages/Create';
+import CreateFTest from './pages/CreateFTest';
+import CreateGTest from './pages/CreateGTest';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import NotFound from './pages/NotFound';
@@ -83,6 +85,22 @@ function App() {
             element={
               <RequiredAuth>
                 <Create />
+              </RequiredAuth>
+            }
+          />
+          <Route
+            path="/create/featuredtest"
+            element={
+              <RequiredAuth>
+                <CreateFTest />
+              </RequiredAuth>
+            }
+          />
+          <Route
+            path="/create/generictest"
+            element={
+              <RequiredAuth>
+                <CreateGTest />
               </RequiredAuth>
             }
           />

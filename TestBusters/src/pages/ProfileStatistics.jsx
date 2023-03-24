@@ -3,7 +3,7 @@ import './ProfileStatistics.css';
 import { useContext, useEffect, useState } from 'react';
 
 import EditProfileModal from '../components/EditProfileModal/EditProfileModal';
-import ProfileHero from '../components/ProfileHero/ProfileHero';
+import ProfileHero from '../components/ProfileHero';
 import { UserContext } from '../context/UserContext';
 import { API } from '../services/API';
 import Palette from '../styles/Palette';
@@ -57,7 +57,10 @@ const ProfileStatistics = () => {
                 </div>
 
                 <StaticsDiv text="TEST PLAYED" percentage={userProfile.tests_played} />
-                <StaticsDiv text="AVERAGE SCORE" percentage={`${averageUser}%`} />
+                <StaticsDiv
+                  text="AVERAGE SCORE"
+                  percentage={averageUser == null ? '0%' : `${averageUser}%`}
+                />
               </div>
               <div className="profile-achievements">
                 <Heading_3 text="ACHIEVEMENTS" weigth="700" />

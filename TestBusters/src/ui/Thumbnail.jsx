@@ -11,7 +11,7 @@ const ThumbnailStyled = styled.div`
         ? '9rem '
         : width === 's'
         ? '4rem '
-        : '6rem'};
+        : '7.2rem'};
     height: ${({ height }) =>
       height === 'xl'
         ? '14rem'
@@ -21,7 +21,7 @@ const ThumbnailStyled = styled.div`
         ? '9rem '
         : height === 's'
         ? '4rem '
-        : '6rem'};
+        : '7.2rem'};
     border-radius: 1rem;
     object-fit: cover;
     box-shadow: ${({ shadow }) =>

@@ -15,5 +15,12 @@ const Icons = {
   camera:
     'https://res.cloudinary.com/dva9zee9r/image/upload/v1679578247/achievements%20icons/photo-camera_wnyfok.png',
   play: 'https://res.cloudinary.com/dva9zee9r/image/upload/v1679431586/achievements%20icons/tocar_uha26c.png',
+  addImg:
+    'https://res.cloudinary.com/dva9zee9r/image/upload/v1679684374/achievements%20icons/add-image_jyslyq.png',
+  answer:
+    'https://res.cloudinary.com/dva9zee9r/image/upload/v1679687314/achievements%20icons/answer_qapoyv.png',
+  answer2:
+    'https://res.cloudinary.com/dva9zee9r/image/upload/v1679687450/achievements%20icons/answer2_zuezt5.png',
+  add: 'https://res.cloudinary.com/dva9zee9r/image/upload/v1679687643/achievements%20icons/plus_rn9h10.png',
 };
 export default Icons;

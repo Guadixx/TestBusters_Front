@@ -1,0 +1,41 @@
+.create {
+  height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6rem;
+}
+
+.create-page-featured-test,
+.create-page-generic-test {
+  border-radius: 11px;
+  max-width: 28vw;
+  height: 330px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 3rem; /* 
+  box-shadow: rgba(149, 149, 150, 0.2) 0px 0px 35px -10px; */
+  box-shadow: rgba(121, 121, 121, 0.3) 0px 0px 2px 0px,
+    rgba(192, 192, 192, 0.15) 0px 1px 2px 1px;
+  gap: var(--spacing-1);
+  transition: all 0.1s ease-in;
+  cursor: pointer;
+}
+
+.create-page-featured-test:hover,
+.create-page-generic-test:hover {
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.create p {
+  font-size: 14px;
+  text-align: center;
+  color: var(--color-secundary);
+  height: 65px;
+}
+
+.create img {
+  width: 80px;
+}

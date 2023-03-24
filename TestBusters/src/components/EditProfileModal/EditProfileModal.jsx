@@ -150,10 +150,16 @@ const EditProfileModal = ({ user, showModal, setShowModal }) => {
               </label>
               <Heading_6
                 position="absolute"
-                text={editBio ? `${editBio}/200` : `${user.bio.length}/200`}
+                text={
+                  user.bio
+                    ? editBio
+                      ? `${editBio}/200`
+                      : `${user.bio.length}/200`
+                    : '0/200'
+                }
                 top="0"
                 right="0"
-                margin=" 4rem 1rem 0 0 "
+                margin=" 4.2rem 1rem 0 0 "
                 size="10px"
                 color={Palette.color_secundary}
               />

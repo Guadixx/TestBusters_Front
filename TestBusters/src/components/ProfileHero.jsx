@@ -1,10 +1,8 @@
-import './ProfileHero.css';
-
-import Icons from '../../styles/Icons';
-import Avatar from '../../ui/Avatar';
-import Banner from '../../ui/Banner';
-import NavBar from '../../ui/NavBar';
-import ProfileInfo from '../../ui/ProfileInfo';
+import Icons from '../styles/Icons';
+import Avatar from '../ui/Avatar';
+import Banner from '../ui/Banner';
+import NavBar from '../ui/NavBar';
+import ProfileInfo from '../ui/ProfileInfo';
 
 const ProfileHero = ({ user, setShowModal }) => {
   const links = [
