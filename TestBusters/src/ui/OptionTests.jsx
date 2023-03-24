@@ -17,11 +17,11 @@ const OptionStyled = styled.button`
   }
 `;
 
-const Options = ({ children }) => {
+const OptionsTest = ({ children }) => {
   return (
     <OptionStyled>
       <h3>{children}</h3>
     </OptionStyled>
   );
 };
-export default Options;
+export default OptionsTest;

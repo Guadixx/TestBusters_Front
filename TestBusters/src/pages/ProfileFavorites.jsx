@@ -3,7 +3,7 @@ import './ProfileFavorites.css';
 import { useContext, useEffect, useState } from 'react';
 
 import EditProfileModal from '../components/EditProfileModal/EditProfileModal';
-import ProfileHero from '../components/ProfileHero/ProfileHero';
+import ProfileHero from '../components/ProfileHero';
 import { UserContext } from '../context/UserContext';
 import { API } from '../services/API';
 import { Heading_4 } from '../ui/Headings';
