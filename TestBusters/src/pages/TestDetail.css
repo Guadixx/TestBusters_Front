@@ -1,8 +1,10 @@
 img {
-  width: 200px;
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
 }
 .questionDiv {
-margin-top: 3rem;
+  margin-top: 3rem;
   display: flex;
   justify-content: center;
   width: 100%;
@@ -22,4 +24,7 @@ margin-top: 3rem;
   background-color: gainsboro;
   border-radius: 5px;
   border: 1px solid rgb(163, 159, 159);
+}
+.hidden {
+  display: none;
 }

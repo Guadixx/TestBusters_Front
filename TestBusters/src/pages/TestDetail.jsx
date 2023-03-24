@@ -4,7 +4,7 @@
 import './TestDetail.css';
 
 import { useCallback, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom'; /*  useLocation, */
 
 import useLocalStorage from '../customHooks/useLocalStorage';
 import { API } from '../services/API';
@@ -12,10 +12,13 @@ import randomArray from '../services/RandomArray';
 import Palette from '../styles/Palette';
 import Button from '../ui/Button';
 import DivProgress from '../ui/DivProgress';
+
 const TestDetail = () => {
   const testId = useParams().id;
   const userId = JSON.parse(useLocalStorage('get', 'user'))._id;
+  //const location = useLocation();
   //const testType = location.state.testType;
+  //const testType = 'generictests';
   const testType = 'featuredtests';
   const user = {
     userId: userId,
@@ -45,15 +48,25 @@ const TestDetail = () => {
               res.data.test.filter_2.value != 'none' ? res.data.test.filter_1.value : '';
             const key_1 = res.data.test.filter_1.key;
             const key_2 = res.data.test.filter_2.key;
+            const key =
+              res.data.test.filters[0] != undefined ? res.data.test.filters[0].key : null;
+            const value =
+              res.data.test.filters[0] != undefined ? res.data.test.filters[0].value : [];
             API.get(`/${data_type}?${key_1}=${value_1}&${key_2}=${value_2}`)
               .then((res) => {
                 if (res.status === 200) {
+                  let filteredData = res.data;
+                  if (value.length != 0) {
+                    filteredData = value.map((filter) =>
+                      res.data.find((item) => item[key] == filter),
+                    );
+                  }
                   let index = 0;
-                  res.data.forEach((data) => {
+                  filteredData.forEach((data) => {
                     index++;
                     data.id = index;
                   });
-                  setFeaturedData(res.data);
+                  setFeaturedData(filteredData);
                 } else {
                   console.log('not found');
                 }
@@ -71,14 +84,14 @@ const TestDetail = () => {
       });
   }, []);
   useEffect(() => {
-    if (testType == 'featuredtests' && test != {}) {
+    if (testType == 'featuredtests' && test.description != undefined) {
       setQuestions(
         featuredData.map((item) => ({
           question: item[test.question],
           answer: item[test.answer],
           id: item.id,
           options: randomArray(
-            2,
+            1,
             featuredData.length,
             test.description.split('/')[1],
             item.id,
@@ -89,31 +102,54 @@ const TestDetail = () => {
     }
   }, [featuredData]);
   useEffect(() => {
-    if (testType == 'generictests' && test != {}) {
+    if (testType == 'generictests' && test.data != undefined) {
+      const random = randomArray(0, 6, 6).map((number) =>
+        number == 0 || number == 6 ? 'answer' : `option_${number}`,
+      );
       setQuestions(
         test.data.map((item) => ({
           question: item.question,
           answer: item.answer,
           question_img: item.question_img,
           id: item.id,
-          option_1: item.option_1,
-          option_2: item.option_2,
-          option_3: item.option_3,
-          option_4: item.option_4,
-          option_5: item.option_5,
-          type: item.type,
+          options: [
+            item[random[0]],
+            item[random[1]],
+            item[random[2]],
+            item[random[3]],
+            item[random[4]],
+            item[random[5]],
+          ],
         })),
       );
     }
   }, [test]);
   useEffect(() => {
     if (test.random && questions != []) {
-      const random = randomArray(1, questions.length + 1, questions.length, 0);
+      let index = 1;
+      let forbidden = 0;
+      if (testType == 'generictests') {
+        index = test.data[0].id;
+        forbidden = test.data[0].id - 1;
+      }
+      let random = randomArray(
+        index,
+        questions.length + index,
+        questions.length,
+        forbidden,
+      );
+      if (testType == 'generictests') {
+        random = random.map(
+          (number) => number - 1,
+        ); /* ------------------------------------------OJO */
+      }
       const newQuestions = [];
       random.forEach((number) => {
         newQuestions.push(questions.find((question) => question.id == number));
       });
       setRandomQuestions(newQuestions);
+    } else {
+      setRandomQuestions(questions);
     }
   }, [questions]);
   const countDown = useCallback(() => {
@@ -165,18 +201,20 @@ const TestDetail = () => {
     setInitialSeconds(() => {
       return parseInt(test.time.split(':')[0] * 60) + parseInt(test.time.split(':')[1]);
     });
-    randomQuestions.forEach((question) => {
-      question.options[
-        Math.round(Math.random() * parseInt(test.description.split('/')[1] - 1))
-      ] = question.id;
-      let index = 0;
-      question.options.forEach((number) => {
-        if (number == 0) {
-          question.options[index] = 58;
-        }
-        index++;
+    if (testType == 'featuredtests') {
+      randomQuestions.forEach((question) => {
+        question.options[
+          Math.round(Math.random() * parseInt(test.description.split('/')[1] - 1))
+        ] = question.id;
+        let index = 0;
+        question.options.forEach((number) => {
+          if (number == 0) {
+            question.options[index] = 1;
+          }
+          index++;
+        });
       });
-    });
+    }
   };
   return (
     <div>
@@ -198,55 +236,107 @@ const TestDetail = () => {
         <div>
           <DivProgress type="CountDown" className="timer" maxValue={initialSeconds} />
           <div>
-            {randomQuestions[index].question.includes('https://res.cloudinary.com') ? (
-              <div className="questionDiv">
-                <h3>{`${test.question_text[0] == '.' ? '' : test.question_text[0]} `}</h3>
-                <img alt="question" src={randomQuestions[index].question} />
-                <h3>{` ${test.question_text[1] == '.' ? '' : test.question_text[1]}`}</h3>
+            {testType == 'featuredtests' ? (
+              <div>
+                {randomQuestions[index].question.includes(
+                  'https://res.cloudinary.com',
+                ) ? (
+                  <div className="questionDiv">
+                    <h3>{`${
+                      test.question_text[0] == '.' ? '' : test.question_text[0]
+                    } `}</h3>
+                    <img alt="question" src={randomQuestions[index].question} />
+                    <h3>{` ${
+                      test.question_text[1] == '.' ? '' : test.question_text[1]
+                    }`}</h3>
+                  </div>
+                ) : (
+                  <h3>
+                    {`${test.question_text[0] == '.' ? '' : test.question_text[0]} ${
+                      randomQuestions[index].question
+                    } ${test.question_text[1] == '.' ? '' : test.question_text[1]}`}
+                  </h3>
+                )}
               </div>
             ) : (
-              <h3>
-                {`${test.question_text[0] == '.' ? '' : test.question_text[0]} ${
-                  randomQuestions[index].question
-                } ${test.question_text[1] == '.' ? '' : test.question_text[1]}`}
-              </h3>
+              <div className="questionDiv">
+                <h3>{randomQuestions[index].question}</h3>
+                <img alt="question" src={randomQuestions[index].question_img} />
+              </div>
             )}
-            <div className="optionDiv">
-              {randomQuestions[index].options.map((option) =>
-                featuredData
-                  .find((item) => item.id == option)
-                  [test.answer].includes('https://res.cloudinary.com') ? (
-                  <img
-                    key={option}
-                    alt="option"
-                    src={featuredData.find((item) => item.id == option)[test.answer]}
-                    onClick={() => {
-                      if (option == randomQuestions[index].id) {
-                        setScore((prevScore) => prevScore + 1);
-                      }
-                      setIndex((prevIndex) => prevIndex + 1);
-                    }}
-                  />
-                ) : (
-                  <div
-                    key={option}
-                    alt="option"
-                    onClick={() => {
-                      if (option == randomQuestions[index].id) {
-                        setScore((prevScore) => prevScore + 1);
-                      }
-                      setIndex((prevIndex) => prevIndex + 1);
-                    }}
-                  >
-                    <h4>{featuredData.find((item) => item.id == option)[test.answer]}</h4>
-                  </div>
-                ),
-              )}
-            </div>
+            {testType == 'featuredtests' ? (
+              <div className="optionDiv">
+                {randomQuestions[index].options.map((option) =>
+                  featuredData
+                    .find((item) => item.id == option)
+                    [test.answer].includes('https://res.cloudinary.com') ? (
+                    <img
+                      key={option}
+                      alt="option"
+                      src={featuredData.find((item) => item.id == option)[test.answer]}
+                      onClick={() => {
+                        if (option == randomQuestions[index].id) {
+                          setScore((prevScore) => prevScore + 1);
+                        }
+                        setIndex((prevIndex) => prevIndex + 1);
+                      }}
+                    />
+                  ) : (
+                    <div
+                      key={option}
+                      alt="option"
+                      onClick={() => {
+                        if (option == randomQuestions[index].id) {
+                          setScore((prevScore) => prevScore + 1);
+                        }
+                        setIndex((prevIndex) => prevIndex + 1);
+                      }}
+                    >
+                      <h4>
+                        {featuredData.find((item) => item.id == option)[test.answer]}
+                      </h4>
+                    </div>
+                  ),
+                )}
+              </div>
+            ) : (
+              <div className="optionDiv">
+                {randomQuestions[index].options.map((option) =>
+                  option.includes('https://res.cloudinary.com')
+                    ? option != '' && (
+                        <img
+                          key={option}
+                          alt="option"
+                          src={option}
+                          onClick={() => {
+                            if (option == randomQuestions[index].answer) {
+                              setScore((prevScore) => prevScore + 1);
+                            }
+                            setIndex((prevIndex) => prevIndex + 1);
+                          }}
+                        />
+                      )
+                    : option != '' && (
+                        <div
+                          key={option}
+                          alt="option"
+                          onClick={() => {
+                            if (option == randomQuestions[index].answer) {
+                              setScore((prevScore) => prevScore + 1);
+                            }
+                            setIndex((prevIndex) => prevIndex + 1);
+                          }}
+                        >
+                          <h4>{option}</h4>
+                        </div>
+                      ),
+                )}
+              </div>
+            )}
           </div>
         </div>
       ) : (
-        <div></div>
+        <></>
       )}
       {index == randomQuestions.length && randomQuestions.length != 0 ? (
         <div>
