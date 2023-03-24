@@ -166,7 +166,9 @@ const TestDetail = () => {
       return parseInt(test.time.split(':')[0] * 60) + parseInt(test.time.split(':')[1]);
     });
     randomQuestions.forEach((question) => {
-      question.options[Math.round(Math.random() * 5)] = question.id;
+      question.options[
+        Math.round(Math.random() * parseInt(test.description.split('/')[1] - 1))
+      ] = question.id;
       let index = 0;
       question.options.forEach((number) => {
         if (number == 0) {
