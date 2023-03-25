@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import TestCard from '../components/TestCard';
-import API from '../services/API';
+import { API } from '../services/API';
 
 const DayTest = () => {
   const [test, setTest] = useState([]);
