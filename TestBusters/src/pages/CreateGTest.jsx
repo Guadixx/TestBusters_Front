@@ -12,52 +12,64 @@ import Thumbnail from '../ui/Thumbnail';
 
 const CreateGTest = () => {
   const { user } = useContext(UserContext);
+
   const [thumbnailPrev, setThumbnailPrev] = useState('');
   const [thumbnailFileName, setThumbnailFileName] = useState('');
   const [bannerPreview, setBannerPreview] = useState('');
-  const [questionImgPrev, setQuestionImgPrev] = useState('');
+  const [questionImgPrev, setQuestionImgPrev] = useState(['']);
   const [bannerFileName, setBannerFileName] = useState('');
-  const [imgPrev1, setImgPrev1] = useState('');
-  const [imgFileName1, setImgFileName1] = useState('');
-  const [imgPrev2, setImgPrev2] = useState('');
-  const [imgFileName2, setImgFileName2] = useState('');
-  const [imgPrev3, setImgPrev3] = useState('');
-  const [imgFileName3, setImgFileName3] = useState('');
-  const [imgPrev4, setImgPrev4] = useState('');
-  const [imgFileName4, setImgFileName4] = useState('');
-  const [imgPrev5, setImgPrev5] = useState('');
-  const [imgFileName5, setImgFileName5] = useState('');
-  const [answerImgPrev, setAnswerImgPrev] = useState('');
-
-  const [ansFileName, setAnsFileName] = useState('');
+  const [imgPrev1, setImgPrev1] = useState([]);
+  const [imgFileName1, setImgFileName1] = useState([]);
+  const [imgPrev2, setImgPrev2] = useState([]);
+  const [imgFileName2, setImgFileName2] = useState([]);
+  const [imgPrev3, setImgPrev3] = useState([]);
+  const [imgFileName3, setImgFileName3] = useState([]);
+  const [imgPrev4, setImgPrev4] = useState([]);
+  const [imgFileName4, setImgFileName4] = useState([]);
+  const [imgPrev5, setImgPrev5] = useState([]);
+  const [imgFileName5, setImgFileName5] = useState([]);
+  const [answerImgPrev, setAnswerImgPrev] = useState([]);
+  const [ansFileName, setAnsFileName] = useState([]);
 
   const [description, setDescription] = useState(0);
   const [title, setTitle] = useState(0);
+  const [questionType, setQuestionType] = useState(['text']);
 
-  const [options, setOptions] = useState(['']);
-  const [optionsImg, setOptionsImg] = useState(['']);
-  const [options1, setOptions1] = useState([]);
-  const [options2, setOptions2] = useState([]);
-  const [options3, setOptions3] = useState([]);
-  const [options4, setOptions4] = useState([]);
-  const [options5, setOptions5] = useState([]);
-  const [optionsImg1, setOptionsImg1] = useState([]);
-  const [optionsImg2, setOptionsImg2] = useState([]);
-  const [optionsImg3, setOptionsImg3] = useState([]);
-  const [optionsImg4, setOptionsImg4] = useState([]);
-  const [optionsImg5, setOptionsImg5] = useState([]);
-  const [numQuestions, setNumQuestion] = useState(0);
-  const [answers, setAnswers] = useState([]);
-  const [newtest, setNewTest] = useState({
+  const [questions, setQuestions] = useState(['']);
+
+  const [options, setOptions] = useState([['']]);
+  const [options1, setOptions1] = useState(['']);
+  const [options2, setOptions2] = useState(['']);
+  const [options3, setOptions3] = useState(['']);
+  const [options4, setOptions4] = useState(['']);
+  const [options5, setOptions5] = useState(['']);
+  const [answers, setAnswers] = useState(['']);
+  const [questionImgs, setQuestionImgs] = useState(['']);
+  const [testId, setTestId] = useState('');
+  const [ids, setIds] = useState([0]);
+  const [newTest, setNewTest] = useState({
     creator: user._id,
     title: '',
     description: '',
     thumbnail: '',
     banner: '',
-    topic: 'don`t know',
+    topic: '',
     time: '',
     random: '',
-    comments_enabled: 'formData.comments',
+    comments_enabled: '',
+  });
+
+  const [data, setData] = useState({
+    id: ids,
+    type: questionType,
+    question: questions,
+    question_img: questionImgs,
+    answer: answers,
+    option_1: options1,
+    option_2: options2,
+    option_3: options3,
+    option_4: options4,
+    option_5: options5,
   });
 
   const generateUrlThumbnail = (item) => {
@@ -68,241 +80,402 @@ const CreateGTest = () => {
     const url = URL.createObjectURL(item);
     setBannerPreview(url);
   };
-  const generateUrlQuestionImg = (item) => {
+  const generateUrlQuestionImg = (item, i) => {
     const url = URL.createObjectURL(item);
-    setQuestionImgPrev(url);
+    const qImages = [...questionImgPrev];
+    qImages[i] = url;
+    setQuestionImgPrev(qImages);
   };
-  const generateUrlImg = (item, i) => {
+
+  const generateUrlAnsImg = (item, i) => {
     const url = URL.createObjectURL(item);
-    switch (i + 1) {
+    const answerImg = [...answerImgPrev];
+    answerImg[i] = url;
+    setAnswerImgPrev(answerImg);
+  };
+
+  const handleChange = (ev, i) => {
+    const prevType = [...questionType];
+    prevType[i] = ev.target.value;
+    setQuestionType(prevType);
+
+    const o1 = [...options1];
+    o1[i] = '';
+    setOptions1(o1);
+    const o2 = [...options2];
+    o2[i] = '';
+    setOptions2(o2);
+    const o3 = [...options3];
+    o3[i] = '';
+    setOptions3(o3);
+    const o4 = [...options4];
+    o4[i] = '';
+    setOptions4(o4);
+    const o5 = [...options5];
+    o5[i] = '';
+    setOptions5(o5);
+    const ans = [...answers];
+    ans[i] = '';
+    setAnswers(ans);
+    const fileName1 = [...imgFileName1];
+    fileName1[i] = 'Upload File';
+    setImgFileName1(fileName1);
+    const fileName2 = [...imgFileName2];
+    fileName2[i] = 'Upload File';
+    setImgFileName2(fileName2);
+    const fileName3 = [...imgFileName3];
+    fileName3[i] = 'Upload File';
+    setImgFileName3(fileName3);
+    const fileName4 = [...imgFileName4];
+    fileName4[i] = 'Upload File';
+    setImgFileName4(fileName4);
+    const fileName5 = [...imgFileName5];
+    fileName5[i] = 'Upload File';
+    setImgFileName5(fileName5);
+    const fileNameAns = [...ansFileName];
+    fileNameAns[i] = 'Upload File';
+    setAnsFileName(fileNameAns);
+  };
+
+  const handleAnsFileName = (ev, i) => {
+    const prevName = [...ansFileName];
+    prevName[i] = ev.target.files[0].name;
+    setAnsFileName(prevName);
+  };
+
+  const handleFileName = (ev, index, i) => {
+    let prevName = [];
+    switch (index + 1) {
       case 1:
-        setImgPrev1(url);
+        prevName = [...imgFileName1];
+        prevName[i] = ev.target.files[0].name;
+        setImgFileName1(prevName);
         break;
       case 2:
-        setImgPrev2(url);
+        prevName = [...imgFileName2];
+        prevName[i] = ev.target.files[0].name;
+        setImgFileName2(prevName);
         break;
       case 3:
-        setImgPrev3(url);
+        prevName = [...imgFileName3];
+        prevName[i] = ev.target.files[0].name;
+        setImgFileName3(prevName);
         break;
       case 4:
-        setImgPrev4(url);
+        prevName = [...imgFileName4];
+        prevName[i] = ev.target.files[0].name;
+        setImgFileName4(prevName);
         break;
       case 5:
-        setImgPrev5(url);
+        prevName = [...imgFileName5];
+        prevName[i] = ev.target.files[0].name;
+        setImgFileName5(prevName);
         break;
     }
   };
-  const generateUrlAnsImg = (item) => {
-    const url = URL.createObjectURL(item);
-    setAnswerImgPrev(url);
-  };
 
-  const handleSubmit = (ev) => {
+  const addQuestion = (ev) => {
     ev.preventDefault();
+    const id = [...ids, ids.length];
+    setIds(id);
+    console.log(ids, 'ids');
+    const number = [...questions, ''];
+    setQuestions(number);
+    const number1 = [...options1, ''];
+    setOptions1(number1);
+    const number2 = [...options2, ''];
+    setOptions2(number2);
+    const number3 = [...options3, ''];
+    setOptions3(number3);
+    const number4 = [...options4, ''];
+    setOptions4(number4);
+    const number5 = [...options5, ''];
+    setOptions5(number5);
+    const number6 = [...answers, ''];
+    setAnswers(number6);
+    const type = [...questionType, 'image'];
+    setQuestionType(type);
+    const number7 = [...options, ['']];
+    setOptions(number7);
+    const number8 = [...questionImgPrev, ''];
+    setQuestionImgPrev(number8);
+    const number9 = [...ansFileName, ''];
+    setAnsFileName(number9);
+    /*  const qimg = [...questionImgs, ''];
+    setQuestionImgs(qimg); */
   };
 
-  const addOption = () => {
-    const number = [...options, ''];
-    setOptions(number);
+  const addOption = (i) => {
+    const actualOptions = [...options];
+    actualOptions[i] = [...actualOptions[i], ''];
+    setOptions(actualOptions);
   };
 
-  const addOptionImg = () => {
-    const number = [...optionsImg, ''];
-    setOptionsImg(number);
-  };
+  /* const deleteQuestion = (i) =>{
+    const deleteq= [...questions];
 
-  const deleteOption = (i) => {
-    console.log(i);
+  } */
+
+  const deleteOption = (index, i) => {
     let deleteValue = [];
     const deteledValue = [...options];
-    deteledValue.splice(i);
+    deteledValue[i].splice(index);
     setOptions(deteledValue);
-    switch (i + 1) {
+    switch (index + 1) {
       case 1:
         deleteValue = [...options1];
-        deleteValue[numQuestions] = '';
+        deleteValue[i] = '';
         setOptions1(deleteValue);
         break;
       case 2:
         deleteValue = [...options2];
-        deleteValue[numQuestions] = '';
+        deleteValue[i] = '';
         setOptions2(deleteValue);
         break;
       case 3:
         deleteValue = [...options3];
-        deleteValue[numQuestions] = '';
+        deleteValue[i] = '';
         setOptions3(deleteValue);
         break;
       case 4:
         deleteValue = [...options4];
-        deleteValue[numQuestions] = '';
+        deleteValue[i] = '';
         setOptions4(deleteValue);
         break;
       case 5:
         deleteValue = [...options5];
-        deleteValue[numQuestions] = '';
+        deleteValue[i] = '';
         setOptions5(deleteValue);
         break;
     }
   };
 
-  const deleteOptionImg = (i) => {
-    let deleteValue = [];
-    const deteledValue = [...optionsImg];
-    deteledValue.splice(i);
-    setOptionsImg(deteledValue);
-    switch (i + 1) {
+  const generateUrlImg = (item, index, i) => {
+    const url = URL.createObjectURL(item);
+    let inputValue = [];
+    switch (index + 1) {
       case 1:
-        deleteValue = [...optionsImg1];
-        deleteValue[numQuestions] = '';
-        setOptionsImg1(deleteValue);
+        inputValue = [...imgPrev1];
+        inputValue[i] = url;
+        setImgPrev1(inputValue);
         break;
       case 2:
-        deleteValue = [...optionsImg2];
-        deleteValue[numQuestions] = '';
-        setOptionsImg2(deleteValue);
+        inputValue = [...imgPrev2];
+        inputValue[i] = url;
+        setImgPrev2(inputValue);
         break;
       case 3:
-        deleteValue = [...optionsImg3];
-        deleteValue[numQuestions] = '';
-        setOptionsImg3(deleteValue);
+        inputValue = [...imgPrev3];
+        inputValue[i] = url;
+        setImgPrev3(inputValue);
         break;
       case 4:
-        deleteValue = [...optionsImg4];
-        deleteValue[numQuestions] = '';
-        setOptionsImg4(deleteValue);
+        inputValue = [...imgPrev4];
+        inputValue[i] = url;
+        setImgPrev4(inputValue);
         break;
       case 5:
-        deleteValue = [...optionsImg5];
-        deleteValue[numQuestions] = '';
-        setOptionsImg5(deleteValue);
+        inputValue = [...imgPrev5];
+        inputValue[i] = url;
+        setImgPrev5(inputValue);
         break;
     }
   };
-
-  const addOptionValue = (ev, i) => {
+  const addOptionValue = (ev, index, i) => {
     let inputValue = [];
-    switch (i + 1) {
+    switch (index + 1) {
       case 1:
         inputValue = [...options1];
-        inputValue[numQuestions] = ev.target.value;
+        inputValue[i] = ev.target.value;
         setOptions1(inputValue);
         break;
       case 2:
         inputValue = [...options2];
-        inputValue[numQuestions] = ev.target.value;
+        inputValue[i] = ev.target.value;
         setOptions2(inputValue);
         break;
       case 3:
         inputValue = [...options3];
-        inputValue[numQuestions] = ev.target.value;
+        inputValue[i] = ev.target.value;
         setOptions3(inputValue);
         break;
       case 4:
         inputValue = [...options4];
-        inputValue[numQuestions] = ev.target.value;
+        inputValue[i] = ev.target.value;
         setOptions4(inputValue);
         break;
       case 5:
         inputValue = [...options5];
-        inputValue[numQuestions] = ev.target.value;
+        inputValue[i] = ev.target.value;
         setOptions5(inputValue);
         break;
     }
   };
-  const addOptionImgValue = (ev, i) => {
+  const addOptionImgValue = (ev, index, i) => {
     let inputValue = [];
-    switch (i + 1) {
+    switch (index + 1) {
       case 1:
-        inputValue = [...optionsImg1];
-        inputValue[numQuestions] = ev.target.files[0];
-        setOptionsImg1(inputValue);
+        inputValue = [...options1];
+        inputValue[i] = ev.target.files[0];
+        setOptions1(inputValue);
         break;
       case 2:
-        inputValue = [...optionsImg2];
-        inputValue[numQuestions] = ev.target.files[0];
-        setOptionsImg2(inputValue);
+        inputValue = [...options2];
+        inputValue[i] = ev.target.files[0];
+        setOptions2(inputValue);
         break;
       case 3:
-        inputValue = [...optionsImg3];
-        inputValue[numQuestions] = ev.target.files[0];
-        setOptionsImg3(inputValue);
+        inputValue = [...options3];
+        inputValue[i] = ev.target.files[0];
+        setOptions3(inputValue);
         break;
       case 4:
-        inputValue = [...optionsImg4];
-        inputValue[numQuestions] = ev.target.files[0];
-        setOptionsImg4(inputValue);
+        inputValue = [...options4];
+        inputValue[i] = ev.target.files[0];
+        setOptions4(inputValue);
         break;
       case 5:
-        inputValue = [...optionsImg5];
-        inputValue[numQuestions] = ev.target.files[0];
-        setOptionsImg5(inputValue);
+        inputValue = [...options5];
+        inputValue[i] = ev.target.files[0];
+        setOptions5(inputValue);
         break;
     }
   };
 
-  const addAnswerValue = (ev) => {
+  const addQuestionValue = (ev, i) => {
     const inputValue = [...answers];
-    inputValue[0] = ev.target.value;
+    inputValue[i] = ev.target.value;
+    setQuestions(inputValue);
+  };
+
+  const addAnswerValue = (ev, i) => {
+    const inputValue = [...answers];
+    inputValue[i] = ev.target.value;
     setAnswers(inputValue);
   };
-  /*  const updateUser = (formData) => {
-    const genericTest = {
-      test_type: 'generic',
-      creator: user.username,
-      title: formData.title,
-      description: formData.description,
-      thumbnail: formData.thumbnail[0],
-      banner: formData.banner[0],
-      topic: 'don`t know',
-      data: ['movida'],
-      time: formData.time,
-      random: formData.random,
-      comments_enabled: formData.comments,
-    };
 
-    API.put(`/test/generictest`, genericTest, {
+  const addAnswerImgValue = (ev, i) => {
+    const inputValue = [...answers];
+    inputValue[i] = ev.target.files[0];
+    setAnswers(inputValue);
+  };
+
+  const addQuestionImgValue = (ev, i) => {
+    const inputValue = [...questionImgs];
+    inputValue[i] = ev.target.files[0];
+    setQuestionImgs(inputValue);
+  };
+
+  const handleOrder = (ev) => {
+    if (ev.target.value == 'Random') {
+      setNewTest({ ...newTest, random: true });
+    } else {
+      setNewTest({ ...newTest, random: false });
+    }
+  };
+
+  const handleComments = (ev) => {
+    if (ev.target.value == 'Enabled') {
+      setNewTest({ ...newTest, comments_enabled: true });
+    } else {
+      setNewTest({ ...newTest, comments_enabled: false });
+    }
+  };
+
+  const handleSubmit = (ev) => {
+    ev.preventDefault();
+    let idTest = '';
+    console.log(newTest, 'newTest');
+    const formData = new FormData();
+    formData.append('creator', newTest.creator);
+    formData.append('title', newTest.title);
+    formData.append('description', newTest.description);
+    formData.append('thumbnail', newTest.thumbnail);
+    formData.append('banner', newTest.banner);
+    formData.append('topic', newTest.topic);
+    formData.append('time', newTest.time);
+    formData.append('random', newTest.random);
+    formData.append('comments_enabled', newTest.comments_enabled);
+
+    for (const img of questionImgs) {
+      if (img == '') {
+        questionImgs.splice(questionImgs.indexOf(img), 1);
+      }
+    }
+    console.log(questionImgs, 'qimgs limpio');
+    const formData2 = new FormData();
+    formData2.append('id', ids);
+    formData2.append('type', questionType);
+    formData2.append('question', questions);
+    formData2.append('question_img', questionImgs);
+    formData2.append('answer', answers);
+    formData2.append('option_1', options1);
+    formData2.append('option_2', options2);
+    formData2.append('option_3', options3);
+    formData2.append('option_4', options4);
+    formData2.append('option_5', options5);
+
+    console.log(formData2);
+    API.post('/generictests', formData, {
       headers: { 'Content-Type': 'multipart/form-data' },
     })
       .then((res) => {
-        if (res.status === 200) {
+        if (res.status === 201) {
+          setTestId(res.data._id);
+          idTest = res.data._id;
+          console.log(res);
           console.log('test created');
-          window.location.reload();
-        } else {
-          console.log('error creating test');
         }
       })
-      .catch((error) => {
-        console.log(error);
-      });
-  }; */
+      .catch((error) => console.log(error));
+
+    API.post(`/data/${idTest}`, formData2, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    })
+      .then((res) => {
+        if (res.status === 201) {
+          console.log('data created');
+        }
+      })
+      .catch((error) => console.log(error));
+  };
+
   return (
     <section className="create-generic-test">
-      {console.log(optionsImg1, 'optionsImg1')}
-      {console.log(optionsImg2, 'optionsImg2')}
-      {console.log(optionsImg3, 'optionsImg3')}
-      {console.log(optionsImg4, 'optionsImg4')}
-      {console.log(optionsImg5, 'optionsImg5')}
+      {console.log(questions, 'questions')}
+      {console.log(questionImgs, 'questionImages')}
+      {console.log(options1, 'options1')}
+      {console.log(options2, 'options2')}
+      {console.log(options3, 'options3')}
+      {console.log(options4, 'options4')}
+      {console.log(options5, 'options5')}
       {console.log(answers, 'answers')}
+      {console.log(options, 'options')}
+      {console.log(questionType)}
+      {console.log(newTest)}
+      {console.log(data)}
       <Heading_1 text="Create Generic Test" weigth="700" size="28px" />
       <form className="create-generic-test-body" onSubmit={(ev) => handleSubmit(ev)}>
         <section className="create-generic-test-filters">
           <div className="time-filter">
             <Heading_3 text="TIME" weigth="600" size="16px" />
-            <input type="time" />
+            <input
+              type="time"
+              onChange={(ev) => setNewTest({ ...newTest, time: ev.target.value })}
+            />
           </div>
-          <div className="order-filter" onChange={(ev) => console.log(ev.target.value)}>
+          <div className="order-filter" onChange={(ev) => handleOrder(ev)}>
             <Heading_3 text="ORDER" weigth="600" size="16px" />
             <div className="order-random">
-              <input type="radio" id="random" name="order" value="random" />
+              <input type="radio" id="random" name="order" value="Random" />
               <label htmlFor="random">Random</label>
             </div>
             <div className="order-random">
-              <input type="radio" id="normal" name="order" value="normal" />
+              <input type="radio" id="normal" name="order" value="Normal" />
               <label htmlFor="normal">Normal</label>
             </div>
           </div>
-          <div className="order-filter">
+          <div className="order-filter" onChange={(ev) => handleComments(ev)}>
             <Heading_3 text="COMMENTS" weigth="600" size="16px" />
             <div className="order-random">
               <input type="radio" id="enabled" name="comments" value="enabled" />
@@ -312,6 +485,13 @@ const CreateGTest = () => {
               <input type="radio" id="disabled" name="comments" value="disabled" />
               <label htmlFor="disabled">Disabled</label>
             </div>
+          </div>
+          <div className="test-topic">
+            <Heading_3 text="TOPIC" weigth="600" size="16px" />
+            <input
+              type="text"
+              onChange={(ev) => setNewTest({ ...newTest, topic: ev.target.value })}
+            />
           </div>
         </section>
         <section className="create-generic-test-quiz">
@@ -325,6 +505,7 @@ const CreateGTest = () => {
                 onChange={(ev) => {
                   setThumbnailFileName(ev.target.files[0].name);
                   generateUrlThumbnail(ev.target.files[0]);
+                  setNewTest({ ...newTest, thumbnail: ev.target.files[0] });
                 }}
               />
               <label htmlFor="thumbnail" className="thumbnail-label">
@@ -346,6 +527,7 @@ const CreateGTest = () => {
                 onChange={(ev) => {
                   setBannerFileName(ev.target.files[0].name);
                   generateUrlBanner(ev.target.files[0]);
+                  setNewTest({ ...newTest, banner: ev.target.files[0] });
                 }}
               />
               <label htmlFor="banner" className="test-banner-label">
@@ -360,7 +542,10 @@ const CreateGTest = () => {
                   maxLength="100"
                   className="input-title"
                   placeholder=" "
-                  onChange={(ev) => setTitle(ev.target.value.length)}
+                  onChange={(ev) => {
+                    setTitle(ev.target.value.length);
+                    setNewTest({ ...newTest, title: ev.target.value });
+                  }}
                 />
                 <label htmlFor="title" className="custom-placeholder-tests">
                   Title
@@ -383,7 +568,10 @@ const CreateGTest = () => {
                   id="description"
                   name="description"
                   maxLength="200"
-                  onChange={(ev) => setDescription(ev.target.value.length)}
+                  onChange={(ev) => {
+                    setDescription(ev.target.value.length);
+                    setNewTest({ ...newTest, description: ev.target.value });
+                  }}
                 />
                 <label htmlFor="description" className="custom-placeholder-description">
                   Description
@@ -401,172 +589,186 @@ const CreateGTest = () => {
             </div>
           </div>
           <div className="generic-test-data">
-            <div className="generic-test-question">
-              <div className="generic-test-header">
-                <input
-                  type="text"
-                  placeholder="Blank title question"
-                  defaultValue="Blank title question"
-                  className="input-question"
-                />
-                <input
-                  type="file"
-                  id="questionImg"
-                  className="questionImg-file"
-                  onChange={(ev) => {
-                    generateUrlQuestionImg(ev.target.files[0]);
-                  }}
-                />
-                <label htmlFor="questionImg" className="addimg-label">
-                  <img src={Icons.addImg} alt="add icon" />
-                </label>
-                <button
-                  className="add-option"
-                  onClick={() => {
-                    addOption();
-                  }}
-                  disabled={options.length >= 5 ? true : false}
-                >
-                  <img src={Icons.add} alt="add icon" />
-                </button>
-              </div>
-              <div className="generic-test-question-text">
-                <div className="generic-test-question-options">
-                  {options.map((option, index) => (
-                    <div className="option-delete" key={index}>
+            {questions.map((q, i) => (
+              <>
+                {questionType[i] == 'text' ? (
+                  <div className="generic-test-question" key={i}>
+                    <div className="generic-test-header">
+                      <select onChange={(ev) => handleChange(ev, i)}>
+                        <option>text</option>
+                        <option>image</option>
+                      </select>
+
                       <input
-                        className="generic-test-option"
-                        placeholder={`Option ${index + 1}`}
-                        onChange={(ev) => addOptionValue(ev, index)}
+                        type="text"
+                        placeholder="Question"
+                        className="input-question"
+                        onChange={(ev) => addQuestionValue(ev, i)}
                       />
-                      {options.length == index + 1 && index != 0 ? (
-                        <button onClick={() => deleteOption(index)}>Delete</button>
-                      ) : (
-                        ''
-                      )}
+                      <input
+                        type="file"
+                        id={`questionImg ${i}`}
+                        className="questionImg-file"
+                        onChange={(ev) => {
+                          generateUrlQuestionImg(ev.target.files[0], i);
+                          addQuestionImgValue(ev, i);
+                        }}
+                      />
+                      <label htmlFor={`questionImg ${i}`} className="addimg-label">
+                        <img src={Icons.addImg} alt="add icon" />
+                      </label>
+                      <button
+                        className="add-option"
+                        onClick={() => {
+                          addOption(i);
+                        }}
+                        disabled={options[i].length >= 5 ? true : false}
+                      >
+                        <img src={Icons.add} alt="add icon" />
+                      </button>
+                      <button>Delete</button>
                     </div>
-                  ))}
-                  <input
-                    className="generic-test-option"
-                    placeholder="Answer"
-                    onChange={(ev) => addAnswerValue(ev)}
-                  />
-                </div>
-                <div className="generic-test-question-text-qimg">
-                  <img
-                    src={questionImgPrev != '' ? questionImgPrev : ''}
-                    alt="question img"
-                  />
-                </div>
-              </div>
-            </div>
-            <div className="generic-test-question">
-              <div className="generic-test-header">
-                <input
-                  type="text"
-                  placeholder="Blank title question"
-                  defaultValue="Blank title question"
-                  className="input-question"
-                />
-                <button
-                  className="add-option"
-                  onClick={() => {
-                    addOptionImg();
-                  }}
-                  disabled={optionsImg.length >= 5 ? true : false}
-                >
-                  <img src={Icons.add} alt="add icon" />
-                </button>
-              </div>
-              <div className="generic-test-question-image">
-                {optionsImg.map((option, index) => (
-                  <div className="option-delete" key={index}>
-                    <ImageTests
-                      radius="xl"
-                      width="250px"
-                      height="7.2rem"
-                      src={
-                        index == 0 && imgPrev1
-                          ? imgPrev1
-                          : index == 1 && imgPrev2
-                          ? imgPrev2
-                          : index == 2 && imgPrev3
-                          ? imgPrev3
-                          : index == 3 && imgPrev4
-                          ? imgPrev4
-                          : index == 4 && imgPrev5
-                          ? imgPrev5
-                          : ''
-                      }
-                    />
-
-                    <input
-                      type="file"
-                      id={`option ${index + 1}`}
-                      className="test-banner-file"
-                      onChange={(ev) => {
-                        addOptionImgValue(ev, index);
-                        {
-                          index == 0
-                            ? setImgFileName1(ev.target.files[0].name)
-                            : index == 1
-                            ? setImgFileName2(ev.target.files[0].name)
-                            : index == 2
-                            ? setImgFileName3(ev.target.files[0].name)
-                            : index == 3
-                            ? setImgFileName4(ev.target.files[0].name)
-                            : index == 4
-                            ? setImgFileName5(ev.target.files[0].name)
-                            : '';
-                        }
-
-                        generateUrlImg(ev.target.files[0], index);
-                      }}
-                    />
-                    <label htmlFor={`option ${index + 1}`} className="test-banner-label">
-                      {index == 0 && imgFileName1
-                        ? imgFileName1
-                        : index == 1 && imgFileName2
-                        ? imgFileName2
-                        : index == 2 && imgFileName3
-                        ? imgFileName3
-                        : index == 3 && imgFileName4
-                        ? imgFileName4
-                        : index == 4 && imgFileName5
-                        ? imgFileName5
-                        : 'Upload file'}
-                    </label>
-                    {optionsImg.length == index + 1 && index != 0 ? (
-                      <button onClick={() => deleteOptionImg(index)}>Delete</button>
-                    ) : (
-                      ''
-                    )}
+                    <div className="generic-test-question-text">
+                      <div className="generic-test-question-options">
+                        {options[i].map((option, index) => (
+                          <div className="option-delete" key={index}>
+                            <input
+                              className="generic-test-option"
+                              placeholder={`Option ${index + 1}`}
+                              onChange={(ev) => addOptionValue(ev, index, i)}
+                            />
+                            {options[i].length == index + 1 && index != 0 ? (
+                              <button onClick={() => deleteOption(index, i)}>
+                                Delete
+                              </button>
+                            ) : (
+                              ''
+                            )}
+                          </div>
+                        ))}
+                        <input
+                          className="generic-test-option"
+                          placeholder="Answer"
+                          onChange={(ev) => addAnswerValue(ev, i)}
+                        />
+                      </div>
+                      <div className="generic-test-question-text-qimg">
+                        <img
+                          src={questionImgPrev[i] != '' ? questionImgPrev[i] : ''}
+                          alt="question img"
+                        />
+                      </div>
+                    </div>
                   </div>
-                ))}
-                <div>
-                  <ImageTests
-                    radius="xl"
-                    width="250px"
-                    height="7.2rem"
-                    src={answerImgPrev ? answerImgPrev : ' '}
-                  />
+                ) : (
+                  <div className="generic-test-question" key={i}>
+                    <div className="generic-test-header">
+                      <select onChange={(ev) => handleChange(ev, i)} defaultValue="image">
+                        <option>text</option>
+                        <option>image</option>
+                      </select>
+                      <input
+                        type="text"
+                        placeholder="Question"
+                        className="input-question"
+                        onChange={(ev) => addQuestionValue(ev, i)}
+                      />
+                      <button
+                        className="add-option"
+                        onClick={() => {
+                          addOption(i);
+                        }}
+                        disabled={options[i].length >= 5 ? true : false}
+                      >
+                        <img src={Icons.add} alt="add icon" />
+                      </button>
+                      <button>Delete</button>
+                    </div>
+                    <div className="generic-test-question-image">
+                      {options[i].map((option, index) => (
+                        <div className="option-delete" key={index}>
+                          <ImageTests
+                            radius="xl"
+                            width="250px"
+                            height="7.2rem"
+                            src={
+                              index == 0 && imgPrev1[i]
+                                ? imgPrev1[i]
+                                : index == 1 && imgPrev2[i]
+                                ? imgPrev2[i]
+                                : index == 2 && imgPrev3[i]
+                                ? imgPrev3[i]
+                                : index == 3 && imgPrev4[i]
+                                ? imgPrev4[i]
+                                : index == 4 && imgPrev5[i]
+                                ? imgPrev5[i]
+                                : ''
+                            }
+                          />
 
-                  <input
-                    type="file"
-                    id="answer"
-                    className="test-banner-file"
-                    onChange={(ev) => {
-                      setAnsFileName(ev.target.files[0].name);
-                      generateUrlAnsImg(ev.target.files[0]);
-                    }}
-                  />
-                  <label htmlFor="answer" className="test-banner-label">
-                    {ansFileName != '' ? ansFileName : 'Upload file'}
-                  </label>
-                </div>
-              </div>
-            </div>
+                          <input
+                            type="file"
+                            id={`option ${index + 1} ${i}`}
+                            className="test-banner-file"
+                            onChange={(ev) => {
+                              addOptionImgValue(ev, index, i);
+                              handleFileName(ev, index, i);
+                              generateUrlImg(ev.target.files[0], index, i);
+                            }}
+                          />
+                          <label
+                            htmlFor={`option ${index + 1} ${i}`}
+                            className="test-banner-label"
+                          >
+                            {index == 0 && imgFileName1[i]
+                              ? imgFileName1[i]
+                              : index == 1 && imgFileName2[i]
+                              ? imgFileName2[i]
+                              : index == 2 && imgFileName3[i]
+                              ? imgFileName3[i]
+                              : index == 3 && imgFileName4[i]
+                              ? imgFileName4[i]
+                              : index == 4 && imgFileName5[i]
+                              ? imgFileName5[i]
+                              : 'Upload file'}
+                          </label>
+                          {options[i].length == index + 1 && index != 0 ? (
+                            <button onClick={() => deleteOption(index, i)}>Delete</button>
+                          ) : (
+                            ''
+                          )}
+                        </div>
+                      ))}
+                      <div>
+                        <ImageTests
+                          radius="xl"
+                          width="250px"
+                          height="7.2rem"
+                          src={answerImgPrev[i] ? answerImgPrev[i] : ' '}
+                        />
+
+                        <input
+                          type="file"
+                          id={`answer ${i}`}
+                          className="test-banner-file"
+                          onChange={(ev) => {
+                            handleAnsFileName(ev, i);
+                            generateUrlAnsImg(ev.target.files[0], i);
+                            addAnswerImgValue(ev, i);
+                          }}
+                        />
+                        <label htmlFor={`answer ${i}`} className="test-banner-label">
+                          {ansFileName[i] ? ansFileName[i] : 'Upload file'}
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </>
+            ))}
+            <button onClick={(ev) => addQuestion(ev)}>+</button>
           </div>
+          <button type="submit">Create Test</button>
         </section>
       </form>
     </section>
