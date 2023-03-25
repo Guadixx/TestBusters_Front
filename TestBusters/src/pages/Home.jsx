@@ -1,15 +1,15 @@
 import './Home.css';
 
-import Carousel from '../components/Carousel';
+/* import Carousel from '../components/Carousel';
 import DayTest from '../components/DayTest';
-import RandomTest from '../components/RandomTest';
+import RandomTest from '../components/RandomTest'; */
 
 export const Home = () => {
   return (
     <div>
-      <Carousel />
+      {/*   <Carousel />
       <DayTest />
-      <RandomTest />
+      <RandomTest /> */}
     </div>
   );
 };
