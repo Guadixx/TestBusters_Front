@@ -45,7 +45,6 @@ const CreateGTest = () => {
   const [options5, setOptions5] = useState(['']);
   const [answers, setAnswers] = useState(['']);
   const [questionImgs, setQuestionImgs] = useState(['']);
-  const [testId, setTestId] = useState('');
   const [ids, setIds] = useState([0]);
   const [newTest, setNewTest] = useState({
     creator: user._id,
@@ -59,7 +58,7 @@ const CreateGTest = () => {
     comments_enabled: '',
   });
 
-  const [data, setData] = useState({
+  /*   const [data, setData] = useState({
     id: ids,
     type: questionType,
     question: questions,
@@ -70,7 +69,7 @@ const CreateGTest = () => {
     option_3: options3,
     option_4: options4,
     option_5: options5,
-  });
+  }); */
 
   const generateUrlThumbnail = (item) => {
     const url = URL.createObjectURL(item);
@@ -96,6 +95,7 @@ const CreateGTest = () => {
 
   const handleChange = (ev, i) => {
     const prevType = [...questionType];
+    const previousType = prevType[i];
     prevType[i] = ev.target.value;
     setQuestionType(prevType);
 
@@ -135,6 +135,11 @@ const CreateGTest = () => {
     const fileNameAns = [...ansFileName];
     fileNameAns[i] = 'Upload File';
     setAnsFileName(fileNameAns);
+    if (previousType == 'text') {
+      const questions_Imgs = [...questionImgs];
+      questions_Imgs[i] = undefined;
+      setQuestionImgs(questions_Imgs);
+    }
   };
 
   const handleAnsFileName = (ev, i) => {
@@ -201,20 +206,16 @@ const CreateGTest = () => {
     setQuestionImgPrev(number8);
     const number9 = [...ansFileName, ''];
     setAnsFileName(number9);
-    /*  const qimg = [...questionImgs, ''];
-    setQuestionImgs(qimg); */
+    const qimg = [...questionImgs, ''];
+    setQuestionImgs(qimg);
   };
 
-  const addOption = (i) => {
+  const addOption = (ev, i) => {
+    ev.preventDefault();
     const actualOptions = [...options];
     actualOptions[i] = [...actualOptions[i], ''];
     setOptions(actualOptions);
   };
-
-  /* const deleteQuestion = (i) =>{
-    const deleteq= [...questions];
-
-  } */
 
   const deleteOption = (index, i) => {
     let deleteValue = [];
@@ -343,7 +344,7 @@ const CreateGTest = () => {
   };
 
   const addQuestionValue = (ev, i) => {
-    const inputValue = [...answers];
+    const inputValue = [...questions];
     inputValue[i] = ev.target.value;
     setQuestions(inputValue);
   };
@@ -398,43 +399,62 @@ const CreateGTest = () => {
     formData.append('comments_enabled', newTest.comments_enabled);
 
     for (const img of questionImgs) {
-      if (img == '') {
+      if (img == '' || img == undefined) {
         questionImgs.splice(questionImgs.indexOf(img), 1);
       }
     }
-    console.log(questionImgs, 'qimgs limpio');
+    let index = 0;
     const formData2 = new FormData();
-    formData2.append('id', ids);
-    formData2.append('type', questionType);
-    formData2.append('question', questions);
-    formData2.append('question_img', questionImgs);
-    formData2.append('answer', answers);
-    formData2.append('option_1', options1);
-    formData2.append('option_2', options2);
-    formData2.append('option_3', options3);
-    formData2.append('option_4', options4);
-    formData2.append('option_5', options5);
-
-    console.log(formData2);
+    questionImgs.forEach(() => {
+      if (questionImgs[index] == undefined) {
+        questionImgs.splice(index, 1);
+      }
+      index++;
+    });
+    questionImgs.forEach((file) => {
+      formData2.append('question_img', file);
+    });
+    questionType.forEach((type) => {
+      formData2.append('type', type);
+    });
+    questions.forEach((question) => {
+      formData2.append('question', question);
+    });
+    answers.forEach((answer) => {
+      formData2.append('answer', answer);
+    });
+    options1.forEach((option_1) => {
+      formData2.append('option_1', option_1);
+    });
+    options2.forEach((option_2) => {
+      formData2.append('option_2', option_2);
+    });
+    options3.forEach((option_3) => {
+      formData2.append('option_3', option_3);
+    });
+    options4.forEach((option_4) => {
+      formData2.append('option_4', option_4);
+    });
+    options5.forEach((option_5) => {
+      formData2.append('option_5', option_5);
+    });
     API.post('/generictests', formData, {
       headers: { 'Content-Type': 'multipart/form-data' },
     })
       .then((res) => {
         if (res.status === 201) {
-          setTestId(res.data._id);
           idTest = res.data._id;
-          console.log(res);
-          console.log('test created');
-        }
-      })
-      .catch((error) => console.log(error));
-
-    API.post(`/data/${idTest}`, formData2, {
-      headers: { 'Content-Type': 'multipart/form-data' },
-    })
-      .then((res) => {
-        if (res.status === 201) {
-          console.log('data created');
+          formData2.append('testId', idTest);
+          API.post(`/data`, formData2, {
+            headers: { 'Content-Type': 'multipart/form-data' },
+          })
+            .then((res) => {
+              if (res.status === 200) {
+                console.log('data and test created');
+                return;
+              }
+            })
+            .catch((error) => console.log(error));
         }
       })
       .catch((error) => console.log(error));
@@ -442,7 +462,7 @@ const CreateGTest = () => {
 
   return (
     <section className="create-generic-test">
-      {console.log(questions, 'questions')}
+      {/* {console.log(questions, 'questions')}
       {console.log(questionImgs, 'questionImages')}
       {console.log(options1, 'options1')}
       {console.log(options2, 'options2')}
@@ -453,7 +473,7 @@ const CreateGTest = () => {
       {console.log(options, 'options')}
       {console.log(questionType)}
       {console.log(newTest)}
-      {console.log(data)}
+      {console.log(data)} */}
       <Heading_1 text="Create Generic Test" weigth="700" size="28px" />
       <form className="create-generic-test-body" onSubmit={(ev) => handleSubmit(ev)}>
         <section className="create-generic-test-filters">
@@ -619,8 +639,8 @@ const CreateGTest = () => {
                       </label>
                       <button
                         className="add-option"
-                        onClick={() => {
-                          addOption(i);
+                        onClick={(ev) => {
+                          addOption(ev, i);
                         }}
                         disabled={options[i].length >= 5 ? true : false}
                       >
@@ -675,8 +695,8 @@ const CreateGTest = () => {
                       />
                       <button
                         className="add-option"
-                        onClick={() => {
-                          addOption(i);
+                        onClick={(ev) => {
+                          addOption(ev, i);
                         }}
                         disabled={options[i].length >= 5 ? true : false}
                       >
