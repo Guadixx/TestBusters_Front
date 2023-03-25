@@ -1,14 +1,14 @@
 import './Tests.css';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import TestCard from '../components/TestCard';
-//import API from '../services/API';
+import { API } from '../services/API';
 import Rating from '../ui/Rating';
 
 const Tests = () => {
-  const [tests] = useState([]);
-  /*useEffect(() => {
+  const [tests, setTests] = useState([]);
+  useEffect(() => {
     API.get('/featuredtests/', {
       params: {
         limit: 20,
@@ -20,7 +20,7 @@ const Tests = () => {
     })
       .then((response) => setTests(response.data))
       .catch((error) => console.log(error));
-  }, []);*/
+  }, []);
   return (
     <div className="home">
       <>
