@@ -11,17 +11,21 @@ import { API } from '../services/API';
 import randomArray from '../services/RandomArray';
 import Palette from '../styles/Palette';
 import Button from '../ui/Button';
+import CircleBar from '../ui/CircleBar';
+import Comment from '../ui/Comments';
 import DivProgress from '../ui/DivProgress';
-
+import ModalTest from '../ui/ModalTest';
+import RatingStarTest from '../ui/RatingButton';
+import RatingStatic from '../ui/RatingStatic';
 const TestDetail = () => {
   const testId = useParams().id;
-  const userId = JSON.parse(useLocalStorage('get', 'user'))._id;
+  const user = JSON.parse(useLocalStorage('get', 'user'));
   //const location = useLocation();
   //const testType = location.state.testType;
   //const testType = 'generictests';
   const testType = 'featuredtests';
-  const user = {
-    userId: userId,
+  const userId = {
+    userId: user._id,
   };
   const [test, setTest] = useState({});
   const [featuredData, setFeaturedData] = useState([]);
@@ -35,11 +39,48 @@ const TestDetail = () => {
   const [initialSeconds, setInitialSeconds] = useState(0);
   const [userMinutes, setUserMinutes] = useState('');
   const [userSeconds, setUserSeconds] = useState('');
+  const [userRecord, setUserRecord] = useState(null);
+  const [average, setAverage] = useState(0);
+  const [comments, setComments] = useState([]);
+  const [moreComments, setMoreComments] = useState(false);
+  const [newComment, setNewComment] = useState({});
+  const [rated, setRated] = useState(false);
+  const [favortites, setFavorites] = useState(0);
+  const date = new Date();
+  const day = date.getDate();
+  const month = date.getMonth() < 9 ? `0${date.getMonth() + 1}` : date.getMonth() + 1;
+  const year = date.getFullYear();
+  const today = `${day}/${month}/${year}`;
   useEffect(() => {
-    API.patch(`/${testType}/${testId}`, user)
+    API.patch(`/${testType}/${testId}`, userId)
       .then((res) => {
         if (res.status === 200) {
           setTest(res.data.test);
+          setUserRecord(res.data.record);
+          setAverage(res.data.average);
+          setFavorites(res.data.test.favorites.length);
+          res.data.test.favorites.forEach((userIdFav) => {
+            if (userIdFav == user._id) {
+              setRated(true);
+            }
+          });
+          const commentsIds = res.data.test.comments
+            .map((comment) => comment.id)
+            .sort((a, b) => b - a);
+          setComments(
+            commentsIds.map((id) =>
+              res.data.test.comments.find((comment) => comment.id == id),
+            ),
+          );
+          setNewComment({
+            testId: testId,
+            model: testType == 'generictests' ? 'GenericTest' : 'FeaturedTest',
+            comment: {
+              user: user._id,
+              content: '',
+              date: today,
+            },
+          });
           if (testType == 'featuredtests') {
             const data_type = res.data.test.data_type;
             const value_1 =
@@ -83,6 +124,49 @@ const TestDetail = () => {
         console.log(error);
       });
   }, []);
+  const postComment = () => {
+    API.post('/comments', newComment)
+      .then((res) => {
+        if (res.status == 201) {
+          API.get(`/comments/${res.data._id}`)
+            .then((res2) => {
+              if (res2.status == 200) {
+                setComments([res2.data, ...comments]);
+              }
+            })
+            .catch((error) => console.log(error));
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  const deleteComment = (commentId) => {
+    API.delete(`/comments/${commentId}`)
+      .then((res) => {
+        if (res.status == 200) {
+          return;
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  const handleFavorite = () => {
+    const toHandle = { testId: testId, userId: user._id };
+    const toHandleKey = testType == 'featuredtests' ? 'favoritesftest' : 'favoritesgtest';
+    API.put(`${testType}/${toHandleKey}`, toHandle)
+      .then((res) => {
+        if (res.status == 200) {
+          console.log('si');
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    setRated(!rated);
+    setFavorites((prevFavs) => (rated ? prevFavs - 1 : prevFavs + 1));
+  };
   useEffect(() => {
     if (testType == 'featuredtests' && test.description != undefined) {
       setQuestions(
@@ -218,24 +302,270 @@ const TestDetail = () => {
   };
   return (
     <div>
-      <h1>{test != {} && test.title}</h1>
-      <p>{test.description != undefined && test.description.split('/')[0]}</p>
-      <h4>Creator {test.creator != undefined && test.creator.username}</h4>
-      {!start && (
-        <Button
-          action={() => {
-            handleStart();
-          }}
-          variant="border"
-          color={Palette.color_highlight_primary}
-          textAfter="Play"
-          size={5}
-        />
+      {!start & (test.creator != undefined) ? (
+        <div>
+          {/* ----------------------------------------------------------------------------INFO DEL TEST */}
+          <h1>{test != {} && test.title}</h1>
+          <p>{test.description.split('/')[0]}</p>
+          <h4>Creator {test.creator.username}</h4>
+          <img src={test.creator.avatar} alt="avatar of the creator" />
+          <h4>{test.times_played} times played</h4>
+          <h4>{favortites}</h4>
+          <RatingStarTest action={() => handleFavorite()} rated={rated} />
+          <h4>Created at {test.created.split('T')[0]}</h4>
+          <RatingStatic rating={test.rating[0] / test.rating[1]} />
+          <img src={test.thumbnail} alt="test thumbnail" />
+          <img src={test.banner} alt="test thumbnail" />
+          <Button
+            action={() => {
+              handleStart();
+            }}
+            variant="border"
+            color={Palette.color_highlight_primary}
+            textAfter="Play"
+            size={5}
+          />
+          {/* ----------------------------------------------------------------------------INFO DEL TEST */}
+          {/* ----------------------------------------------------------------------------LEADERBOARD SI NO HAY SE PINTA UN DIV VACIO */}
+          <h3>LeaderBoard</h3>
+          {test.first.length != 0 ? (
+            <div>
+              <h5>First</h5>
+              {test.first[0].user == null ? (
+                <h6>This user exist no more. We need to crush his record</h6>
+              ) : (
+                <div></div>
+              )}
+              <img
+                src={
+                  test.first[0].user != null
+                    ? test.first[0].user.avatar
+                    : 'https://res.cloudinary.com/dva9zee9r/image/upload/v1679067709/user-dummy-p4ao7p3l9bvrme1wyabiin2vr079ietul8qza7zw2w_dl4uos.png'
+                }
+                alt="avatar of the first"
+              />
+              <h6>
+                {test.first[0].user != null
+                  ? test.first[0].user.username
+                  : test.first[0].backup_name}
+              </h6>
+              <h6>Score {test.first[0].score.split('/').slice(0, 2).join('/')}</h6>
+              <h6>Time {test.first[0].score.split('/')[2]}</h6>
+            </div>
+          ) : (
+            <div></div>
+          )}
+          {test.second.length != 0 ? (
+            <div>
+              <h5>second</h5>
+              {test.second[0].user == null ? (
+                <h6>This user exist no more. We need to crush his record</h6>
+              ) : (
+                <div></div>
+              )}
+              <img
+                src={
+                  test.second[0].user != null
+                    ? test.second[0].user.avatar
+                    : 'https://res.cloudinary.com/dva9zee9r/image/upload/v1679067709/user-dummy-p4ao7p3l9bvrme1wyabiin2vr079ietul8qza7zw2w_dl4uos.png'
+                }
+                alt="avatar of the second"
+              />
+              <h6>
+                {test.second[0].user != null
+                  ? test.second[0].user.username
+                  : test.second[0].backup_name}
+              </h6>
+              <h6>Score {test.second[0].score.split('/').slice(0, 2).join('/')}</h6>
+              <h6>Time {test.second[0].score.split('/')[2]}</h6>
+            </div>
+          ) : (
+            <div></div>
+          )}
+          {test.third.length != 0 ? (
+            <div>
+              <h5>third</h5>
+              {test.third[0].user == null ? (
+                <h6>This user exist no more. We need to crush his record</h6>
+              ) : (
+                <div></div>
+              )}
+              <img
+                src={
+                  test.third[0].user != null
+                    ? test.third[0].user.avatar
+                    : 'https://res.cloudinary.com/dva9zee9r/image/upload/v1679067709/user-dummy-p4ao7p3l9bvrme1wyabiin2vr079ietul8qza7zw2w_dl4uos.png'
+                }
+                alt="avatar of the third"
+              />
+              <h6>
+                {test.third[0].user != null
+                  ? test.third[0].user.username
+                  : test.third[0].backup_name}
+              </h6>
+              <h6>Score {test.third[0].score.split('/').slice(0, 2).join('/')}</h6>
+              <h6>Time {test.third[0].score.split('/')[2]}</h6>
+            </div>
+          ) : (
+            <div></div>
+          )}
+          {/* ----------------------------------------------------------------------------LEADERBOARD SI NO HAY SE PINTA UN DIV VACIO */}
+          {/* ----------------------------------------------------------------------------ESTADÍSTICAS DEL USUARIO, SI NO HA JUGADOS SE PINTA OTRA COSA */}
+          {userRecord != null ? (
+            <div>
+              <h3>Your Stats</h3>
+              <CircleBar value={average} label="BETTER THAN" />
+              <DivProgress
+                value={parseInt(userRecord.score.split('/')[0])}
+                maxValue={parseInt(userRecord.score.split('/')[1])}
+                type="score"
+                text1="record"
+              />
+              <DivProgress
+                value={
+                  parseInt(userRecord.score.split('/')[2].split(':')[0]) * 60 +
+                  parseInt(userRecord.score.split(':')[1])
+                }
+                maxValue={
+                  parseInt(test.time.split(':')[0] * 60) +
+                  parseInt(test.time.split(':')[1])
+                }
+                type="time"
+                text1="time"
+              />
+            </div>
+          ) : (
+            <div>
+              <h3>have not played this test yet</h3>
+            </div>
+          )}
+          {/* ----------------------------------------------------------------------------ESTADÍSTICAS DEL USUARIO, SI NO HA JUGADOS SE PINTA OTRA COSA */}
+          {/* ----------------------------------------------------------------------------COMENTARIOS +DE 3 SALE SEE MORE Y SI LE DAS SE ABREN TODOS Y SALE SEE LESS */}
+          <h4>Post Comment</h4>
+          <div>
+            <input
+              type="text"
+              placeholder="Write a comment"
+              onChange={(ev) =>
+                setNewComment({
+                  ...newComment,
+                  comment: { ...newComment.comment, content: ev.target.value },
+                })
+              }
+            />
+            <button
+              onClick={() => {
+                postComment();
+              }}
+            >
+              Post
+            </button>
+          </div>
+          {comments != undefined ? (
+            comments.length != 0 ? (
+              !moreComments ? (
+                <div>
+                  {comments
+                    .reverse()
+                    .slice(0, 3)
+                    .map((comment) => (
+                      <Comment
+                        idUserOnComment={comment.user._id}
+                        idUser={user._id}
+                        key={comment._id}
+                        avatar={comment.user.avatar}
+                        name={comment.user.username}
+                        date={comment.date}
+                        content={comment.content}
+                        action={() => {
+                          const actualizedComments = [];
+                          comments.forEach((com) => {
+                            if (com._id != comment._id) {
+                              actualizedComments.push(com);
+                            }
+                          });
+                          deleteComment(comment._id);
+                          setComments(actualizedComments);
+                        }}
+                      ></Comment>
+                    ))}
+                  {comments.length > 3 ? (
+                    <Button
+                      variant="solid"
+                      color={Palette.color_highlight_secondary}
+                      background={Palette.color_bg}
+                      textAfter="See more"
+                      size={4}
+                      action={() => setMoreComments(true)}
+                    />
+                  ) : (
+                    <div></div>
+                  )}
+                </div>
+              ) : (
+                <div>
+                  {comments.reverse().map((comment) => (
+                    <Comment
+                      idUserOnComment={comment.user._id}
+                      idUser={user._id}
+                      key={comment._id}
+                      avatar={comment.user.avatar}
+                      name={comment.user.username}
+                      date={comment.date}
+                      content={comment.content}
+                      action={() => {
+                        const actualizedComments = [];
+                        comments.forEach((com) => {
+                          if (com._id != comment._id) {
+                            actualizedComments.push(com);
+                          }
+                        });
+                        deleteComment(comment._id);
+                        setComments(actualizedComments);
+                      }}
+                    ></Comment>
+                  ))}
+                  <Button
+                    variant="solid"
+                    color={Palette.color_highlight_secondary}
+                    background={Palette.color_bg}
+                    textAfter="See less"
+                    size={4}
+                    action={() => setMoreComments(false)}
+                  />
+                </div>
+              )
+            ) : (
+              <h6>No comments yet...</h6>
+            )
+          ) : (
+            <div></div>
+          )}
+        </div>
+      ) : (
+        <div></div>
       )}
+      {/* ----------------------------------------------------------------------------COMENTARIOS +DE 3 SALE SEE MORE Y SI LE DAS SE ABREN TODOS Y SALE SEE LESS */}
+      {/* ------------------------------------------------------------------------------------------------------------------------------------------------------- */}
+      {/* ------------------------------------------------------------------------------------------------------------------------------------------------------- */}
+      {/* ------------------------------------------------------------------------------------------------------------------------------------------------------- */}
+      {/* ------------------------------------------------------------------------------------------------------------------------------------------------------- */}
+      {/* ------------------------------------------------------------------------------------------------------------------------------------------------------- */}
+      {/* ------------------------------------------------------------------------------------------------------------------------------------------------------- */}
+      {/* ------------------------------------------------------------------------------------------------------------------------------------------------------- */}
+      {/* ------------------------------------------------------------------------------------------------------------------------------------------------------- */}
+      {/* ------------------------------------------------------------------------------------------------------------------------------------------------------- */}
+      {/* ------------------------------------------------------------------------------------------------------------------------------------------------------- */}
+      {/* ------------------------------------------------------------------------------------------------------------------------------------------------------- */}
+      {/* ------------------------------------------------------------------------------------------------------------------------------------------------------- */}
+      {/* ------------------------------------------------------------------------------------------------------------------------------------------------------- */}
+      {/* ----------------------------------------------------------------------------------------------------------------MODAL DEL TEST CUANDO SE LE DA AL START */}
+      {/* ----------------------------------------------------------------------------------------------------------------------------------BARRA DE CUENTA ATRÁS */}
       {start & (index != randomQuestions.length) & !finish ? (
         <div>
           <DivProgress type="CountDown" className="timer" maxValue={initialSeconds} />
           <div>
+            {/* ------------------------------------------------------------------------CAJA DE PREGUNTAS SI EL TEST ES FEATURED Y LA PREGUNTA ES CON UNA IMAGEN */}
             {testType == 'featuredtests' ? (
               <div>
                 {randomQuestions[index].question.includes(
@@ -251,93 +581,118 @@ const TestDetail = () => {
                     }`}</h3>
                   </div>
                 ) : (
-                  <h3>
-                    {`${test.question_text[0] == '.' ? '' : test.question_text[0]} ${
-                      randomQuestions[index].question
-                    } ${test.question_text[1] == '.' ? '' : test.question_text[1]}`}
-                  </h3>
+                  {
+                    /* ------------------------------------------------------------------------CAJA DE PREGUNTAS SI EL TEST ES FEATURED Y LA PREGUNTA ES CON TEXTO */
+                  }(
+                    <h3>
+                      {`${test.question_text[0] == '.' ? '' : test.question_text[0]} ${
+                        randomQuestions[index].question
+                      } ${test.question_text[1] == '.' ? '' : test.question_text[1]}`}
+                    </h3>,
+                  )
                 )}
               </div>
             ) : (
-              <div className="questionDiv">
-                <h3>{randomQuestions[index].question}</h3>
-                <img alt="question" src={randomQuestions[index].question_img} />
-              </div>
+              {
+                /* ------------------------------------------------------------------------CAJA DE PREGUNTAS SI EL TEST ES GENERIC. DE MOMENTO TIENE FOTO POR DEFECTO */
+              }(
+                <div className="questionDiv">
+                  <h3>{randomQuestions[index].question}</h3>
+                  <img alt="question" src={randomQuestions[index].question_img} />
+                </div>,
+              )
             )}
+            {/* ------------------------------------------------------------------------CAJA DE OPCIONES SI EL TEST ES FEATURED Y LA OPCION ES CON IMAGEN */}
             {testType == 'featuredtests' ? (
-              <div className="optionDiv">
-                {randomQuestions[index].options.map((option) =>
-                  featuredData
-                    .find((item) => item.id == option)
-                    [test.answer].includes('https://res.cloudinary.com') ? (
-                    <img
-                      key={option}
-                      alt="option"
-                      src={featuredData.find((item) => item.id == option)[test.answer]}
-                      onClick={() => {
-                        if (option == randomQuestions[index].id) {
-                          setScore((prevScore) => prevScore + 1);
-                        }
-                        setIndex((prevIndex) => prevIndex + 1);
-                      }}
-                    />
-                  ) : (
-                    <div
-                      key={option}
-                      alt="option"
-                      onClick={() => {
-                        if (option == randomQuestions[index].id) {
-                          setScore((prevScore) => prevScore + 1);
-                        }
-                        setIndex((prevIndex) => prevIndex + 1);
-                      }}
-                    >
-                      <h4>
-                        {featuredData.find((item) => item.id == option)[test.answer]}
-                      </h4>
-                    </div>
-                  ),
-                )}
-              </div>
-            ) : (
-              <div className="optionDiv">
-                {randomQuestions[index].options.map((option) =>
-                  option.includes('https://res.cloudinary.com')
-                    ? option != '' && (
-                        <img
-                          key={option}
-                          alt="option"
-                          src={option}
-                          onClick={() => {
-                            if (option == randomQuestions[index].answer) {
-                              setScore((prevScore) => prevScore + 1);
-                            }
-                            setIndex((prevIndex) => prevIndex + 1);
-                          }}
-                        />
-                      )
-                    : option != '' && (
+              <>
+                <div className="optionDiv">
+                  {randomQuestions[index].options.map((option) =>
+                    featuredData
+                      .find((item) => item.id == option)
+                      [test.answer].includes('https://res.cloudinary.com') ? (
+                      <img
+                        key={option}
+                        alt="option"
+                        src={featuredData.find((item) => item.id == option)[test.answer]}
+                        onClick={() => {
+                          if (option == randomQuestions[index].id) {
+                            setScore((prevScore) => prevScore + 1);
+                          }
+                          setIndex((prevIndex) => prevIndex + 1);
+                        }}
+                      />
+                    ) : (
+                      {
+                        /* ------------------------------------------------------------------------CAJA DE OPCIONES SI EL TEST ES FEATURED Y LA OPCION ES CON TEXTO */
+                      }(
                         <div
                           key={option}
                           alt="option"
                           onClick={() => {
-                            if (option == randomQuestions[index].answer) {
+                            if (option == randomQuestions[index].id) {
                               setScore((prevScore) => prevScore + 1);
                             }
                             setIndex((prevIndex) => prevIndex + 1);
                           }}
                         >
-                          <h4>{option}</h4>
-                        </div>
-                      ),
-                )}
-              </div>
+                          <h4>
+                            {featuredData.find((item) => item.id == option)[test.answer]}
+                          </h4>
+                        </div>,
+                      )
+                    ),
+                  )}
+                </div>
+                {/* -------------------------------------------------------------------------------------------------MODAL DE EXIT */}
+                <ModalTest text="Exit" id={test._id} />
+              </>
+            ) : (
+              {
+                /* ------------------------------------------------------------------------CAJA DE OPCIONES SI EL TEST ES GENERIC Y LA OPCION ES CON IMAGEN */
+              }(
+                <>
+                  <div className="optionDiv">
+                    {randomQuestions[index].options.map((option) =>
+                      option.includes('https://res.cloudinary.com')
+                        ? option != '' && (
+                            <img
+                              key={option}
+                              alt="option"
+                              src={option}
+                              onClick={() => {
+                                if (option == randomQuestions[index].answer) {
+                                  setScore((prevScore) => prevScore + 1);
+                                }
+                                setIndex((prevIndex) => prevIndex + 1);
+                              }}
+                            />
+                          ) /* -----------------------------------------------------------------OPCIONES DE GENERIC SI ES TEXTO */
+                        : option != '' && (
+                            <div
+                              key={option}
+                              alt="option"
+                              onClick={() => {
+                                if (option == randomQuestions[index].answer) {
+                                  setScore((prevScore) => prevScore + 1);
+                                }
+                                setIndex((prevIndex) => prevIndex + 1);
+                              }}
+                            >
+                              <h4>{option}</h4>
+                            </div>
+                          ),
+                    )}
+                  </div>
+                  <ModalTest text="Exit" id={test._id} />
+                </>,
+              )
             )}
           </div>
         </div>
       ) : (
         <></>
-      )}
+      )}{' '}
+      {/* --------------------------------------------------------------------------------SI EL TIEMPO SE ACABA O ACABAS LAS PREGUNTAS */}
       {index == randomQuestions.length && randomQuestions.length != 0 ? (
         <div>
           <h4>
@@ -362,87 +717,3 @@ const TestDetail = () => {
 };
 
 export default TestDetail;
-/* answer
-: 
-"flag"
-average
-: 
-[150.639]
-banner
-: 
-"https://res.cloudinary.com/dva9zee9r/image/upload/v1679593782/testbuster/j2a80j9dpsi5mivkelpk.jpg"
-comments
-: 
-[]
-comments_enabled
-: 
-true
-created
-: 
-"2023-03-23T17:49:42.827Z"
-creator
-: 
-{_id: '641994c6df2407973dd20901', username: 'rgrivas9', admin: true, email: 'rafaelgrcrvs@gmail.com', password: '$2b$10$LmnUNss.BuOuguaPOjW7O.DkNLqD2ZObHn5uWIX2xZL8QyCAGJTmG', …}
-data_type
-: 
-"countries"
-description
-: 
-"You have 10 minutes to guess every flag of each state/6"
-favorites
-: 
-[]
-filter_1
-: 
-{key: 'none', value: 'none'}
-filter_2
-: 
-{key: 'none', value: 'none'}
-filters
-: 
-[]
-first
-: 
-[{…}]
-question
-: 
-"name"
-question_text
-: 
-(2) ['Which one is the flag of', '?']
-random
-: 
-true
-rating
-: 
-(2) [5, 1]
-second
-: 
-[]
-test_type
-: 
-"featured"
-third
-: 
-[]
-thumbnail
-: 
-"https://res.cloudinary.com/dva9zee9r/image/upload/v1679593782/testbuster/enrdhfo5s7ov5kgmq0p7.jpg"
-time
-: 
-"10:00"
-times_played
-: 
-1
-title
-: 
-"Guess every country Flag"
-updated
-: 
-"2023-03-23T19:00:48.690Z"
-__v
-: 
-0
-_id
-: 
-"641c913672efd827f115a53a" */

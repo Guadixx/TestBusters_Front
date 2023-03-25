@@ -76,9 +76,16 @@ const CircleBar = ({ value, label, level = '' }) => {
       deg={animatedValue}
       range={range}
     >
-      {label == 'BETTER THAN' && <Heading_3 text={label} size={Spacing._5} z={1} />}
+      {label == 'BETTER THAN' && (
+        <Heading_3 text={label} size={Spacing._3} z={1} weigth="500" />
+      )}
       {label == 'BETTER THAN' ? (
-        <Heading_3 text={`${Math.floor(animatedValue)}%`} size="65px" z={1} />
+        <Heading_3
+          text={`${Math.floor(animatedValue)}%`}
+          size="40px"
+          z={1}
+          weigth="600"
+        />
       ) : (
         <Heading_3 text={level} size="45px" z={1} weigth="500" />
       )}

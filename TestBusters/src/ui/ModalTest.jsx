@@ -85,7 +85,7 @@ const ModalTest = ({ text }) => {
               margin={'10px'}
               background={Palette.color_highlight_primary}
               color={Palette.color_bg}
-              action={() => navigate('/tests')}
+              action={() => navigate(0)}
             />
           </div>
         </div>
