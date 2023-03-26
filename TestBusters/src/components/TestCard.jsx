@@ -13,7 +13,11 @@ const TestCard = ({ test }) => {
 
   return (
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions
-    <div className="testcard" key={test._id} onClick={() => navigate('/')}>
+    <div
+      className="testcard"
+      key={test._id}
+      onClick={() => navigate(`/tests/${test._id}`)}
+    >
       <img src={test.thumbnail} alt="test thumbnail" className="test-thumbnail" />
       <div className="test-info">
         <div className="test-info-first">
