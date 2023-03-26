@@ -301,7 +301,7 @@ const TestDetail = () => {
     }
   };
   return (
-    <div>
+    <div className="test-detail">
       {!start & (test.creator != undefined) ? (
         <div>
           {/* ----------------------------------------------------------------------------INFO DEL TEST */}

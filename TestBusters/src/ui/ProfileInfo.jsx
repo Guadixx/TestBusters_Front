@@ -22,6 +22,8 @@ const ProfileInfoDescription = styled.p`
   font-size: 14px;
   text-align: center;
   max-width: 50vw;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 const ProfileInfoFollows = styled.div`
@@ -59,6 +61,7 @@ const ProfileInfo = ({
         textAfter={buttontext}
         size="3"
         margin=" 0.3rem 0 0 0 "
+        fixed_height="1.5rem"
         action={action}
       />
     </ProfileInfoStyled>
