@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 const ImageStyled = styled.div`
+  overflow: hidden;
   & img {
     width: ${({ width }) => (width ? width : '22rem')};
     height: ${({ height }) => (height ? height : '18rem')};
@@ -13,7 +14,6 @@ const ImageStyled = styled.div`
         ? '8px '
         : '5px'};
     object-fit: cover;
-    /*  box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px; */
   }
 `;
 

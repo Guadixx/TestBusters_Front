@@ -41,6 +41,14 @@ function App() {
             }
           />
           <Route
+            path="/community/:id"
+            element={
+              <RequiredAuth>
+                <Community />
+              </RequiredAuth>
+            }
+          />
+          <Route
             path="/profile"
             element={
               <RequiredAuth>
