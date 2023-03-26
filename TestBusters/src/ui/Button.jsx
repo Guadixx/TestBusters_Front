@@ -6,6 +6,7 @@ const ButtonStyled = styled.button`
   justify-content: space-around;
   align-items: center;
   width: ${({ fixed_width }) => (fixed_width ? fixed_width : 'max-content')};
+  height: ${({ fixed_height }) => (fixed_height ? fixed_height : 'max-content')};
   font-size: ${({ size }) =>
     size == 1
       ? Spacing._1
@@ -110,6 +111,7 @@ const Button = ({
   textAfter,
   size,
   fixed_width,
+  fixed_height,
   src,
   alt,
   background,
@@ -125,6 +127,7 @@ const Button = ({
       color={color}
       size={size}
       fixed_width={fixed_width}
+      fixed_height={fixed_height}
       background={background}
       src={src}
       alt={alt}
