@@ -7,23 +7,24 @@ const ModalContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  position: absolute;
-  top: 10%;
-  width: 100px;
   height: 80px;
-  left: 100%;
-  transform: translate(-50%, -50%);
-  padding: 2px;
-  background-color: #ccc;
+  background-color: ${Palette.color_secundary};
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  color: ${Palette.color_highlight_secondary};
+  color: black;
+  position: absolute;
+  top: 200%;
+  z-index: 1;
+  width: 95px;
+  padding: 0.8rem 0;
+  font-weight: 400 !important;
 `;
 
 const HoverDiv = styled.div`
   position: relative;
-  width: 10px;
-  height: 10px;
+  width: 6px;
+  height: 6px;
+  z-index: calc();
   &:hover {
     cursor: pointer;
   }
@@ -42,7 +43,11 @@ const ModalHover = () => {
 
   return (
     <HoverDiv onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-      {showModal && <ModalContainer> aquí encontrarás todos los tests </ModalContainer>}
+      {showModal && (
+        <ModalContainer>
+          <h4> aquí encontrarás todos los tests </h4>
+        </ModalContainer>
+      )}
     </HoverDiv>
   );
 };
