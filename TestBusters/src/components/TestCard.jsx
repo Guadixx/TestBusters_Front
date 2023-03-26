@@ -10,13 +10,14 @@ import { Heading_4, Heading_5 } from '../ui/Headings';
 
 const TestCard = ({ test }) => {
   const navigate = useNavigate();
-
+  const testType = test.test_type == 'generic' ? 'generictests' : 'featuredtests';
+  const testParams = { testType: testType };
   return (
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions
     <div
       className="testcard"
       key={test._id}
-      onClick={() => navigate(`/tests/${test._id}`)}
+      onClick={() => navigate(`/tests/${test._id}`, { state: testParams })}
     >
       <img src={test.thumbnail} alt="test thumbnail" className="test-thumbnail" />
       <div className="test-info">
