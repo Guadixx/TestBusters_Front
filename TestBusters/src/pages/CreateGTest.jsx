@@ -1,6 +1,7 @@
 import './CreateGTest.css';
 
 import { useContext, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { UserContext } from '../context/UserContext';
 import { API } from '../services/API';
@@ -12,7 +13,7 @@ import Thumbnail from '../ui/Thumbnail';
 
 const CreateGTest = () => {
   const { user } = useContext(UserContext);
-
+  const navigate = useNavigate();
   const [thumbnailPrev, setThumbnailPrev] = useState('');
   const [thumbnailFileName, setThumbnailFileName] = useState('');
   const [bannerPreview, setBannerPreview] = useState('');
@@ -57,19 +58,6 @@ const CreateGTest = () => {
     random: '',
     comments_enabled: '',
   });
-
-  /*   const [data, setData] = useState({
-    id: ids,
-    type: questionType,
-    question: questions,
-    question_img: questionImgs,
-    answer: answers,
-    option_1: options1,
-    option_2: options2,
-    option_3: options3,
-    option_4: options4,
-    option_5: options5,
-  }); */
 
   const generateUrlThumbnail = (item) => {
     const url = URL.createObjectURL(item);
@@ -249,6 +237,49 @@ const CreateGTest = () => {
         setOptions5(deleteValue);
         break;
     }
+  };
+
+  const deleteQuestion = (ev) => {
+    ev.preventDefault();
+    const id = [...ids];
+    id.pop();
+    setIds(id);
+    const number = [...questions];
+    number.pop();
+    setQuestions(number);
+    const number1 = [...options1];
+    number1.pop();
+    setOptions1(number1);
+    const number2 = [...options2];
+    number2.pop();
+    setOptions2(number2);
+    const number3 = [...options3];
+    number3.pop();
+    setOptions3(number3);
+    const number4 = [...options4];
+    number4.pop();
+    setOptions4(number4);
+    const number5 = [...options5];
+    number5.pop();
+    setOptions5(number5);
+    const number6 = [...answers];
+    number6.pop();
+    setAnswers(number6);
+    const type = [...questionType];
+    type.pop();
+    setQuestionType(type);
+    const number7 = [...options];
+    number7.pop();
+    setOptions(number7);
+    const number8 = [...questionImgPrev];
+    number8.pop();
+    setQuestionImgPrev(number8);
+    const number9 = [...ansFileName];
+    number9.pop();
+    setAnsFileName(number9);
+    const qimg = [...questionImgs];
+    qimg.pop();
+    setQuestionImgs(qimg);
   };
 
   const generateUrlImg = (item, index, i) => {
@@ -451,6 +482,7 @@ const CreateGTest = () => {
             .then((res) => {
               if (res.status === 200) {
                 console.log('data and test created');
+                navigate('/tests');
                 return;
               }
             })
@@ -462,7 +494,7 @@ const CreateGTest = () => {
 
   return (
     <section className="create-generic-test">
-      {/* {console.log(questions, 'questions')}
+      {console.log(questions, 'questions')}
       {console.log(questionImgs, 'questionImages')}
       {console.log(options1, 'options1')}
       {console.log(options2, 'options2')}
@@ -472,8 +504,6 @@ const CreateGTest = () => {
       {console.log(answers, 'answers')}
       {console.log(options, 'options')}
       {console.log(questionType)}
-      {console.log(newTest)}
-      {console.log(data)} */}
       <Heading_1 text="Create Generic Test" weigth="700" size="28px" />
       <form className="create-generic-test-body" onSubmit={(ev) => handleSubmit(ev)}>
         <section className="create-generic-test-filters">
@@ -498,17 +528,18 @@ const CreateGTest = () => {
           <div className="order-filter" onChange={(ev) => handleComments(ev)}>
             <Heading_3 text="COMMENTS" weigth="600" size="16px" />
             <div className="order-random">
-              <input type="radio" id="enabled" name="comments" value="enabled" />
+              <input type="radio" id="enabled" name="comments" value="Enabled" />
               <label htmlFor="enabled">Enabled</label>
             </div>
             <div className="order-random">
-              <input type="radio" id="disabled" name="comments" value="disabled" />
+              <input type="radio" id="disabled" name="comments" value="Disabled" />
               <label htmlFor="disabled">Disabled</label>
             </div>
           </div>
           <div className="test-topic">
             <Heading_3 text="TOPIC" weigth="600" size="16px" />
             <input
+              className="topic-input"
               type="text"
               onChange={(ev) => setNewTest({ ...newTest, topic: ev.target.value })}
             />
@@ -646,7 +677,13 @@ const CreateGTest = () => {
                       >
                         <img src={Icons.add} alt="add icon" />
                       </button>
-                      <button>Delete</button>
+                      <button
+                        className="delete-question"
+                        disabled={questions.length === i + 1 ? false : true}
+                        onClick={(ev) => deleteQuestion(ev)}
+                      >
+                        <img src={Icons.delete} alt="delete icon" />
+                      </button>
                     </div>
                     <div className="generic-test-question-text">
                       <div className="generic-test-question-options">
@@ -659,7 +696,7 @@ const CreateGTest = () => {
                             />
                             {options[i].length == index + 1 && index != 0 ? (
                               <button onClick={() => deleteOption(index, i)}>
-                                Delete
+                                <img src={Icons.delete} alt="delete icon" />
                               </button>
                             ) : (
                               ''
@@ -672,12 +709,14 @@ const CreateGTest = () => {
                           onChange={(ev) => addAnswerValue(ev, i)}
                         />
                       </div>
-                      <div className="generic-test-question-text-qimg">
-                        <img
-                          src={questionImgPrev[i] != '' ? questionImgPrev[i] : ''}
-                          alt="question img"
-                        />
-                      </div>
+
+                      {questionImgPrev[i] != '' ? (
+                        <div className="generic-test-question-text-qimg">
+                          <img src={questionImgPrev[i]} alt="question img" />
+                        </div>
+                      ) : (
+                        <></>
+                      )}
                     </div>
                   </div>
                 ) : (
@@ -702,15 +741,21 @@ const CreateGTest = () => {
                       >
                         <img src={Icons.add} alt="add icon" />
                       </button>
-                      <button>Delete</button>
+                      <button
+                        className="delete-question"
+                        disabled={questions.length === i + 1 ? false : true}
+                        onClick={(ev) => deleteQuestion(ev)}
+                      >
+                        <img src={Icons.delete} alt="delete icon" />
+                      </button>
                     </div>
                     <div className="generic-test-question-image">
                       {options[i].map((option, index) => (
-                        <div className="option-delete" key={index}>
+                        <div className="option-delete-img" key={index}>
                           <ImageTests
                             radius="xl"
-                            width="250px"
-                            height="7.2rem"
+                            width="200px"
+                            height="8rem"
                             src={
                               index == 0 && imgPrev1[i]
                                 ? imgPrev1[i]
@@ -725,48 +770,54 @@ const CreateGTest = () => {
                                 : ''
                             }
                           />
+                          <div className="align-label-delete">
+                            <label
+                              htmlFor={`option ${index + 1} ${i}`}
+                              className="test-banner-label"
+                            >
+                              {index == 0 && imgFileName1[i]
+                                ? imgFileName1[i]
+                                : index == 1 && imgFileName2[i]
+                                ? imgFileName2[i]
+                                : index == 2 && imgFileName3[i]
+                                ? imgFileName3[i]
+                                : index == 3 && imgFileName4[i]
+                                ? imgFileName4[i]
+                                : index == 4 && imgFileName5[i]
+                                ? imgFileName5[i]
+                                : 'Upload file'}
+                            </label>
+                            <input
+                              type="file"
+                              id={`option ${index + 1} ${i}`}
+                              className="test-banner-file"
+                              onChange={(ev) => {
+                                addOptionImgValue(ev, index, i);
+                                handleFileName(ev, index, i);
+                                generateUrlImg(ev.target.files[0], index, i);
+                              }}
+                            />
 
-                          <input
-                            type="file"
-                            id={`option ${index + 1} ${i}`}
-                            className="test-banner-file"
-                            onChange={(ev) => {
-                              addOptionImgValue(ev, index, i);
-                              handleFileName(ev, index, i);
-                              generateUrlImg(ev.target.files[0], index, i);
-                            }}
-                          />
-                          <label
-                            htmlFor={`option ${index + 1} ${i}`}
-                            className="test-banner-label"
-                          >
-                            {index == 0 && imgFileName1[i]
-                              ? imgFileName1[i]
-                              : index == 1 && imgFileName2[i]
-                              ? imgFileName2[i]
-                              : index == 2 && imgFileName3[i]
-                              ? imgFileName3[i]
-                              : index == 3 && imgFileName4[i]
-                              ? imgFileName4[i]
-                              : index == 4 && imgFileName5[i]
-                              ? imgFileName5[i]
-                              : 'Upload file'}
-                          </label>
-                          {options[i].length == index + 1 && index != 0 ? (
-                            <button onClick={() => deleteOption(index, i)}>Delete</button>
-                          ) : (
-                            ''
-                          )}
+                            {options[i].length == index + 1 && index != 0 ? (
+                              <button onClick={() => deleteOption(index, i)}>
+                                <img src={Icons.delete} alt="delete icon" />
+                              </button>
+                            ) : (
+                              ''
+                            )}
+                          </div>
                         </div>
                       ))}
-                      <div>
+                      <div className="option-delete-img">
                         <ImageTests
                           radius="xl"
-                          width="250px"
-                          height="7.2rem"
+                          width="200px"
+                          height="8rem"
                           src={answerImgPrev[i] ? answerImgPrev[i] : ' '}
                         />
-
+                        <label htmlFor={`answer ${i}`} className="test-banner-label">
+                          {ansFileName[i] ? ansFileName[i] : 'Upload file'}
+                        </label>
                         <input
                           type="file"
                           id={`answer ${i}`}
@@ -777,18 +828,25 @@ const CreateGTest = () => {
                             addAnswerImgValue(ev, i);
                           }}
                         />
-                        <label htmlFor={`answer ${i}`} className="test-banner-label">
-                          {ansFileName[i] ? ansFileName[i] : 'Upload file'}
-                        </label>
                       </div>
                     </div>
                   </div>
                 )}
               </>
             ))}
-            <button onClick={(ev) => addQuestion(ev)}>+</button>
+            <button
+              className="add-option"
+              onClick={(ev) => {
+                addQuestion(ev);
+              }}
+              disabled={questions.length >= 100 ? true : false}
+            >
+              <img src={Icons.add} alt="add icon" />
+            </button>
           </div>
-          <button type="submit">Create Test</button>
+          <button type="submit" className="create-test-button">
+            Create Test
+          </button>
         </section>
       </form>
     </section>

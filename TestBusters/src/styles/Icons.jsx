@@ -26,5 +26,7 @@ const Icons = {
     'https://res.cloudinary.com/dva9zee9r/image/upload/v1679836492/achievements%20icons/plus_white_words8.png',
   check:
     'https://res.cloudinary.com/dva9zee9r/image/upload/v1679837178/achievements%20icons/check_1_xdrumw.png',
+  delete:
+    'https://res.cloudinary.com/dva9zee9r/image/upload/v1679855820/achievements%20icons/delete_1_giuru7.png',
 };
 export default Icons;
