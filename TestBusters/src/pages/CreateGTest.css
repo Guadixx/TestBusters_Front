@@ -17,6 +17,9 @@
   border-radius: 10px;
   box-shadow: rgba(154, 157, 160, 0.3) 0px 0px 2px 0px,
     rgba(174, 178, 180, 0.15) 0px 1px 2px 1px;
+  height: 75vh;
+  position: sticky;
+  top: 0;
 }
 
 .create-generic-test-filters input {
@@ -29,7 +32,8 @@
 }
 
 .time-filter,
-.order-filter {
+.order-filter,
+.test-topic {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-0-5);
@@ -37,7 +41,12 @@
 
 .time-filter input {
   align-self: center;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 8px 8px;
+  font-size: 13px;
   width: 100%;
+  outline: none;
 }
 
 .order-random {
@@ -48,6 +57,15 @@
 
 .order-random input {
   width: 12px;
+}
+
+.topic-input {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 8px 8px;
+  font-size: 13px;
+  width: 100%;
+  outline: none;
 }
 
 .create-generic-test-quiz {
@@ -199,7 +217,7 @@
   flex-direction: column;
   gap: var(--spacing-2);
   border-radius: 10px;
-  padding: 1rem 0.8rem;
+  padding: 1.5rem 2rem;
   box-shadow: rgba(154, 157, 160, 0.3) 0px 0px 2px 0px,
     rgba(174, 178, 180, 0.15) 0px 1px 2px 1px;
 }
@@ -207,6 +225,7 @@
 .generic-test-header {
   display: flex;
   gap: var(--spacing-0-5);
+  width: 100%;
 }
 .input-question {
   border: 1px solid #ccc;
@@ -214,7 +233,7 @@
   padding: 14px 10px;
   font-size: 13px;
   outline: none;
-  width: 30vw;
+  width: 45vw;
 }
 
 .addimg-label {
@@ -229,7 +248,8 @@
   cursor: pointer;
 }
 
-.add-option {
+.add-option,
+.delete-question {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -241,14 +261,47 @@
   box-shadow: rgba(128, 129, 129, 0.3) 0px 0px 2px 0px,
     rgba(132, 135, 136, 0.15) 0px 1px 2px 1px;
 }
+
+.option-delete-img button,
+.option-delete button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: var(--color-bg);
+  border: none;
+  width: 30px;
+  height: 30px;
+  box-shadow: rgba(128, 129, 129, 0.3) 0px 0px 2px 0px,
+    rgba(132, 135, 136, 0.15) 0px 1px 2px 1px;
+}
+
 .addimg-label img {
   width: 25px;
   height: 25px;
   margin: 2px 0 0 2px;
 }
-.add-option img {
+
+.delete-question img {
+  width: 25px;
+  height: 25px;
+}
+.add-option img,
+.option-delete-img button img,
+.option-delete button img {
   width: 20px;
   height: 20px;
+}
+
+.add-option:disabled,
+.delete-question:disabled {
+  filter: opacity(30%);
+}
+
+.align-label-delete {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 
 .generic-test-option {
@@ -265,8 +318,7 @@
   display: flex;
   gap: var(--spacing-1);
   width: 100%;
-  padding: 0 2rem;
-  justify-content: space-between;
+  justify-content: center;
 }
 
 .generic-test-data {
@@ -280,10 +332,29 @@
   display: flex;
   flex-direction: column;
   gap: var(--spacing-0-5);
+  width: 100%;
+}
+
+.option-delete {
+  display: flex;
+  gap: var(--spacing-0-5);
+  align-items: center;
+}
+.generic-test-option {
+  width: 90%;
 }
 
 .generic-test-question-text-qimg {
-  max-width: 50vw;
+  width: 30vw;
+  max-height: 50vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+.generic-test-question-text-qimg img {
+  object-fit: cover;
+  width: 100%;
 }
 
 .generic-test-question-image {
@@ -293,4 +364,25 @@
   padding: 0 2rem;
   justify-content: center;
   flex-wrap: wrap;
+}
+
+.align-label-delete {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-0-5);
+}
+
+.option-delete-img {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.create-test-button {
+  padding: 0.5rem 1rem;
+  background-color: var(--color-highlight-primary);
+  border-radius: 5px;
+  color: var(--color-bg);
+  border: none;
+  width: 100%;
 }
