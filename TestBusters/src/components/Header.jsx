@@ -76,7 +76,13 @@ const Header = () => {
       </header>
       {showModal && (
         <div className="user-modal">
-          <NavLink to="/profile/statistics" onClick={() => showModalToggle()}>
+          <NavLink
+            to={`profile/statistics/${user._id}`}
+            onClick={() => {
+              showModalToggle();
+              localStorage.setItem('communityUser', JSON.stringify(user));
+            }}
+          >
             Profile
           </NavLink>
           <button

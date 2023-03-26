@@ -41,15 +41,7 @@ function App() {
             }
           />
           <Route
-            path="/community/:id"
-            element={
-              <RequiredAuth>
-                <Community />
-              </RequiredAuth>
-            }
-          />
-          <Route
-            path="/profile"
+            path="/profile/:id"
             element={
               <RequiredAuth>
                 <Profile />
@@ -57,7 +49,7 @@ function App() {
             }
           />
           <Route
-            path="/profile/statistics"
+            path="/profile/statistics/:id"
             element={
               <RequiredAuth>
                 <ProfileStatistics />
@@ -65,7 +57,7 @@ function App() {
             }
           />
           <Route
-            path="/profile/created"
+            path="/profile/created/:id"
             element={
               <RequiredAuth>
                 <ProfileCreated />
@@ -73,7 +65,7 @@ function App() {
             }
           />
           <Route
-            path="/profile/favorites"
+            path="/profile/favorites/:id"
             element={
               <RequiredAuth>
                 <ProfileFavorites />

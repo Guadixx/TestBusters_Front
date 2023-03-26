@@ -31,6 +31,11 @@ const ProfileInfoFollows = styled.div`
   align-items: center;
   gap: ${Spacing._4};
   margin-top: 0.2rem;
+  & button {
+    border: none;
+    background-color: transparent;
+    font-size: 14px;
+  }
 `;
 
 const ProfileInfo = ({
@@ -43,6 +48,10 @@ const ProfileInfo = ({
   buttontext,
   buttonalt,
   action,
+  buttonColor,
+  buttonBackground,
+  action1,
+  action2,
 }) => {
   return (
     <ProfileInfoStyled>
@@ -52,9 +61,10 @@ const ProfileInfo = ({
       </ProfileInfoUser>
       <ProfileInfoDescription>{description}</ProfileInfoDescription>
       <ProfileInfoFollows>
-        <Heading_5 text={`Followers ${followers}`} size="14px" />
-        <Heading_5 text={`Following ${following}`} size="14px" />
+        <button onClick={action1}>{`Followers ${followers}`}</button>
+        <button onClick={action2}>{`Following ${following}`}</button>
       </ProfileInfoFollows>
+
       <Button
         src={buttonimg}
         alt={buttonalt}
@@ -62,6 +72,8 @@ const ProfileInfo = ({
         size="3"
         margin=" 0.3rem 0 0 0 "
         fixed_height="1.5rem"
+        background={buttonBackground}
+        color={buttonColor}
         action={action}
       />
     </ProfileInfoStyled>

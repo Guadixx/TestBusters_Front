@@ -22,5 +22,9 @@ const Icons = {
   answer2:
     'https://res.cloudinary.com/dva9zee9r/image/upload/v1679687450/achievements%20icons/answer2_zuezt5.png',
   add: 'https://res.cloudinary.com/dva9zee9r/image/upload/v1679687643/achievements%20icons/plus_rn9h10.png',
+  addWhite:
+    'https://res.cloudinary.com/dva9zee9r/image/upload/v1679836492/achievements%20icons/plus_white_words8.png',
+  check:
+    'https://res.cloudinary.com/dva9zee9r/image/upload/v1679837178/achievements%20icons/check_1_xdrumw.png',
 };
 export default Icons;

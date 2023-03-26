@@ -35,6 +35,7 @@ const EditProfileModal = ({ user, showModal, setShowModal }) => {
         if (res.status === 200) {
           console.log('user updated');
           localStorage.setItem('user', JSON.stringify(res.data));
+          localStorage.setItem('communityUser', JSON.stringify(res.data));
           window.location.reload();
         } else {
           console.log('error updating');

@@ -14,7 +14,14 @@ const TestProfileStyled = styled.div`
     rgba(174, 178, 180, 0.15) 0px 1px 2px 1px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: ${Spacing._4};
+  width: 450px;
+  & .profile-test-card {
+    display: flex;
+    gap: ${Spacing._4};
+    align-items: center;
+  }
 `;
 
 const TestProfileFirst = styled.div`
@@ -29,22 +36,25 @@ const TestProfileInfo = styled.div`
   gap: ${Spacing._2};
 `;
 
-const TestProfile = ({ testcreator, testtitle, rating, thumbnail }) => {
+const TestProfile = ({ testtitle, rating, thumbnail, action }) => {
   return (
     <TestProfileStyled>
-      <Thumbnail src={thumbnail} alt="test thumbnail" width="s" height="s" />
-      <TestProfileFirst>
-        <TestProfileInfo>
-          <Heading_3 text={testtitle} weigth="600" />
-          <Heading_3 text={testcreator} color={Palette.color_secundary} size="14px" />
-        </TestProfileInfo>
-        <RatingStatic rating={rating} width="18px" height="18px" />
-      </TestProfileFirst>
+      <div className="profile-test-card">
+        <Thumbnail src={thumbnail} alt="test thumbnail" width="s" height="s" />
+        <TestProfileFirst>
+          <TestProfileInfo>
+            <Heading_3 text={testtitle} weigth="600" />
+          </TestProfileInfo>
+          <RatingStatic rating={rating} width="18px" height="18px" />
+        </TestProfileFirst>
+      </div>
+
       <Button
         textBefore="Details"
         color={Palette.color_secundary}
         size="3"
         margin=" 0 0 0 0.5rem"
+        action={action}
       />
     </TestProfileStyled>
   );
