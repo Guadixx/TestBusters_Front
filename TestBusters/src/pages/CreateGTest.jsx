@@ -1,13 +1,13 @@
 import './CreateGTest.css';
 
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { UserContext } from '../context/UserContext';
 import { API } from '../services/API';
 import Icons from '../styles/Icons';
 import Palette from '../styles/Palette';
-import { Heading_1, Heading_3, Heading_6 } from '../ui/Headings';
+import { Heading_1, Heading_3, Heading_5, Heading_6 } from '../ui/Headings';
 import ImageTests from '../ui/ImageTests';
 import Thumbnail from '../ui/Thumbnail';
 
@@ -38,6 +38,7 @@ const CreateGTest = () => {
 
   const [questions, setQuestions] = useState(['']);
 
+  const [numTypeImg, setNumTypeImg] = useState(0);
   const [options, setOptions] = useState([['']]);
   const [options1, setOptions1] = useState(['']);
   const [options2, setOptions2] = useState(['']);
@@ -186,7 +187,7 @@ const CreateGTest = () => {
     setOptions5(number5);
     const number6 = [...answers, ''];
     setAnswers(number6);
-    const type = [...questionType, 'image'];
+    const type = [...questionType, 'text'];
     setQuestionType(type);
     const number7 = [...options, ['']];
     setOptions(number7);
@@ -414,6 +415,12 @@ const CreateGTest = () => {
     }
   };
 
+  const handleTypeImg = () => {
+    const types = [...questionType];
+    const imgTypes = types.filter((type) => type === 'image');
+    setNumTypeImg(imgTypes);
+  };
+
   const handleSubmit = (ev) => {
     ev.preventDefault();
     let idTest = '';
@@ -491,7 +498,9 @@ const CreateGTest = () => {
       })
       .catch((error) => console.log(error));
   };
-
+  useEffect(() => {
+    handleTypeImg();
+  });
   return (
     <section className="create-generic-test">
       {console.log(questions, 'questions')}
@@ -642,87 +651,14 @@ const CreateGTest = () => {
           <div className="generic-test-data">
             {questions.map((q, i) => (
               <>
-                {questionType[i] == 'text' ? (
+                {questionType[i] == 'image' ? (
                   <div className="generic-test-question" key={i}>
                     <div className="generic-test-header">
-                      <select onChange={(ev) => handleChange(ev, i)}>
-                        <option>text</option>
-                        <option>image</option>
-                      </select>
-
-                      <input
-                        type="text"
-                        placeholder="Question"
-                        className="input-question"
-                        onChange={(ev) => addQuestionValue(ev, i)}
-                      />
-                      <input
-                        type="file"
-                        id={`questionImg ${i}`}
-                        className="questionImg-file"
-                        onChange={(ev) => {
-                          generateUrlQuestionImg(ev.target.files[0], i);
-                          addQuestionImgValue(ev, i);
-                        }}
-                      />
-                      <label htmlFor={`questionImg ${i}`} className="addimg-label">
-                        <img src={Icons.addImg} alt="add icon" />
-                      </label>
-                      <button
-                        className="add-option"
-                        onClick={(ev) => {
-                          addOption(ev, i);
-                        }}
-                        disabled={options[i].length >= 5 ? true : false}
+                      <select
+                        onChange={(ev) => handleChange(ev, i)}
+                        defaultValue="image"
+                        disabled={numTypeImg.length >= 10 ? true : false}
                       >
-                        <img src={Icons.add} alt="add icon" />
-                      </button>
-                      <button
-                        className="delete-question"
-                        disabled={questions.length === i + 1 ? false : true}
-                        onClick={(ev) => deleteQuestion(ev)}
-                      >
-                        <img src={Icons.delete} alt="delete icon" />
-                      </button>
-                    </div>
-                    <div className="generic-test-question-text">
-                      <div className="generic-test-question-options">
-                        {options[i].map((option, index) => (
-                          <div className="option-delete" key={index}>
-                            <input
-                              className="generic-test-option"
-                              placeholder={`Option ${index + 1}`}
-                              onChange={(ev) => addOptionValue(ev, index, i)}
-                            />
-                            {options[i].length == index + 1 && index != 0 ? (
-                              <button onClick={() => deleteOption(index, i)}>
-                                <img src={Icons.delete} alt="delete icon" />
-                              </button>
-                            ) : (
-                              ''
-                            )}
-                          </div>
-                        ))}
-                        <input
-                          className="generic-test-option"
-                          placeholder="Answer"
-                          onChange={(ev) => addAnswerValue(ev, i)}
-                        />
-                      </div>
-
-                      {questionImgPrev[i] != '' ? (
-                        <div className="generic-test-question-text-qimg">
-                          <img src={questionImgPrev[i]} alt="question img" />
-                        </div>
-                      ) : (
-                        <></>
-                      )}
-                    </div>
-                  </div>
-                ) : (
-                  <div className="generic-test-question" key={i}>
-                    <div className="generic-test-header">
-                      <select onChange={(ev) => handleChange(ev, i)} defaultValue="image">
                         <option>text</option>
                         <option>image</option>
                       </select>
@@ -831,19 +767,101 @@ const CreateGTest = () => {
                       </div>
                     </div>
                   </div>
+                ) : (
+                  <div className="generic-test-question" key={i}>
+                    <div className="generic-test-header">
+                      <select onChange={(ev) => handleChange(ev, i)}>
+                        <option>text</option>
+                        <option>image</option>
+                      </select>
+
+                      <input
+                        type="text"
+                        placeholder="Question"
+                        className="input-question"
+                        onChange={(ev) => addQuestionValue(ev, i)}
+                      />
+                      <input
+                        type="file"
+                        id={`questionImg ${i}`}
+                        className="questionImg-file"
+                        onChange={(ev) => {
+                          generateUrlQuestionImg(ev.target.files[0], i);
+                          addQuestionImgValue(ev, i);
+                        }}
+                      />
+                      <label htmlFor={`questionImg ${i}`} className="addimg-label">
+                        <img src={Icons.addImg} alt="add icon" />
+                      </label>
+                      <button
+                        className="add-option"
+                        onClick={(ev) => {
+                          addOption(ev, i);
+                        }}
+                        disabled={options[i].length >= 5 ? true : false}
+                      >
+                        <img src={Icons.add} alt="add icon" />
+                      </button>
+                      <button
+                        className="delete-question"
+                        disabled={questions.length === i + 1 ? false : true}
+                        onClick={(ev) => deleteQuestion(ev)}
+                      >
+                        <img src={Icons.delete} alt="delete icon" />
+                      </button>
+                    </div>
+                    <div className="generic-test-question-text">
+                      <div className="generic-test-question-options">
+                        {options[i].map((option, index) => (
+                          <div className="option-delete" key={index}>
+                            <input
+                              className="generic-test-option"
+                              placeholder={`Option ${index + 1}`}
+                              onChange={(ev) => addOptionValue(ev, index, i)}
+                            />
+                            {options[i].length == index + 1 && index != 0 ? (
+                              <button onClick={() => deleteOption(index, i)}>
+                                <img src={Icons.delete} alt="delete icon" />
+                              </button>
+                            ) : (
+                              ''
+                            )}
+                          </div>
+                        ))}
+                        <input
+                          className="generic-test-option"
+                          placeholder="Answer"
+                          onChange={(ev) => addAnswerValue(ev, i)}
+                        />
+                      </div>
+
+                      {questionImgPrev[i] != '' ? (
+                        <div className="generic-test-question-text-qimg">
+                          <img src={questionImgPrev[i]} alt="question img" />
+                        </div>
+                      ) : (
+                        <></>
+                      )}
+                    </div>
+                  </div>
                 )}
               </>
             ))}
             <button
-              className="add-option"
+              className="add-question"
               onClick={(ev) => {
                 addQuestion(ev);
               }}
               disabled={questions.length >= 100 ? true : false}
             >
-              <img src={Icons.add} alt="add icon" />
+              <img src={Icons.add} alt="add icon" /> Add Question
             </button>
           </div>
+          {numTypeImg.length >= 10 ? (
+            <Heading_5 text="The maximun number of image type questions permitted is 10. You have the reach the limit. You can continue adding text type questions." />
+          ) : (
+            <></>
+          )}
           <button type="submit" className="create-test-button">
             Create Test
           </button>

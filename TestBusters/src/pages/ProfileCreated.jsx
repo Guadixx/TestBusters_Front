@@ -14,7 +14,9 @@ const ProfileCreated = () => {
   const [createdTests, setCreatedTest] = useState();
   const [userProfile, setUserProfile] = useState([]);
   const userLocal = localStorage.getItem('communityUser');
+
   const printedUser = JSON.parse(userLocal);
+
   const { user } = useContext(UserContext);
   const [showModal, setShowModal] = useState(false);
   const { id } = useParams();

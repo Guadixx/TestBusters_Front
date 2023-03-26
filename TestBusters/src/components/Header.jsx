@@ -81,6 +81,7 @@ const Header = () => {
             onClick={() => {
               showModalToggle();
               localStorage.setItem('communityUser', JSON.stringify(user));
+              window.reload();
             }}
           >
             Profile
