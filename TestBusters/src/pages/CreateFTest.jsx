@@ -98,25 +98,45 @@ const CreateFTest = () => {
   };
   const handleSubmit = (ev) => {
     ev.preventDefault();
-    console.log(newTest, 'newTest');
+    const description = `${newTest.description}/${optionsNumber}`;
+    const value1format =
+      newTestFilters.filter_1.value == 'All' ? '' : newTestFilters.filter_1.value;
+    const value2format =
+      newTestFilters.filter_2.value == 'All' ? '' : newTestFilters.filter_2.value;
     const formData = new FormData();
     formData.append('creator', newTest.creator);
     formData.append('title', newTest.title);
-    formData.append('description', newTest.description);
+    formData.append('description', description);
     formData.append('thumbnail', newTest.thumbnail);
     formData.append('banner', newTest.banner);
     formData.append('time', newTest.time);
     formData.append('random', newTest.random);
     formData.append('comments_enabled', newTest.comments_enabled);
-    /*  API.post('/generictests', formData, {
+    formData.append('answer', newTest.answer);
+    formData.append('question', newTest.question);
+    formData.append('data_type', newTest.data_type);
+    for (const question_t of newTest.question_text) {
+      formData.append('question_text', question_t);
+    }
+    newTestFilters.filters.forEach((filter, index) => {
+      formData.append(`filters[${index}][key]`, filter.key);
+      filter.value.forEach((value, jindex) => {
+        formData.append(`filters[${index}][value][${jindex}]`, value);
+      });
+    });
+    formData.append('filter_1[key]', newTestFilters.filter_1.key);
+    formData.append('filter_1[value]', value1format);
+    formData.append('filter_2[value]', value2format);
+    formData.append('filter_2[key]', newTestFilters.filter_2.key);
+    API.post('/featuredtests', formData, {
       headers: { 'Content-Type': 'multipart/form-data' },
     })
       .then((res) => {
         if (res.status === 201) {
-          console.log('si');
+          console.log('test created');
         }
       })
-      .catch((error) => console.log(error)); */
+      .catch((error) => console.log(error));
   };
   useEffect(() => {
     getInfo();

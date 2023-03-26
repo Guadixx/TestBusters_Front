@@ -86,7 +86,7 @@ const TestDetail = () => {
             const value_1 =
               res.data.test.filter_1.value != 'none' ? res.data.test.filter_1.value : '';
             const value_2 =
-              res.data.test.filter_2.value != 'none' ? res.data.test.filter_1.value : '';
+              res.data.test.filter_2.value != 'none' ? res.data.test.filter_2.value : '';
             const key_1 = res.data.test.filter_1.key;
             const key_2 = res.data.test.filter_2.key;
             const key =
@@ -559,9 +559,9 @@ const TestDetail = () => {
           <div>
             {testType == 'featuredtests' ? (
               <div>
-                {randomQuestions[index].question.includes(
-                  'https://res.cloudinary.com',
-                ) ? (
+                {randomQuestions[index].question
+                  .toString()
+                  .includes('https://res.cloudinary.com') ? (
                   <div className="questionDiv">
                     <h3>{`${
                       test.question_text[0] == '.' ? '' : test.question_text[0]
@@ -592,7 +592,8 @@ const TestDetail = () => {
                   {randomQuestions[index].options.map((option) =>
                     featuredData
                       .find((item) => item.id == option)
-                      [test.answer].includes('https://res.cloudinary.com') ? (
+                      [test.answer].toString()
+                      .includes('https://res.cloudinary.com') ? (
                       <img
                         key={option}
                         alt="option"
@@ -629,7 +630,7 @@ const TestDetail = () => {
               <>
                 <div className="optionDiv">
                   {randomQuestions[index].options.map((option) =>
-                    option.includes('https://res.cloudinary.com')
+                    option.toString().includes('https://res.cloudinary.com')
                       ? option != '' && (
                           <img
                             key={option}
