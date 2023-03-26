@@ -16,17 +16,14 @@ const ProfileHero = ({
   setShowFollowingModal,
 }) => {
   const { id } = useParams();
-  const { user } = useContext(UserContext);
+  const user = JSON.parse(localStorage.getItem('user'));
   const [followers, setFollowers] = useState(printedUser.followed_users.length);
-
-  const [followed, setFollowed] = useState(() => {
-    const included = printedUser.followed_users.filter((u) => u._id == user._id);
-    if (included.length > 0) {
-      return true;
-    } else {
-      return false;
-    }
-  });
+  console.log(printedUser, 'printed');
+  console.log(user, 'user');
+  const [followed, setFollowed] = useState(
+    user.following_users.includes(printedUser._id),
+  );
+  console.log(followed);
 
   const followBody = {
     followedUserId: id,
@@ -51,6 +48,7 @@ const ProfileHero = ({
     console.log(printedUser.followed_users);
     const included = printedUser.followed_users.filter((u) => u._id == user._id);
     console.log(included);
+    console.log(followed);
     if (included.length > 0) {
       setFollowed(true);
     }
@@ -62,8 +60,10 @@ const ProfileHero = ({
         if (res.status === 200) {
           handleFollowed();
           handleFollowers();
-          localStorage.setItem('communityUser', JSON.stringify(printedUser));
+          localStorage.setItem('communityUser', JSON.stringify(res.data.followed));
+          localStorage.setItem('user', JSON.stringify(res.data.following));
         }
+        console.log(res);
       })
       .catch((error) => console.log(error));
   };
