@@ -4,7 +4,7 @@
 import './TestDetail.css';
 
 import { useCallback, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom'; /*  useLocation, */
+import { useLocation, useParams } from 'react-router-dom';
 
 import useLocalStorage from '../customHooks/useLocalStorage';
 import { API } from '../services/API';
@@ -22,10 +22,8 @@ import RatingStatic from '../ui/RatingStatic';
 const TestDetail = () => {
   const testId = useParams().id;
   const user = JSON.parse(useLocalStorage('get', 'user'));
-  //const location = useLocation();
-  //const testType = location.state.testType;
-  //const testType = 'generictests';
-  const testType = 'featuredtests';
+  const location = useLocation();
+  const testType = location.state.testType;
   const userId = {
     userId: user._id,
   };
@@ -306,7 +304,6 @@ const TestDetail = () => {
     <div>
       {!start & (test.creator != undefined) ? (
         <div className="testdetail_content">
-          {/* ----------------------------------------------------------------------------INFO DEL TEST */}
           <div className="info_container">
             <img src={test.banner} alt="test thumbnail" className="img_banner" />
             <div className="info_content">
@@ -351,8 +348,6 @@ const TestDetail = () => {
           <div className="text_container">
             <p>{test.description.split('/')[0]}</p>
           </div>
-          {/* ----------------------------------------------------------------------------INFO DEL TEST */}
-          {/* ----------------------------------------------------------------------------LEADERBOARD SI NO HAY SE PINTA UN DIV VACIO */}
           <div className="middle_content">
             <div className="leaderboard_content">
               <h3>LeaderBoard</h3>
@@ -447,11 +442,6 @@ const TestDetail = () => {
               )}
             </div>
           </div>
-          {/* ----------------------------------------------------------------------------LEADERBOARD SI NO HAY SE PINTA UN DIV VACIO */}
-          {/* ----------------------------------------------------------------------------ESTADÍSTICAS DEL USUARIO, SI NO HA JUGADOS SE PINTA OTRA COSA */}
-
-          {/* ----------------------------------------------------------------------------ESTADÍSTICAS DEL USUARIO, SI NO HA JUGADOS SE PINTA OTRA COSA */}
-          {/* ----------------------------------------------------------------------------COMENTARIOS +DE 3 SALE SEE MORE Y SI LE DAS SE ABREN TODOS Y SALE SEE LESS */}
           <div className="commentsection_container">
             <div className="postacomment_container">
               <h4>Post Comment</h4>
@@ -563,27 +553,10 @@ const TestDetail = () => {
       ) : (
         <div></div>
       )}
-      {/* ----------------------------------------------------------------------------COMENTARIOS +DE 3 SALE SEE MORE Y SI LE DAS SE ABREN TODOS Y SALE SEE LESS */}
-      {/* ------------------------------------------------------------------------------------------------------------------------------------------------------- */}
-      {/* ------------------------------------------------------------------------------------------------------------------------------------------------------- */}
-      {/* ------------------------------------------------------------------------------------------------------------------------------------------------------- */}
-      {/* ------------------------------------------------------------------------------------------------------------------------------------------------------- */}
-      {/* ------------------------------------------------------------------------------------------------------------------------------------------------------- */}
-      {/* ------------------------------------------------------------------------------------------------------------------------------------------------------- */}
-      {/* ------------------------------------------------------------------------------------------------------------------------------------------------------- */}
-      {/* ------------------------------------------------------------------------------------------------------------------------------------------------------- */}
-      {/* ------------------------------------------------------------------------------------------------------------------------------------------------------- */}
-      {/* ------------------------------------------------------------------------------------------------------------------------------------------------------- */}
-      {/* ------------------------------------------------------------------------------------------------------------------------------------------------------- */}
-      {/* ------------------------------------------------------------------------------------------------------------------------------------------------------- */}
-      {/* ------------------------------------------------------------------------------------------------------------------------------------------------------- */}
-      {/* ----------------------------------------------------------------------------------------------------------------MODAL DEL TEST CUANDO SE LE DA AL START */}
-      {/* ----------------------------------------------------------------------------------------------------------------------------------BARRA DE CUENTA ATRÁS */}
       {start & (index != randomQuestions.length) & !finish ? (
         <div>
           <DivProgress type="CountDown" className="timer" maxValue={initialSeconds} />
           <div>
-            {/* ------------------------------------------------------------------------CAJA DE PREGUNTAS SI EL TEST ES FEATURED Y LA PREGUNTA ES CON UNA IMAGEN */}
             {testType == 'featuredtests' ? (
               <div>
                 {randomQuestions[index].question.includes(
@@ -599,28 +572,20 @@ const TestDetail = () => {
                     }`}</h3>
                   </div>
                 ) : (
-                  {
-                    /* ------------------------------------------------------------------------CAJA DE PREGUNTAS SI EL TEST ES FEATURED Y LA PREGUNTA ES CON TEXTO */
-                  }(
-                    <h3>
-                      {`${test.question_text[0] == '.' ? '' : test.question_text[0]} ${
-                        randomQuestions[index].question
-                      } ${test.question_text[1] == '.' ? '' : test.question_text[1]}`}
-                    </h3>,
-                  )
+                  <h3>
+                    {`${test.question_text[0] == '.' ? '' : test.question_text[0]} ${
+                      randomQuestions[index].question
+                    } ${test.question_text[1] == '.' ? '' : test.question_text[1]}`}
+                  </h3>
                 )}
               </div>
             ) : (
-              {
-                /* ------------------------------------------------------------------------CAJA DE PREGUNTAS SI EL TEST ES GENERIC. DE MOMENTO TIENE FOTO POR DEFECTO */
-              }(
-                <div className="questionDiv">
-                  <h3>{randomQuestions[index].question}</h3>
-                  <img alt="question" src={randomQuestions[index].question_img} />
-                </div>,
-              )
+              <div className="questionDiv">
+                <h3>{randomQuestions[index].question}</h3>
+                <img alt="question" src={randomQuestions[index].question_img} />
+              </div>
             )}
-            {/* ------------------------------------------------------------------------CAJA DE OPCIONES SI EL TEST ES FEATURED Y LA OPCION ES CON IMAGEN */}
+
             {testType == 'featuredtests' ? (
               <>
                 <div className="optionDiv">
@@ -640,77 +605,68 @@ const TestDetail = () => {
                         }}
                       />
                     ) : (
-                      {
-                        /* ------------------------------------------------------------------------CAJA DE OPCIONES SI EL TEST ES FEATURED Y LA OPCION ES CON TEXTO */
-                      }(
-                        <div
-                          key={option}
-                          alt="option"
-                          onClick={() => {
-                            if (option == randomQuestions[index].id) {
-                              setScore((prevScore) => prevScore + 1);
-                            }
-                            setIndex((prevIndex) => prevIndex + 1);
-                          }}
-                        >
-                          <h4>
-                            {featuredData.find((item) => item.id == option)[test.answer]}
-                          </h4>
-                        </div>,
-                      )
+                      <div
+                        key={option}
+                        alt="option"
+                        onClick={() => {
+                          if (option == randomQuestions[index].id) {
+                            setScore((prevScore) => prevScore + 1);
+                          }
+                          setIndex((prevIndex) => prevIndex + 1);
+                        }}
+                      >
+                        <h4>
+                          {featuredData.find((item) => item.id == option)[test.answer]}
+                        </h4>
+                      </div>
                     ),
                   )}
                 </div>
-                {/* -------------------------------------------------------------------------------------------------MODAL DE EXIT */}
+
                 <ModalTest text="Exit" id={test._id} />
               </>
             ) : (
-              {
-                /* ------------------------------------------------------------------------CAJA DE OPCIONES SI EL TEST ES GENERIC Y LA OPCION ES CON IMAGEN */
-              }(
-                <>
-                  <div className="optionDiv">
-                    {randomQuestions[index].options.map((option) =>
-                      option.includes('https://res.cloudinary.com')
-                        ? option != '' && (
-                            <img
-                              key={option}
-                              alt="option"
-                              src={option}
-                              onClick={() => {
-                                if (option == randomQuestions[index].answer) {
-                                  setScore((prevScore) => prevScore + 1);
-                                }
-                                setIndex((prevIndex) => prevIndex + 1);
-                              }}
-                            />
-                          ) /* -----------------------------------------------------------------OPCIONES DE GENERIC SI ES TEXTO */
-                        : option != '' && (
-                            <div
-                              key={option}
-                              alt="option"
-                              onClick={() => {
-                                if (option == randomQuestions[index].answer) {
-                                  setScore((prevScore) => prevScore + 1);
-                                }
-                                setIndex((prevIndex) => prevIndex + 1);
-                              }}
-                            >
-                              <h4>{option}</h4>
-                            </div>
-                          ),
-                    )}
-                  </div>
-                  <ModalTest text="Exit" id={test._id} />
-                </>,
-              )
+              <>
+                <div className="optionDiv">
+                  {randomQuestions[index].options.map((option) =>
+                    option.includes('https://res.cloudinary.com')
+                      ? option != '' && (
+                          <img
+                            key={option}
+                            alt="option"
+                            src={option}
+                            onClick={() => {
+                              if (option == randomQuestions[index].answer) {
+                                setScore((prevScore) => prevScore + 1);
+                              }
+                              setIndex((prevIndex) => prevIndex + 1);
+                            }}
+                          />
+                        )
+                      : option != '' && (
+                          <div
+                            key={option}
+                            alt="option"
+                            onClick={() => {
+                              if (option == randomQuestions[index].answer) {
+                                setScore((prevScore) => prevScore + 1);
+                              }
+                              setIndex((prevIndex) => prevIndex + 1);
+                            }}
+                          >
+                            <h4>{option}</h4>
+                          </div>
+                        ),
+                  )}
+                </div>
+                <ModalTest text="Exit" id={test._id} />
+              </>
             )}
           </div>
         </div>
       ) : (
         <></>
       )}{' '}
-      {/* --------------------------------------------------------------------------------SI EL TIEMPO SE ACABA O ACABAS LAS PREGUNTAS */}
       {index == randomQuestions.length && randomQuestions.length != 0 ? (
         <div>
           <h4>
