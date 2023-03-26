@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import Palette from '../styles/Palette';
+import EmojiStyled from '../ui/Emoji';
 const CommentsStyled = styled.div`
   display: flex;
   flex-direction: row;
@@ -59,6 +60,7 @@ const Comment = ({ avatar, name, date, content, action, idUserOnComment, idUser 
             <Date>{date}</Date>
           </div>
           <Content>{content}</Content>
+          <EmojiStyled />
         </div>
         {idUserOnComment == idUser ? (
           <button onClick={action} className="button-close-comment">
