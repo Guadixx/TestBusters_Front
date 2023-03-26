@@ -1,6 +1,7 @@
 import './ProfileFavorites.css';
 
 import { useContext, useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 
 import EditProfileModal from '../components/EditProfileModal/EditProfileModal';
 import ProfileHero from '../components/ProfileHero';
@@ -12,12 +13,15 @@ import TestProfile from '../ui/TestProfile';
 const ProfileFavorites = () => {
   const [favoritesTests, setFavoritesTest] = useState();
   const [userProfile, setUserProfile] = useState([]);
+  const userLocal = localStorage.getItem('communityUser');
+  const printedUser = JSON.parse(userLocal);
   const { user } = useContext(UserContext);
   const [showModal, setShowModal] = useState(false);
-
+  const { id } = useParams();
   const getUser = () => {
-    API.get(`/users/${user._id}`).then((res) => {
+    API.get(`/users/${id}`).then((res) => {
       setUserProfile(res.data.user);
+      localStorage.setItem('communityUser', JSON.stringify(res.data.user));
       setFavoritesTest([
         ...res.data.user.favourite_featuredTests,
         ...res.data.user.favourite_genericTests,
@@ -43,7 +47,7 @@ const ProfileFavorites = () => {
             <></>
           )}
 
-          <ProfileHero user={userProfile} setShowModal={setShowModal} />
+          <ProfileHero printedUser={userProfile} setShowModal={setShowModal} />
           <section className="created-section">
             {favoritesTests.length != 0 ? (
               favoritesTests.map((test) => (
@@ -64,7 +68,8 @@ const ProfileFavorites = () => {
         </>
       ) : (
         <>
-          <ProfileHero user={user} setShowModal={setShowModal} />
+          {console.log(printedUser)}
+          <ProfileHero printedUser={printedUser} setShowModal={setShowModal} />
           <div className="no-favorites-test">
             <Heading_4 text="No favorites tests yet" />
           </div>
