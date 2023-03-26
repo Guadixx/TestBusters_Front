@@ -1,0 +1,99 @@
+.community {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  width: 100%;
+  padding: 1rem 6rem;
+}
+.community-filter-sort {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-0-5);
+  width: 100%;
+}
+.community-filter-sort select {
+  width: 120px;
+  padding: 12px 10px;
+  outline: none;
+}
+
+.community-filter-sort select option {
+  font-size: 14px;
+}
+.community-filter-input {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 12px 10px;
+  font-size: 13px;
+  width: 100%;
+  outline: none;
+}
+
+.community-users {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.community-user-card {
+  background-color: var(--color-bg);
+  width: 300px;
+  height: 220px;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+  border: 1px solid rgb(207, 207, 207);
+  transition: 0.1s all ease-in;
+  cursor: pointer;
+}
+
+.community-user-card:hover {
+  box-shadow: rgba(116, 116, 116, 0.24) 0px 3px 8px;
+}
+.community-user-card .community-banner {
+  width: 100%;
+  height: 5.5rem;
+  object-fit: cover;
+}
+.community-user-card .community-avatar {
+  border-radius: 50%;
+  width: 100%;
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  position: absolute;
+  top: 18%;
+  left: 32%;
+  margin: 0 auto;
+  border: 3.5px solid var(--color-bg);
+}
+
+.community-user-info {
+  display: flex;
+  margin-top: 3.5rem;
+  align-items: center;
+  gap: var(--spacing-0-5);
+  justify-content: center;
+}
+
+.community-users p {
+  font-size: 11px;
+  text-align: center;
+  max-height: 15px;
+  padding: 0 2rem;
+  margin-top: var(--spacing-0-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.community-user-follows {
+  display: flex;
+  align-items: center;
+  margin-top: var(--spacing-0-2);
+  gap: var(--spacing-0-5);
+  justify-content: center;
+}
