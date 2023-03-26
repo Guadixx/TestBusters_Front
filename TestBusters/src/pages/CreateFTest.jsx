@@ -1,35 +1,29 @@
+import './CreateGTest.css';
 import './CreateFTest.css';
 
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 import { UserContext } from '../context/UserContext';
-/* import { API } from '../services/API';
-import Icons from '../styles/Icons'; */
+import { API } from '../services/API';
+//import Icons from '../styles/Icons';
 import Palette from '../styles/Palette';
 import { Heading_1, Heading_3, Heading_6 } from '../ui/Headings';
 import ImageTests from '../ui/ImageTests';
 import Thumbnail from '../ui/Thumbnail';
+import GetUnics from '../services/getUnics';
 
 const CreateFTest = () => {
   const { user } = useContext(UserContext);
-
+  const [info, setInfo] = useState(undefined);
+  const [data_type, setData_type] = useState(undefined);
+  const [infoKeys, setInfoKeys] = useState(undefined);
+  const [infoFilter_1, setInfoFilter_1] = useState(undefined);
+  const [infoFilter_2, setInfoFilter_2] = useState(undefined);
+  const [infoFilters, setInfoFilters] = useState(undefined);
   const [thumbnailPrev, setThumbnailPrev] = useState('');
   const [thumbnailFileName, setThumbnailFileName] = useState('');
   const [bannerPreview, setBannerPreview] = useState('');
   const [bannerFileName, setBannerFileName] = useState('');
-  /*  const [imgPrev1, setImgPrev1] = useState([]);
-  const [imgFileName1, setImgFileName1] = useState([]);
-  const [imgPrev2, setImgPrev2] = useState([]);
-  const [imgFileName2, setImgFileName2] = useState([]);
-  const [imgPrev3, setImgPrev3] = useState([]);
-  const [imgFileName3, setImgFileName3] = useState([]);
-  const [imgPrev4, setImgPrev4] = useState([]);
-  const [imgFileName4, setImgFileName4] = useState([]);
-  const [imgPrev5, setImgPrev5] = useState([]);
-  const [imgFileName5, setImgFileName5] = useState([]);
-  const [answerImgPrev, setAnswerImgPrev] = useState([]);
-  const [ansFileName, setAnsFileName] = useState([]); */
-
   const [description, setDescription] = useState(0);
   const [title, setTitle] = useState(0);
   const [newTest, setNewTest] = useState({
@@ -43,7 +37,23 @@ const CreateFTest = () => {
     random: '',
     comments_enabled: '',
   });
-
+  const getInfo = () => {
+    API.get('/info')
+      .then((res) => {
+        if (res.status == 200) {
+          setInfo(res.data);
+          console.log(res.data);
+          const infoKeysArray = [];
+          for (const key in res.data) {
+            infoKeysArray.push(key);
+          }
+          setInfoKeys(infoKeysArray);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   const generateUrlThumbnail = (item) => {
     const url = URL.createObjectURL(item);
     setThumbnailPrev(url);
@@ -52,50 +62,6 @@ const CreateFTest = () => {
     const url = URL.createObjectURL(item);
     setBannerPreview(url);
   };
-  /* const generateUrlQuestionImg = (item, i) => {
-    const url = URL.createObjectURL(item);
-    const qImages = [...questionImgPrev];
-    qImages[i] = url;
-    setQuestionImgPrev(qImages);
-  };
-
-  const generateUrlAnsImg = (item, i) => {
-    const url = URL.createObjectURL(item);
-    const answerImg = [...answerImgPrev];
-    answerImg[i] = url;
-    setAnswerImgPrev(answerImg);
-  };
-  const generateUrlImg = (item, index, i) => {
-    const url = URL.createObjectURL(item);
-    let inputValue = [];
-    switch (index + 1) {
-      case 1:
-        inputValue = [...imgPrev1];
-        inputValue[i] = url;
-        setImgPrev1(inputValue);
-        break;
-      case 2:
-        inputValue = [...imgPrev2];
-        inputValue[i] = url;
-        setImgPrev2(inputValue);
-        break;
-      case 3:
-        inputValue = [...imgPrev3];
-        inputValue[i] = url;
-        setImgPrev3(inputValue);
-        break;
-      case 4:
-        inputValue = [...imgPrev4];
-        inputValue[i] = url;
-        setImgPrev4(inputValue);
-        break;
-      case 5:
-        inputValue = [...imgPrev5];
-        inputValue[i] = url;
-        setImgPrev5(inputValue);
-        break;
-    }
-  }; */
   const handleOrder = (ev) => {
     if (ev.target.value == 'Random') {
       setNewTest({ ...newTest, random: true });
@@ -133,7 +99,20 @@ const CreateFTest = () => {
       })
       .catch((error) => console.log(error)); */
   };
-
+  useEffect(() => {
+    getInfo();
+  }, []);
+  useEffect(() => {
+    if (data_type != undefined) {
+      const values_Filter1 = GetUnics(info[data_type].data, [info[data_type].filter_1]);
+      const values_Filter2 = GetUnics(info[data_type].data, [info[data_type].filter_2]);
+      const values_Filters = GetUnics(info[data_type].data, [info[data_type].filters]);
+      console.log(values_Filter1);
+      console.log(values_Filter2);
+      console.log(values_Filters);
+      setInfoFilter_1(values_Filter1);
+    }
+  }, [data_type]);
   return (
     <section className="create-generic-test">
       <Heading_1 text="Create Featured Test" weigth="700" size="28px" />
@@ -170,10 +149,28 @@ const CreateFTest = () => {
           </div>
           <div className="order-filter">
             <Heading_3 text="DATA TYPE" weigth="600" size="16px" />
-            <div className="order-random">
-              <input type="radio" id="enabled" name="comments" value="enabled" />
-              <label htmlFor="enabled">Countries</label>
-            </div>
+            {infoKeys != undefined ? (
+              infoKeys.map((key) => (
+                <div className="order-random" key={key}>
+                  <input
+                    type="radio"
+                    id="enabled"
+                    name="comments"
+                    value="enabled"
+                    onChange={(ev) => {
+                      if (ev.target.checked) {
+                        setData_type(key);
+                      }
+                    }}
+                  />
+                  <label htmlFor="enabled">{key}</label>
+                </div>
+              ))
+            ) : (
+              <div className="order-random">
+                <Heading_6 text="Loading..." weigth="400" size="14px" />
+              </div>
+            )}
           </div>
         </section>
         <section className="create-generic-test-quiz">
