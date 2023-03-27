@@ -21,6 +21,7 @@ const Tests = () => {
     mode: -1,
   });
   const [debounceValue] = useDebounce(params.title, 500);
+  const [loadMessage, setLoadMessage] = useState('Load More');
 
   const handleDebounce = (ev) => {
     const value = ev.target.value;
@@ -33,33 +34,48 @@ const Tests = () => {
         params: params,
       })
         .then((response) => {
-          setTests((prevTests) => [...prevTests, ...response.data.results]);
-          console.log(response.data.info);
+          setDisable(false);
+          handleObserver();
+          const newTests = [];
+          const actualTests = [...tests];
+          if (actualTests.length != 0) {
+            for (const newtest of response.data.results) {
+              console.log(newtest);
+              for (const actualtest of actualTests) {
+                console.log(actualtest);
+                if (newTests._id != actualtest._id) {
+                  newTests.push(newtest);
+                }
+              }
+            }
+            setTests((prevTests) => [...prevTests, ...newTests]);
+          } else {
+            setTests(response.data.results);
+          }
           if (response.data.info.next === null) {
             setNextPage(false);
+            setLoadMessage('No more tests');
           }
         })
         .catch((error) => console.log(error));
     }
   };
 
-  useEffect(() => {
+  const handleObserver = () => {
     const observer = new IntersectionObserver((entries) => {
       if (entries[0].isIntersecting) {
         setParams({ ...params, page: params.page + 1 });
-        console.log(params);
-        getTest();
       }
     });
 
     observer.observe(document.querySelector('.scroll-target'));
 
     return () => observer.disconnect();
-  }, [params.page]);
+  };
 
   useEffect(() => {
     getTest();
-  }, [typeTest, params.order, params.mode, debounceValue]);
+  }, [typeTest, params.order, params.mode, debounceValue, params.page]);
 
   return (
     <div className="tests">
@@ -133,11 +149,11 @@ const Tests = () => {
             <Heading_3 text="ORDER" weigth="600" size="16px" />
             <div className="order-test">
               <input type="radio" id="ascending" name="mode" value="-1" />
-              <label htmlFor="ascending">Latest</label>
+              <label htmlFor="ascending">Ascending</label>
             </div>
             <div className="order-test">
               <input type="radio" id="descending" name="mode" value="1" />
-              <label htmlFor="descending">Most Popular</label>
+              <label htmlFor="descending">Descending</label>
             </div>
           </div>
         </div>
@@ -149,7 +165,7 @@ const Tests = () => {
               <h1>Loading</h1>
             )}
           </div>
-          <h4 className="scroll-target"> Load More</h4>
+          <h4 className="scroll-target">{loadMessage}</h4>
         </div>
       </section>
     </div>
