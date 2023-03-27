@@ -1,41 +1,67 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-import Palette from '../styles/Palette';
+import { API } from '../services/API';
+import Icons from '../styles/Icons';
 const EmojiStyled = styled.div`
   display: flex;
   position: relative;
-  & .modal {
+  & .modal-emojis {
     position: absolute;
-    top: 0;
-    left: 20%;
+    border-radius: 2px;
+    background-color: var(--color-bg);
+    height: 44px;
+    bottom: -38px;
     display: flex;
+    border: 1px solid #ccc;
     flex-direction: row;
     z-index: 1;
   }
-  & .modal > button {
+  & .modal-emojis > button {
+    border-radius: 2px;
+    font-size: 20px;
     background: none;
     display: flex;
     border: none;
     justify-content: center;
     align-items: center;
-    background-color: ${Palette.color_bg};
+    background-color: '#e0e0e00';
     :hover {
       transform: scale(1.2);
       transition: all 0.2s ease-in-out;
     }
   }
-  & .result {
+  & .result-emojis {
     display: flex;
   }
-  & .result > div > button {
+  & .modal-emojis img {
+    width: 35px;
+    padding: 5px;
+    filter: brightness(95%);
+  }
+  & .result-emojis > div > button {
+    border-radius: 2px;
+    padding: 3px;
+    font-size: 20px;
     background: none;
     position: relative;
+    border: none;
     gap: 2px;
+  }
+  & .result-emojis img {
+    width: 35px;
+    padding: 5px;
+    filter: brightness(95%);
+  }
+  & .like-main-button-emoji {
+    width: 35px;
+    padding: 5px;
   }
 `;
 
 const ButtonStyled = styled.button`
+  border-radius: 2px;
+  font-size: 20px;
   position: relative;
   background: none;
   border: none;
@@ -46,92 +72,137 @@ const ButtonStyled = styled.button`
   }
 `;
 
-const EmojiButton = () => {
+const EmojiButton = ({ comment, user }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [count, setCount] = useState(0);
-  const [countz, setCountz] = useState(0);
-  const [countx, setCountx] = useState(0);
-  const [countc, setCountc] = useState(0);
-
+  const [tearNum, setTearNum] = useState(comment.tear.length);
+  const [handsNum, setHandsNum] = useState(comment.hands.length);
+  const [heartsNum, setHeartsNum] = useState(comment.hearts.length);
+  const [likesNum, setLikesNum] = useState(comment.likes.length);
+  const [userReactions, setUserReactions] = useState({
+    tear: comment.tear.includes(user._id) ? true : false,
+    hands: comment.hands.includes(user._id) ? true : false,
+    hearts: comment.hearts.includes(user._id) ? true : false,
+    likes: comment.likes.includes(user._id) ? true : false,
+  });
+  const [disabled, setDisabled] = useState(false);
   const handleMouseEnter = () => {
     setIsModalOpen(true);
   };
-
   const handleMouseLeave = () => {
     setIsModalOpen(false);
   };
+  const uptateReactions = (type) => {
+    API.put(`/comments/reactions/${comment._id}`, { userId: user._id, reaction: type })
+      .then((res) => {
+        if (res.status == 200) {
+          setDisabled(false);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  const handleReaction = (type) => {
+    setDisabled(true);
+    uptateReactions(type);
+    if (type == 'tear') {
+      if (userReactions.tear) {
+        setTearNum(tearNum - 1);
+        setUserReactions({ ...userReactions, tear: false });
+      } else {
+        setTearNum(tearNum + 1);
+        setUserReactions({ ...userReactions, tear: true });
+      }
+    }
+    if (type == 'hands') {
+      if (userReactions.hands) {
+        setHandsNum(handsNum - 1);
+        setUserReactions({ ...userReactions, hands: false });
+      } else {
+        setHandsNum(handsNum + 1);
+        setUserReactions({ ...userReactions, hands: true });
+      }
+    }
+    if (type == 'hearts') {
+      if (userReactions.hearts) {
+        setHeartsNum(heartsNum - 1);
+        setUserReactions({ ...userReactions, hearts: false });
+      } else {
+        setHeartsNum(heartsNum + 1);
+        setUserReactions({ ...userReactions, hearts: true });
+      }
+    }
+    if (type == 'likes') {
+      if (userReactions.likes) {
+        setLikesNum(likesNum - 1);
+        setUserReactions({ ...userReactions, likes: false });
+      } else {
+        setLikesNum(likesNum + 1);
+        setUserReactions({ ...userReactions, likes: true });
+      }
+    }
 
+    setIsModalOpen(false);
+  };
   return (
     <EmojiStyled>
-      <ButtonStyled onMouseEnter={handleMouseEnter}>😊+</ButtonStyled>
+      <ButtonStyled onMouseEnter={handleMouseEnter}>
+        <img src={Icons.likes} alt="like emoji" className="like-main-button-emoji" />
+      </ButtonStyled>
       {isModalOpen && (
-        <div className="modal">
-          <button
-            onMouseLeave={handleMouseLeave}
-            onClick={() => setCount((count) => count + 1)}
-          >
-            😅
+        <div className="modal-emojis" onMouseLeave={handleMouseLeave}>
+          <button disabled={disabled} onClick={() => handleReaction('tear')}>
+            <img src={Icons.tear} alt="laugh emoji" />
           </button>
-          <button
-            onMouseLeave={handleMouseLeave}
-            onClick={() => setCountz((countz) => countz + 1)}
-          >
-            🙌
+          <button disabled={disabled} onClick={() => handleReaction('hands')}>
+            <img src={Icons.hands} alt="hands emoji" />
           </button>
-          <button
-            onMouseLeave={handleMouseLeave}
-            onClick={() => setCountx((countx) => countx + 1)}
-          >
-            ❤
+          <button disabled={disabled} onClick={() => handleReaction('hearts')}>
+            <img src={Icons.hearts} alt="heart emoji" />
           </button>
-          <button
-            onMouseLeave={handleMouseLeave}
-            onClick={() => setCountc((countc) => countc + 1)}
-          >
-            👍
+          <button disabled={disabled} onClick={() => handleReaction('likes')}>
+            <img src={Icons.likes} alt="like emoji" />
           </button>
         </div>
       )}
-      <div className="result">
+      <div className="result-emojis">
         <div>
-          {count < 1 ? (
-            <button style={{ display: 'none' }}>Botón</button>
+          {tearNum < 1 ? (
+            <div></div>
           ) : (
-            <button onClick={() => setCount((count) => count + 1).setValor(count - 1)}>
-              😅{count}
+            <button disabled={disabled} onClick={() => handleReaction('tear')}>
+              <img src={Icons.tear} alt="laugh emoji" />
+              {tearNum}
             </button>
           )}
         </div>
         <div>
-          {countz < 1 ? (
-            <button style={{ display: 'none' }}>Botón</button>
+          {handsNum < 1 ? (
+            <div></div>
           ) : (
-            <button
-              onClick={() => setCountz((countz) => countz + 1).setValor(countz - 1)}
-            >
-              🙌{countz}
+            <button disabled={disabled} onClick={() => handleReaction('hands')}>
+              <img src={Icons.hands} alt="hands emoji" />
+              {handsNum}
             </button>
           )}
         </div>
         <div>
-          {countx < 1 ? (
-            <button style={{ display: 'none' }}>Botón</button>
+          {heartsNum < 1 ? (
+            <div></div>
           ) : (
-            <button
-              onClick={() => setCountx((countx) => countx + 1).setValor(countx - 1)}
-            >
-              ❤{countx}
+            <button disabled={disabled} onClick={() => handleReaction('hearts')}>
+              <img src={Icons.hearts} alt="heart emoji" />
+              {heartsNum}
             </button>
           )}
         </div>
         <div>
-          {countc < 1 ? (
-            <button style={{ display: 'none' }}>Botón</button>
+          {likesNum < 1 ? (
+            <div></div>
           ) : (
-            <button
-              onClick={() => setCountc((countc) => countc + 1).setValor(countc - 1)}
-            >
-              👍{countc}
+            <button disabled={disabled} onClick={() => handleReaction('likes')}>
+              <img src={Icons.likes} alt="like emoji" />
+              {likesNum}
             </button>
           )}
         </div>
