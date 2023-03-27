@@ -4,7 +4,9 @@ import './Carousel.css';
 
 import { useEffect, useRef, useState } from 'react';
 
-const Carousel = () => {
+import Icons from '../styles/Icons';
+
+const Carousel = ({ list }) => {
   const [clicked, setClicked] = useState(false);
   const [position, setPosition] = useState(-window.innerWidth / 2);
   const [firstClientXPosition, setFirstClientXPosition] = useState(0);
@@ -16,7 +18,12 @@ const Carousel = () => {
   const div1 = useRef(null);
   const div2 = useRef(null);
   const div3 = useRef(null);
-  const list = ['../../bertin.jpeg', '../../colacao.jpg', '../../descarga1.jpg'];
+  /*   const [list, setList] = useState([
+    '../../bertin.jpeg',
+    '../../colacao.jpg',
+    '../../descarga1.jpg',
+  ]); */
+
   const [index, setIndex] = useState(() => {
     return Math.floor(list.length / 2);
   });
@@ -141,7 +148,7 @@ const Carousel = () => {
     <div className="hola">
       {loop && (
         <button className="gibraltar" onClick={() => setLoop(false)}>
-          Loop
+          <img src={Icons.play} alt="play icon" />
         </button>
       )}
       <div
