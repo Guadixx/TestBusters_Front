@@ -28,5 +28,12 @@ const Icons = {
     'https://res.cloudinary.com/dva9zee9r/image/upload/v1679837178/achievements%20icons/check_1_xdrumw.png',
   delete:
     'https://res.cloudinary.com/dva9zee9r/image/upload/v1679855820/achievements%20icons/delete_1_giuru7.png',
+  likes:
+    'https://res.cloudinary.com/dva9zee9r/image/upload/v1679944763/thumbs-up-sign-type-4-7568_wfjs08.png',
+  hands:
+    'https://res.cloudinary.com/dva9zee9r/image/upload/v1679944692/raising-hands-medium-light-skin-tone_r4mjip.png',
+  tear: 'https://res.cloudinary.com/dva9zee9r/image/upload/v1679944740/face-with-tears-of-joy-1683_g14vnv.png',
+  hearts:
+    'https://res.cloudinary.com/dva9zee9r/image/upload/v1679944722/heavy-black-heart_2764_eu1vos.png',
 };
 export default Icons;

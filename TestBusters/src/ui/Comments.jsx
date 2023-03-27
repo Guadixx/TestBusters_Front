@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import Palette from '../styles/Palette';
-import EmojiStyled from '../ui/Emoji';
+import Icons from '../styles/Icons';
+import EmojiButton from '../ui/Emoji';
 const CommentsStyled = styled.div`
   display: flex;
   flex-direction: row;
@@ -21,9 +21,12 @@ const CommentsStyled = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: '#0000000';
-    color: ${Palette.color_highlight_secondary};
-    font-weight: 900;
+    background-color: transparent;
+    border: none;
+  }
+  & .button-close-comment img {
+    width: 25px;
+    filter: opacity(50%);
   }
 `;
 
@@ -49,7 +52,7 @@ const Content = styled.div`
   width: 500px;
   padding-left: 20px;
 `;
-const Comment = ({ avatar, name, date, content, action, idUserOnComment, idUser }) => {
+const Comment = ({ comment, user, avatar, name, date, content, action }) => {
   return (
     <CommentsStyled>
       <div className="avatar">
@@ -60,11 +63,11 @@ const Comment = ({ avatar, name, date, content, action, idUserOnComment, idUser 
             <Date>{date}</Date>
           </div>
           <Content>{content}</Content>
-          <EmojiStyled />
+          <EmojiButton comment={comment} user={user} />
         </div>
-        {idUserOnComment == idUser ? (
+        {comment.user._id == user._id ? (
           <button onClick={action} className="button-close-comment">
-            X
+            <img src={Icons.delete} alt="delete icon" />
           </button>
         ) : (
           <div></div>

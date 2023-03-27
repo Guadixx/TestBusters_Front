@@ -8,7 +8,6 @@ import { API } from '../services/API';
 //import { API } from '../services/API';
 import Palette from '../styles/Palette';
 import Button from './Button';
-import CircleBar from './CircleBar';
 import DivProgress from './DivProgress';
 import Rating from './Rating';
 
@@ -120,7 +119,7 @@ const ModalRecord = ({
   const timeFormat = `${Math.floor(parseInt(time) / 60)}:${
     parseInt(time) - Math.floor(parseInt(time) / 60) * 60
   }`;
-  const [last, setLast] = useState(100);
+
   const registerScore = () => {
     const stats = {
       userId: userId,
@@ -132,8 +131,10 @@ const ModalRecord = ({
     useLocalStorage('set', 'rating', '-1');
     API.patch('/ultimate', stats)
       .then((res) => {
-        if (res.data.last != null) {
-          setLast(res.data.last);
+        if (res.status == 200) {
+          return;
+        } else {
+          console.log(res);
         }
       })
       .catch((error) => {
@@ -166,9 +167,6 @@ const ModalRecord = ({
               <div className="circlebar-end-test-container">
                 <div className="rating-end-test-container">
                   <h2>You are awesome!!</h2>
-                </div>
-                <div className="rating-end-test-container">
-                  <CircleBar value={last} label="BETTER THAN" />
                 </div>
               </div>
               <div className="containers-end-test-container">
