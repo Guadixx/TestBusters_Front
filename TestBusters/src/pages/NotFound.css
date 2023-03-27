@@ -1,0 +1,35 @@
+.notfound_container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin:1rem;
+}
+
+.notfound_container > h3{
+  text-transform: uppercase;
+  font-size: 3em;
+}
+
+.message_container{
+    display: flex;
+    align-items: center;
+    margin:2rem;
+    width:38rem;
+    flex-direction: column;
+}
+.message_container > h4{
+    font-weight: 500;
+    margin:1rem;
+    font-size: 20px;
+}
+.notFound_container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin:1rem auto;
+    box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
+    border-radius: 15px;
+    width:50rem;
+
+}
