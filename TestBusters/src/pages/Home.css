@@ -1,0 +1,7 @@
+.home-section {
+  min-height: 59vh;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 1rem 6rem;
+}

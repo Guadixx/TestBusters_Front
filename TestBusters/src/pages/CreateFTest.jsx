@@ -375,138 +375,107 @@ const CreateFTest = () => {
           </div>
           <div className="generic-test-data">
             {infoFilters != undefined ? (
-              <div className="filters-featured-test-data">
-                <Heading_3 text="Filter your data" />
-                <nav className="filters-featured-test-data-nav">
-                  <div className="filters-featured-test-data-nav-div-filters">
-                    <label htmlFor="filter_1">{info[data_type].filter_1}</label>
-                    <select
-                      name="filter_1"
-                      id="filter_1"
-                      onChange={(ev) => {
-                        setFilter_1_value(ev.target.value);
-                      }}
-                    >
-                      {infoFilter_1.map((value) => (
-                        <option value={value} key={value}>
-                          {value}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  <div className="filters-featured-test-data-nav-div-filters">
-                    <label htmlFor="filter_2">{info[data_type].filter_2}</label>
-                    <select
-                      name="filter_2"
-                      id="filter_2"
-                      onChange={(ev) => {
-                        setFilter_2_value(ev.target.value);
-                      }}
-                    >
-                      {infoFilter_2.map((value) => (
-                        <option value={value} key={value}>
-                          {value}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                </nav>
-                <div className="filters-featured-test-data-section-div">
-                  <section className="filters-featured-test-data-section">
-                    {infoFilters.map((value) => (
-                      <div key={value} className="filters-featured-test-data-checkboxdiv">
-                        <input
-                          type="checkbox"
-                          id={value}
-                          defaultChecked={valuesFilters.includes(value)}
-                          onChange={(ev) => {
-                            const newValues = valuesFilters;
-                            if (
-                              ev.target.checked &&
-                              !valuesFilters.includes(ev.target.getAttribute('id'))
-                            ) {
-                              newValues.push(ev.target.getAttribute('id'));
-                              setValuesFilters(newValues);
-                            }
-                            if (!ev.target.checked) {
-                              const newValues = [];
-                              valuesFilters.forEach((value) => {
-                                if (value != ev.target.getAttribute('id')) {
-                                  newValues.push(value);
-                                }
-                              });
-                              setValuesFilters(newValues);
-                            }
-                          }}
-                        />
-                        <label htmlFor={value}>{value}</label>
-                      </div>
-                    ))}
-                  </section>
-                </div>
-                <section className="filters-featured-test-options-section">
-                  <Heading_3 text="Customize the format of the question" />
-                  <div className="create-featured-custom-question">
-                    <div className="filters-featured-test-question-custom">
-                      <label htmlFor="question1">1st part of the question</label>
-                      <input
-                        type="text"
-                        placeholder="Ej: What is this"
-                        id="question1"
-                        onChange={(ev) => {
-                          setNewTest({
-                            ...newTest,
-                            question_text: [ev.target.value, newTest.question_text[1]],
-                          });
-                        }}
-                      />
-                    </div>
-                    <div className="filters-featured-test-question-custom">
-                      <label htmlFor="question">field of the question</label>
+              <>
+                <div className="filters-featured-test-data">
+                  <Heading_3 text="Filter your data" />
+                  <nav className="filters-featured-test-data-nav">
+                    <div className="filters-featured-test-data-nav-div-filters">
+                      <label htmlFor="filter_1">{info[data_type].filter_1}</label>
                       <select
-                        name="question"
-                        id="question"
+                        name="filter_1"
+                        id="filter_1"
                         onChange={(ev) => {
-                          setNewTest({
-                            ...newTest,
-                            question: ev.target.value,
-                          });
+                          setFilter_1_value(ev.target.value);
                         }}
                       >
-                        <option value="-">-</option>
-                        {possible.map((pos) => (
-                          <option value={pos} key={pos}>
-                            {pos}
+                        {infoFilter_1.map((value) => (
+                          <option value={value} key={value}>
+                            {value}
                           </option>
                         ))}
                       </select>
                     </div>
-                    <div className="filters-featured-test-question-custom">
-                      <label htmlFor="question2">2nd part of the question</label>
-                      <input
-                        type="text"
-                        placeholder="Ej: ?"
-                        id="question2"
+                    <div className="filters-featured-test-data-nav-div-filters">
+                      <label htmlFor="filter_2">{info[data_type].filter_2}</label>
+                      <select
+                        name="filter_2"
+                        id="filter_2"
                         onChange={(ev) => {
-                          setNewTest({
-                            ...newTest,
-                            question_text: [newTest.question_text[0], ev.target.value],
-                          });
+                          setFilter_2_value(ev.target.value);
                         }}
-                      />
+                      >
+                        {infoFilter_2.map((value) => (
+                          <option value={value} key={value}>
+                            {value}
+                          </option>
+                        ))}
+                      </select>
                     </div>
+                  </nav>
+                  <div className="filters-featured-test-data-section-div">
+                    <section className="filters-featured-test-data-section">
+                      {infoFilters.map((value) => (
+                        <div
+                          key={value}
+                          className="filters-featured-test-data-checkboxdiv"
+                        >
+                          <input
+                            type="checkbox"
+                            id={value}
+                            defaultChecked={valuesFilters.includes(value)}
+                            onChange={(ev) => {
+                              const newValues = valuesFilters;
+                              if (
+                                ev.target.checked &&
+                                !valuesFilters.includes(ev.target.getAttribute('id'))
+                              ) {
+                                newValues.push(ev.target.getAttribute('id'));
+                                setValuesFilters(newValues);
+                              }
+                              if (!ev.target.checked) {
+                                const newValues = [];
+                                valuesFilters.forEach((value) => {
+                                  if (value != ev.target.getAttribute('id')) {
+                                    newValues.push(value);
+                                  }
+                                });
+                                setValuesFilters(newValues);
+                              }
+                            }}
+                          />
+                          <label htmlFor={value}>{value}</label>
+                        </div>
+                      ))}
+                    </section>
                   </div>
-                  <div className="create-featured-custom-question">
-                    <div className="create-featured-custom-answers">
+                </div>
+                <div className="filters-featured-test-data">
+                  <section className="filters-featured-test-options-section">
+                    <Heading_3 text="Customize the format of the question" />
+                    <div className="create-featured-custom-question">
                       <div className="filters-featured-test-question-custom">
-                        <label htmlFor="answer">Field of the answer</label>
-                        <select
-                          name="answer"
-                          id="answer"
+                        <label htmlFor="question1">1st part of the question</label>
+                        <input
+                          type="text"
+                          placeholder="Ej: What is this"
+                          id="question1"
                           onChange={(ev) => {
                             setNewTest({
                               ...newTest,
-                              answer: ev.target.value,
+                              question_text: [ev.target.value, newTest.question_text[1]],
+                            });
+                          }}
+                        />
+                      </div>
+                      <div className="filters-featured-test-question-custom">
+                        <label htmlFor="question">Question field</label>
+                        <select
+                          name="question"
+                          id="question"
+                          onChange={(ev) => {
+                            setNewTest({
+                              ...newTest,
+                              question: ev.target.value,
                             });
                           }}
                         >
@@ -518,73 +487,111 @@ const CreateFTest = () => {
                           ))}
                         </select>
                       </div>
-                    </div>
-                    <div className="filters-featured-test-question-custom">
-                      <label htmlFor="options">Nº of options</label>
-                      <select
-                        name="options"
-                        id="options"
-                        onChange={(ev) => {
-                          setOptionsNumber(ev.target.value);
-                        }}
-                      >
-                        {options.map((op) => (
-                          <option value={op} key={op}>
-                            {op}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-                </section>
-                {newTest.question != '' && newTest.answer != '' ? (
-                  <section className="filters-featured-test-options-section">
-                    <Heading_3 text="Preview" />
-                    <div className="questionpreview">
-                      <Heading_3 text={newTest.question_text[0]} />
-                      {info[data_type].data[0][newTest.question]
-                        .toString()
-                        .includes('cloudinary') ? (
-                        <img
-                          src={info[data_type].data[0][newTest.question]}
-                          alt="Question preview"
+                      <div className="filters-featured-test-question-custom">
+                        <label htmlFor="question2">2nd part of the question</label>
+                        <input
+                          type="text"
+                          placeholder="Ej: ?"
+                          id="question2"
+                          onChange={(ev) => {
+                            setNewTest({
+                              ...newTest,
+                              question_text: [newTest.question_text[0], ev.target.value],
+                            });
+                          }}
                         />
-                      ) : (
-                        <Heading_3 text={info[data_type].data[0][newTest.question]} />
-                      )}
-                      <Heading_3 text={newTest.question_text[1]} />
+                      </div>
                     </div>
-
-                    <div className="optionspreview">
-                      {info[data_type].data[0][newTest.answer]
-                        .toString()
-                        .includes('cloudinary') ? (
-                        <img
-                          src={info[data_type].data[0][newTest.answer]}
-                          alt="Answer preview"
-                        />
-                      ) : (
-                        <Heading_3 text={info[data_type].data[0][newTest.answer]} />
-                      )}
-                      {info[data_type].data
-                        .slice(1, parseInt(optionsNumber) + 1)
-                        .map((item) =>
-                          item[newTest.answer].toString().includes('cloudinary') ? (
-                            <img
-                              key={item._id}
-                              src={item[newTest.answer]}
-                              alt="option preview"
-                            />
-                          ) : (
-                            <div key={item._id}>{item[newTest.answer]}</div>
-                          ),
-                        )}
+                    <div className="create-featured-custom-question">
+                      <div className="create-featured-custom-answers">
+                        <div className="filters-featured-test-question-custom">
+                          <label htmlFor="answer">Answer field</label>
+                          <select
+                            name="answer"
+                            id="answer"
+                            onChange={(ev) => {
+                              setNewTest({
+                                ...newTest,
+                                answer: ev.target.value,
+                              });
+                            }}
+                          >
+                            <option value="-">-</option>
+                            {possible.map((pos) => (
+                              <option value={pos} key={pos}>
+                                {pos}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                      </div>
+                      <div className="filters-featured-test-question-custom">
+                        <label htmlFor="options">No. of options</label>
+                        <select
+                          name="options"
+                          id="options"
+                          onChange={(ev) => {
+                            setOptionsNumber(ev.target.value);
+                          }}
+                        >
+                          {options.map((op) => (
+                            <option value={op} key={op}>
+                              {op}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
                     </div>
                   </section>
-                ) : (
-                  <Heading_3 text="Preview" />
-                )}
-              </div>
+                  {newTest.question != '' && newTest.answer != '' ? (
+                    <section className="filters-featured-test-options-section">
+                      <Heading_3 text="Preview" />
+                      <div className="questionpreview">
+                        <Heading_3 text={newTest.question_text[0]} />
+                        {info[data_type].data[0][newTest.question]
+                          .toString()
+                          .includes('cloudinary') ? (
+                          <img
+                            src={info[data_type].data[0][newTest.question]}
+                            alt="Question preview"
+                          />
+                        ) : (
+                          <Heading_3 text={info[data_type].data[0][newTest.question]} />
+                        )}
+                        <Heading_3 text={newTest.question_text[1]} />
+                      </div>
+
+                      <div className="optionspreview">
+                        {info[data_type].data[0][newTest.answer]
+                          .toString()
+                          .includes('cloudinary') ? (
+                          <img
+                            src={info[data_type].data[0][newTest.answer]}
+                            alt="Answer preview"
+                          />
+                        ) : (
+                          <Heading_3 text={info[data_type].data[0][newTest.answer]} />
+                        )}
+                        {info[data_type].data
+                          .slice(1, parseInt(optionsNumber) + 1)
+                          .map((item) =>
+                            item[newTest.answer].toString().includes('cloudinary') ? (
+                              <img
+                                key={item._id}
+                                src={item[newTest.answer]}
+                                alt="option preview"
+                              />
+                            ) : (
+                              <div key={item._id}>{item[newTest.answer]}</div>
+                            ),
+                          )}
+                      </div>
+                    </section>
+                  ) : (
+                    <Heading_3 text="Preview" />
+                  )}
+                </div>
+              </>
             ) : (
               <div className="filters-featured-test-data">
                 <Heading_6

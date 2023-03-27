@@ -3,7 +3,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: var(--spacing-2);
+  gap: var(--spacing-1-5);
   border-radius: 5px;
   background-color: var(--color-bg);
   padding: 1.5rem 2rem;
@@ -18,29 +18,25 @@
   border-radius: 5px;
   padding: 0.2rem 0.5rem;
   align-items: center;
-  box-shadow: rgba(128, 129, 129, 0.3) 0px 0px 2px 0px,
-    rgba(132, 135, 136, 0.15) 0px 1px 2px 1px;
 }
 .filters-featured-test-data-nav-div-filters {
   position: relative;
   display: flex;
-  gap: var(--spacing-0-2);
-  flex-direction: column;
+  gap: var(--spacing-1);
   justify-content: center;
   align-items: center;
 }
 .filters-featured-test-data-nav label {
-  font-size: 10px;
+  font-size: 14px;
   color: rgb(73, 73, 73);
-  width: 80px;
+  font-weight: 500;
 }
 .filters-featured-test-data-nav select {
-  padding: 0.07rem 0.2rem;
-  width: 80px;
-  border-radius: 2px;
-  appearance: none;
-  font-size: 11px;
   outline: none;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 10px 3px;
+  width: 100px;
 }
 .filter_data_open {
   width: 80px;
@@ -56,38 +52,35 @@
 }
 .filters-featured-test-data-section-div {
   width: 100%;
-  box-shadow: rgba(128, 129, 129, 0.3) 0px 0px 2px 0px,
-    rgba(132, 135, 136, 0.15) 0px 1px 2px 1px;
 }
 .filters-featured-test-data-section {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
-  height: 200px;
+  height: 300px;
   width: 100%;
   border-radius: 5px;
   padding: 1rem 0;
+  gap: 0.2rem;
   overflow-x: hidden;
   overflow-y: scroll;
-  box-shadow: rgba(128, 129, 129, 0.3) 0px 0px 2px 0px inset,
-    rgba(132, 135, 136, 0.15) 0px 1px 2px 1px inset;
+  border: 1.5px solid rgb(207, 207, 207);
 }
 .filters-featured-test-data-checkboxdiv {
-  padding: 0.1rem 0.2rem;
-  border-radius: 2px;
+  padding: 1rem 0.5rem;
+  border-radius: 3px;
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  width: 130px;
+  width: 155px;
   height: 28px;
   margin: 0.3rem;
-  gap: var(--spacing-0-2);
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
-    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+  gap: 0.35rem;
+  border: 1.2px solid rgb(207, 207, 207);
 }
 .filters-featured-test-data-checkboxdiv label {
-  font-size: 9px;
+  font-size: 11px;
   color: rgb(73, 73, 73);
   text-overflow: ellipsis;
 }
@@ -144,15 +137,15 @@
   align-items: center;
   gap: 1.5rem;
   border-radius: 5px;
-  padding-top: 0.5rem;
-  padding-bottom: 1rem;
+  padding: 1.5rem 2rem;
   box-shadow: rgba(128, 129, 129, 0.3) 0px 0px 2px 0px,
     rgba(132, 135, 136, 0.15) 0px 1px 2px 1px;
 }
+
 .create-featured-custom-question {
   display: flex;
-  justify-content: space-around;
-  gap: 2rem;
+  justify-content: center;
+  gap: 1rem;
   align-items: center;
   width: 100%;
 }
@@ -161,13 +154,34 @@
 }
 .create-featured-custom-question input {
   outline: none;
+  border: 1px solid #ccc;
+  border-radius: 7px;
+  padding: 14px 10px;
+  font-size: 13px;
+  outline: none;
+  width: 23vw;
 }
 .filters-featured-test-question-custom {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
+  gap: 2px;
   font-size: 10px;
+}
+
+.filters-featured-test-question-custom label {
+  padding-left: 2px;
+}
+
+.filters-featured-test-question-custom select {
+  outline: none;
+  border: 1px solid #ccc;
+  border-radius: 7px;
+  padding: 14px 10px;
+  font-size: 13px;
+  outline: none;
+  width: 8vw;
 }
 .filters-featured-test-options-section img {
   width: 100px;
