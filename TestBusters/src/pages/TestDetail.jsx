@@ -477,8 +477,8 @@ const TestDetail = () => {
                       .slice(0, 3)
                       .map((comment) => (
                         <Comment
-                          idUserOnComment={comment.user._id}
-                          idUser={user._id}
+                          user={user}
+                          comment={comment}
                           key={comment._id}
                           avatar={comment.user.avatar}
                           name={comment.user.username}
@@ -513,8 +513,8 @@ const TestDetail = () => {
                   <div>
                     {comments.reverse().map((comment) => (
                       <Comment
-                        idUserOnComment={comment.user._id}
-                        idUser={user._id}
+                        user={user}
+                        comment={comment}
                         key={comment._id}
                         avatar={comment.user.avatar}
                         name={comment.user.username}
@@ -569,21 +569,26 @@ const TestDetail = () => {
                       test.question_text[0] == '.' ? '' : test.question_text[0]
                     } `}</h3>
                     <img alt="question" src={randomQuestions[index].question} />
-                    <h3>{` ${
-                      test.question_text[1] == '.' ? '' : test.question_text[1]
-                    }`}</h3>
+                    <h3>
+                      {` ${test.question_text[1] == '.' ? '' : test.question_text[1]}`}{' '}
+                      .Score: {score}/{randomQuestions.length}
+                    </h3>
                   </div>
                 ) : (
                   <h3>
                     {`${test.question_text[0] == '.' ? '' : test.question_text[0]} ${
                       randomQuestions[index].question
                     } ${test.question_text[1] == '.' ? '' : test.question_text[1]}`}
+                    .Score: {score}/{randomQuestions.length}
                   </h3>
                 )}
               </div>
             ) : (
               <div className="questionTwoDiv">
-                <h3>{randomQuestions[index].question}</h3>
+                <h3>
+                  {randomQuestions[index].question}.Score: {score}/
+                  {randomQuestions.length}
+                </h3>
                 {randomQuestions[index].question_img !=
                 'https://res.cloudinary.com/dva9zee9r/image/upload/v1679340393/achievements%20icons/testbuster_icon_brsbfz.png' ? (
                   <img

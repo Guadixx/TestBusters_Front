@@ -13,7 +13,9 @@ const Login = () => {
   const [onFocus, setOnFocus] = useState(false);
   const [userNotFound, setUserNotFound] = useState(false);
   const [wrongPassword, setWrongPassword] = useState(false);
+  const [email, setEmail] = useState('');
   const [see, setSee] = useState(false);
+  const [forgot, setForgot] = useState(false);
   const handleClick = (ev) => {
     ev.preventDefault();
     setSee(!see);
@@ -42,6 +44,19 @@ const Login = () => {
         ) {
           setWrongPassword(true);
         }
+      });
+  };
+  const forgotPassword = () => {
+    API.patch('/users/forgotpassword', { email: email })
+      .then((res) => {
+        if (res.status == 200) {
+          console.log('email sent');
+        } else {
+          setUserNotFound(true);
+        }
+      })
+      .catch(() => {
+        setUserNotFound(true);
       });
   };
   return (
@@ -119,6 +134,38 @@ const Login = () => {
             </NavLink>
           </div>
         </form>
+        <div className="register_container">
+          {!forgot ? (
+            // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions
+            <h4
+              className="register_nav forgot-h4"
+              onClick={() => {
+                setForgot(true);
+              }}
+            >
+              Forgot your password?
+            </h4>
+          ) : (
+            <div className="div-send-email-forgot">
+              <input
+                className="input_user rescale-input-user"
+                type="text"
+                placeholder="Enter your email..."
+                onChange={(ev) => {
+                  setEmail(ev.target.value);
+                }}
+              />
+              <button
+                className="login_btn rescale-login-button"
+                onClick={() => {
+                  forgotPassword();
+                }}
+              >
+                Send new password
+              </button>
+            </div>
+          )}
+        </div>
       </main>
     </div>
   );

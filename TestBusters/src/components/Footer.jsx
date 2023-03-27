@@ -48,15 +48,15 @@ const Footer = () => {
       <div className="footer-legal">
         <ul>
           <li>
-            <NavLink to="/">Legal Advice</NavLink>
+            <NavLink to="/legaladvice">Legal Advice</NavLink>
           </li>
           <li>|</li>
           <li>
-            <NavLink to="/">Privacy Policy</NavLink>
+            <NavLink to="/privacy">Privacy Policy</NavLink>
           </li>
           <li>|</li>
           <li>
-            <NavLink to="/">Cookies Policy</NavLink>
+            <NavLink to="/cookies">Cookies Policy</NavLink>
           </li>
         </ul>
       </div>
