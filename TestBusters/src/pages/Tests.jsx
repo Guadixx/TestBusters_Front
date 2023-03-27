@@ -1,134 +1,157 @@
 import './Tests.css';
 
 import { useEffect, useState } from 'react';
+import { useDebounce } from 'use-debounce';
 
-//import { useDebounce } from 'use-debounce';
 import TestCard from '../components/TestCard';
 import { API } from '../services/API';
-import Palette from '../styles/Palette';
-import Button from '../ui/Button';
 import { Heading_3 } from '../ui/Headings';
 
 const Tests = () => {
   const [tests, setTests] = useState([]);
   const [typeTest, setTypeTest] = useState('featuredtests');
-  //const debounceValue = useDebounce(filterTests, 500);
   const [onFocus, setOnFocus] = useState(false);
   const [disable, setDisable] = useState(false);
+  const [nextPage, setNextPage] = useState(true);
   const [params, setParams] = useState({
-    limit: 20,
+    limit: 9,
     order: '',
     title: '',
     page: 1,
-    mode: 1,
+    mode: -1,
   });
+  const [debounceValue] = useDebounce(params.title, 500);
 
+  const handleDebounce = (ev) => {
+    const value = ev.target.value;
+    setParams({ ...params, title: value });
+  };
   const getTest = () => {
     setDisable(true);
-    API.get(`/${typeTest}`, {
-      params: params,
-    })
-      .then((response) => {
-        setTests(response.data.results);
-        setDisable(false);
+    if (nextPage) {
+      API.get(`/${typeTest}`, {
+        params: params,
       })
-      .catch((error) => console.log(error));
+        .then((response) => {
+          setTests((prevTests) => [...prevTests, ...response.data.results]);
+          console.log(response.data.info);
+          if (response.data.info.next === null) {
+            setNextPage(false);
+          }
+        })
+        .catch((error) => console.log(error));
+    }
   };
+
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        setParams({ ...params, page: params.page + 1 });
+        console.log(params);
+        getTest();
+      }
+    });
+
+    observer.observe(document.querySelector('.scroll-target'));
+
+    return () => observer.disconnect();
+  }, [params.page]);
+
   useEffect(() => {
     getTest();
-  }, [typeTest, params]);
+  }, [typeTest, params.order, params.mode, debounceValue]);
 
   return (
-    <div className="home">
-      <div className="filters">
-        <div className="input_container">
-          <input
-            className="input_title"
-            type="text"
-            placeholder={onFocus ? ' ' : ' '}
-            onFocus={() => setOnFocus(true)}
-            onBlur={() => setOnFocus(false)}
-            value={params.title}
-            onInput={(e) => setParams({ ...params, title: e.target.value })}
-          />
-          <label htmlFor="custom_input" className="placeholder_title">
-            Search by title
-          </label>
-        </div>
-        <div className="buttons">
-          <Button
-            fixed_width={'100px'}
-            textAfter="featuredTest"
-            size="4"
-            margin={'10px'}
-            background={Palette.color_bg}
-            variant="border"
-            mode={disable}
-            action={() => {
-              setTypeTest('featuredtests');
-            }}
-          />
-          <Button
-            fixed_width={'100px'}
-            textAfter="generictests"
-            size="4"
-            margin={'10px'}
-            background={Palette.color_bg}
-            variant="border"
-            mode={disable}
-            action={() => {
-              setTypeTest('generictests');
-            }}
-          />
-        </div>
-        <div className="order">
-          <Heading_3 text="ORDER" weigth="600" size="16px" />
-          <div className="order_container">
+    <div className="tests">
+      <h1>Choose a Test!!</h1>
+      <div className="tests_input_container">
+        <input
+          className="input_title"
+          type="text"
+          placeholder={onFocus ? ' ' : ' '}
+          onFocus={() => setOnFocus(true)}
+          onBlur={() => setOnFocus(false)}
+          value={params.title}
+          onChange={(e) => handleDebounce(e)}
+        />
+        <label htmlFor="custom_input" className="placeholder_title">
+          Search by title
+        </label>
+      </div>
+      <section className="tests-body">
+        <div className="tests-filters">
+          <div className="test-filters-type">
+            <Heading_3 text="TEST TYPE" weigth="600" size="16px" />
+            <button
+              onClick={() => {
+                setTypeTest('featuredtests');
+                {
+                  typeTest === 'generictests' ? setDisable(true) : setDisable(false);
+                }
+              }}
+              disabled={disable ? true : false}
+            >
+              Featured Tests
+            </button>
+            <button
+              onClick={() => {
+                setTypeTest('generictests');
+                {
+                  typeTest === 'featuredtests' ? setDisable(true) : setDisable(false);
+                }
+              }}
+              disabled={disable ? true : false}
+            >
+              Generic Tests
+            </button>
+          </div>
+
+          <div
+            className="tests_order_container"
+            onChange={(e) => setParams({ ...params, order: e.target.value })}
+          >
+            <Heading_3 text="FILTER BY" weigth="600" size="16px" />
             <div className="order-test">
-              <input
-                type="radio"
-                id="creator"
-                name="order"
-                value="creator"
-                onChange={(e) => setParams({ ...params, order: e.target.value })}
-              />
-              <label htmlFor="test">Creator</label>
+              <input type="radio" id="times_played" name="order" value="times_played" />
+              <label htmlFor="times_played">Most Popular</label>
             </div>
             <div className="order-test">
-              <input
-                type="radio"
-                id="times_played"
-                name="order"
-                value="times_played"
-                onChange={(e) => setParams({ ...params, order: e.target.value })}
-              />
-              <label htmlFor="normal">Times played</label>
+              <input type="radio" id="creator" name="order" value="created" />
+              <label htmlFor="creator">Latest</label>
             </div>
             <div className="order-test">
-              <input
-                type="radio"
-                id="favorites"
-                name="order"
-                value="favorites"
-                onChange={(e) => setParams({ ...params, order: e.target.value })}
-              />
-              <label htmlFor="test">Favorites</label>
+              <input type="radio" id="favorites" name="order" value="favorites" />
+              <label htmlFor="favorites">Best Rated</label>
+            </div>
+          </div>
+          <div
+            className="tests_order_container"
+            onChange={(e) => {
+              setParams({ ...params, mode: e.target.value });
+            }}
+          >
+            <Heading_3 text="ORDER" weigth="600" size="16px" />
+            <div className="order-test">
+              <input type="radio" id="ascending" name="mode" value="-1" />
+              <label htmlFor="ascending">Latest</label>
+            </div>
+            <div className="order-test">
+              <input type="radio" id="descending" name="mode" value="1" />
+              <label htmlFor="descending">Most Popular</label>
             </div>
           </div>
         </div>
-      </div>
-      <div className="principal">
-        <h1>Choose a Test!!</h1>
-        <div className="card">
-          {tests.length != 0 ? (
-            tests.map((test) => <TestCard test={test} key={test._id} />)
-          ) : (
-            <div>
+        <div className="tests-card-section">
+          <div className="tests-cards">
+            {tests.length != 0 ? (
+              tests.map((test) => <TestCard test={test} key={test._id} />)
+            ) : (
               <h1>Loading</h1>
-            </div>
-          )}
+            )}
+          </div>
+          <h4 className="scroll-target"> Load More</h4>
         </div>
-      </div>
+      </section>
     </div>
   );
 };
