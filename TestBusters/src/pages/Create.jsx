@@ -36,7 +36,7 @@ const Create = () => {
             onMouseLeave={() => setShowMessage(false)}
           >
             <img
-              src="https://res.cloudinary.com/dva9zee9r/image/upload/v1679850182/informacion_1_rokzcc.png"
+              src="https://res.cloudinary.com/dva9zee9r/image/upload/v1679932839/information-button_nezhsm.png"
               alt="information icon"
             />
             {showMessage && (
@@ -80,7 +80,7 @@ const Create = () => {
             onMouseLeave={() => setShowInfo(false)}
           >
             <img
-              src="https://res.cloudinary.com/dva9zee9r/image/upload/v1679850182/informacion_1_rokzcc.png"
+              src="https://res.cloudinary.com/dva9zee9r/image/upload/v1679932839/information-button_nezhsm.png"
               alt="information icon"
             />
             {showInfo && (
