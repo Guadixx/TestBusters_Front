@@ -1,9 +1,7 @@
-
-.testdetail_content{
+.testdetail_content {
   display: flex;
   flex-direction: column;
   align-items: center;
-  
 }
 .info_container {
   display: flex;
@@ -11,15 +9,14 @@
   align-items: flex-start;
   flex-direction: column;
   border-radius: 10px;
-  width:100%;
+  width: 100%;
 }
-.info_content{
+.info_content {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-
 }
-.createinfo_container{
+.createinfo_container {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -29,26 +26,26 @@
   font-size: 1.1rem;
 }
 
-.createinfo_container> p {
+.createinfo_container > p {
   font-size: 14px;
   font-weight: 600;
-  margin-left:8rem !important;
+  margin-left: 8rem !important;
 }
 .createinfo_container > h4 {
   font-size: 12px;
   font-weight: 600;
-  margin-left:2rem !important;
+  margin-left: 2rem !important;
 }
 .yourfavorite_container {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  margin-left:2rem !important;
+  margin-left: 2rem !important;
 }
 .yourfavorite_container > h4 {
   font-size: 16px;
-  margin:0.3rem;
+  margin: 0.3rem;
 }
 .creator_container {
   display: flex;
@@ -56,7 +53,7 @@
   align-items: center;
   flex-direction: row;
   border-radius: 10px;
-  margin-left:2rem !important;
+  margin-left: 2rem !important;
 }
 .creator_container > h4 {
   font-size: 12px;
@@ -78,7 +75,7 @@
   width: 9rem;
   height: 9rem;
   box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
-  margin:2rem;
+  margin: 2rem;
 }
 .img_banner {
   object-fit: cover;
@@ -92,18 +89,18 @@
   box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
 }
 
-.footerdiv_container{
+.footerdiv_container {
   display: flex;
   justify-content: flex-end;
   align-items: center;
   flex-direction: row;
 }
- .detailtest_container{
-  position:relative;
+.detailtest_container {
+  position: relative;
   display: flex;
-  left:45rem;
-  bottom:12.5rem;
- }
+  left: 45rem;
+  bottom: 12.5rem;
+}
 
 /* .play_btn {
   margin: 1rem;
@@ -115,26 +112,26 @@
   margin-left: 1.1rem;
   position: relative;
   bottom: 12.5rem;
-  left:65rem;
-} 
-.text_container{
+  left: 65rem;
+}
+.text_container {
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
   font-size: 20px;
 }
 /*LEADERBOARD*/
-.middle_content{
+.middle_content {
   display: flex;
 }
 .leaderboard_content {
-  margin:3rem;
+  margin: 3rem;
   display: flex;
   justify-content: space-evenly !important;
   flex-direction: column;
   border: 2px solid var(--color-highlight-primary);
   border-radius: 15px;
-  padding:1rem;
+  padding: 1rem;
   box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
 }
 .leaderboard_content > h3 {
@@ -142,7 +139,7 @@
   font-weight: 700;
   margin: 1rem;
 }
-.leaderranking_container{
+.leaderranking_container {
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -178,14 +175,14 @@
   margin: 2rem;
 }
 
-.statics_content{
-  margin:3rem;
+.statics_content {
+  margin: 3rem;
   display: flex;
   justify-content: space-evenly !important;
   flex-direction: column;
   border: 2px solid var(--color-highlight-primary);
   border-radius: 15px;
-  padding:1rem;
+  padding: 1rem;
   box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
 }
 /*COMMENT SECTION */
@@ -207,14 +204,14 @@
 .postacomment_container > h4 {
   font-weight: 500;
 }
-.textInputWrapper{
+.textInputWrapper {
   display: flex;
 }
-.textInput{
-  margin-top:1rem;
+.textInput {
+  margin-top: 1rem;
 }
 .post_btn {
-  margin-top:1rem;
+  margin-top: 1rem;
   margin-left: 2rem;
   width: fit-content;
   min-width: 90px;
@@ -240,84 +237,96 @@
 .post_btn:active {
   transform: scale(0.95);
 }
-/*TEEEEEEESSSSSTSSSS*/ 
- 
-.testone_container{
-  margin:8px auto;
+/*TEEEEEEESSSSSTSSSS*/
+
+.testone_container {
+  margin: 8px auto;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.titlett_container{
- font-size: 1.6rem;
- text-transform: uppercase;
- font-weight: 600;
+.titlett_container {
+  font-size: 1.6rem;
+  text-transform: uppercase;
+  font-weight: 600;
 }
 
-.testtwo_continer{
+.testtwo_continer {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  margin:2rem;
+  margin: 2rem;
 }
-.testtwo_continer > h3{
+.testtwo_continer > h3 {
   font-size: 1rem;
 }
-.optionDiv{
+.optionDiv {
   width: 90vw;
-  margin:2rem;
+  margin: 2rem;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
-  gap:1rem;
+  gap: 1rem;
   flex-direction: column;
   font-size: 1.3rem;
 }
-.name_container{
+.name_container {
   box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
-  padding:10px;
+  padding: 10px;
   border-radius: 12px;
 }
-.name_container > h4{
+.name_container > h4 {
   font-weight: 500;
 }
 
-.questionDiv{
+.questionDiv {
   display: flex;
   align-items: center;
   flex-direction: column;
   width: 30rem;
 }
-.questionDiv > img{
+.questionDiv > img {
   border-radius: 10px;
-  padding:10px;
+  padding: 10px;
   box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
-  width:24rem;
+  width: 24rem;
   height: 12rem;
   object-fit: contain;
-  margin:1rem;
+  margin: 1rem;
   background-color: #f6f1f1;
-  margin:2rem;
+  margin: 2rem;
 }
-
-.optionImgDiv{
+.questionTwoDiv > img {
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
+  width: 24rem;
+  height: 12rem;
+  object-fit: contain;
+  margin: 1rem;
+  background-color: #f6f1f1;
+  margin: 2rem;
+  top: 0;
+  right: 0;
+}
+.optionImgDiv {
   width: 90vw;
-  margin:2rem;
+  margin: 2rem;
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap:1rem;
+  gap: 1rem;
 }
-.optionImgDiv > img{
+.optionImgDiv > img {
   border-radius: 10px;
-  padding:10px;
+  padding: 10px;
   box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
-  width:24rem;
+  width: 24rem;
   height: 12rem;
   object-fit: contain;
-  margin:1rem;
+  margin: 1rem;
   background-color: #f6f1f1;
 }
