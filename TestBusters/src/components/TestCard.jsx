@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import './TestCard.css';
 
@@ -13,13 +15,13 @@ const TestCard = ({ test }) => {
   const testType = test.test_type == 'generic' ? 'generictests' : 'featuredtests';
   const testParams = { testType: testType };
   return (
-    // eslint-disable-next-line jsx-a11y/no-static-element-interactions
-    <div
-      className="testcard"
-      key={test._id}
-      onClick={() => navigate(`/tests/${test._id}`, { state: testParams })}
-    >
-      <img src={test.thumbnail} alt="test thumbnail" className="test-thumbnail" />
+    <div className="testcard" key={test._id}>
+      <img
+        src={test.thumbnail}
+        alt="test thumbnail"
+        className="test-thumbnail"
+        onClick={() => navigate(`/tests/${test._id}`, { state: testParams })}
+      />
       <div className="test-info">
         <div className="test-info-first">
           <Heading_4 text={test.title} size="15px" weigth="600" />
@@ -28,7 +30,13 @@ const TestCard = ({ test }) => {
             <Heading_5 text={test.times_played} size="12px" />
           </div>
         </div>
-        <div className="test-info-user">
+        <div
+          className="test-info-user"
+          onClick={() => {
+            navigate(`/profile/statistics/${test.creator._id}`);
+            localStorage.setItem('communityUser', JSON.stringify(test.creator));
+          }}
+        >
           <img src={test.creator.avatar} alt="user avatar" />
           <Heading_5 text={test.creator.username} size="12px" />
         </div>

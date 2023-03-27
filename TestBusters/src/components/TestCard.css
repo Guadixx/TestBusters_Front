@@ -44,9 +44,16 @@
   display: flex;
   align-items: center;
   gap: var(--spacing-0-5);
+  cursor: pointer;
 }
 
 .testcard .test-info .test-info-user img {
   width: 20px;
   height: 20px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.testcard .test-info .test-info-user h5:hover {
+  text-decoration: underline;
 }
