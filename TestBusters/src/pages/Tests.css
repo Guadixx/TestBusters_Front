@@ -1,97 +1,59 @@
-.home {
-  min-height: 60vh;
-  padding: 6rem;
-  display: flex;
-  gap: 20px;
-}
- .filters {
+.tests {
   display: flex;
   flex-direction: column;
-  justify-content: baseline;
-  align-items:last baseline;
-  height: 500px;
-  gap: 20px;
-  border: 1px solid #ccc;
-  border-radius: 10px;
- }
- .order{
+  gap: 1rem;
+  width: 100%;
+  padding: 1rem 6rem;
+  overflow-x: hidden;
+  min-height: 59vh;
+}
+
+.tests-body {
   display: flex;
-  flex-direction: column;
-  gap: var(--spacing-0-5);
- }
- order-contaniner {
-  gap: 20px;
- }
- .order > input {
-  align-self: center;
-  width: 150px;
-}
- .order > label {
-  font-size: 14px;
- }
-.order-test {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-0-5);
-}
-.order-test > input {
-  width: 12px;
-}
- .input_title {
-  border: 1px solid rgba(51, 51, 51, 0.597);
+
   border-radius: 10px;
-  padding: 15px 10px;
-  font-size: 16px;
-  width: 300px;
- }
- .input_title:focus {
+  padding: 14px 10px;
+  font-size: 13px;
+  width: 100%;
+}
+.input_title:focus {
   outline: none;
 }
-.placeholder_title{
+.placeholder_title {
   position: absolute;
   pointer-events: none;
   transition: all 0.2s ease-in-out;
-  bottom:7px;
-  left:9px;
-  text-transform: lowercase !important;
-  font-size: 16px !important;
+  bottom: 5px;
+  left: 9px;
   color: rgba(51, 51, 51, 0.597);
   background-color: var(--color-bg);
-  font-weight: 400 !important;
 }
 .input_title:focus ~ .placeholder_title,
 .input_title:not(:placeholder-shown) ~ .placeholder_title {
-  left:9px;
-  bottom:33px;
-  color: rgba(99, 99, 99, 0.597);
+
 }
-.input_container{
-  position:relative;
+.tests_input_container {
+  position: relative;
   display: flex;
   flex-direction: column;
-  margin: 1rem 2.5rem;
 }
-.input_container > label {
+.tests_input_container > label {
   margin: 0.6rem 0.2rem;
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  font-weight: 600;
+  font-size: 15px;
+  font-weight: 400;
 }
-.buttons{
+
   display: flex;
+  flex-direction: column;
+  width: 70vw;
+  gap: 1rem;
 }
-.card {
+
+.tests-cards {
   display: flex;
   flex-wrap: wrap;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-gap: 20px;
-}
- .principal{
-  display: flex;
-  flex-direction: column;
- }
- .principal > h1 {
-  display: flex;
   justify-content: center;
- }
+  width: 100%;
+  gap: 1rem;
+  min-height: 59vh;
+}

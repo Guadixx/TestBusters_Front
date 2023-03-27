@@ -1,7 +1,6 @@
 .testcard {
-  margin: 2rem;
   background-color: var(--color-bg);
-  width: 300px;
+  width: 270px;
   height: 220px;
   border-radius: 8px;
 }
