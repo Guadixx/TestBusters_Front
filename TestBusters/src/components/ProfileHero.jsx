@@ -1,7 +1,6 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { UserContext } from '../context/UserContext';
 import { API } from '../services/API';
 import Icons from '../styles/Icons';
 import Avatar from '../ui/Avatar';
@@ -18,12 +17,9 @@ const ProfileHero = ({
   const { id } = useParams();
   const user = JSON.parse(localStorage.getItem('user'));
   const [followers, setFollowers] = useState(printedUser.followed_users.length);
-  console.log(printedUser, 'printed');
-  console.log(user, 'user');
   const [followed, setFollowed] = useState(
     user.following_users.includes(printedUser._id),
   );
-  console.log(followed);
 
   const followBody = {
     followedUserId: id,
@@ -45,10 +41,7 @@ const ProfileHero = ({
   ];
 
   const handleBtnFollow = () => {
-    console.log(printedUser.followed_users);
     const included = printedUser.followed_users.filter((u) => u._id == user._id);
-    console.log(included);
-    console.log(followed);
     if (included.length > 0) {
       setFollowed(true);
     }
