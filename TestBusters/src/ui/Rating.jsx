@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 
+import useLocalStorage from '../customHooks/useLocalStorage';
+
 const RatingStyled = styled.div`
   display: flex;
 `;
@@ -31,7 +33,10 @@ const Rating = ({ width, height }) => {
           <RatingButton
             key={star}
             className={star <= hover ? 'on' : 'off'}
-            onClick={() => setRating(star)}
+            onClick={() => {
+              useLocalStorage('set', 'rating', star);
+              setRating(star);
+            }}
             onMouseEnter={() => {
               setHover(star);
             }}

@@ -15,6 +15,7 @@ import CircleBar from '../ui/CircleBar';
 import Comment from '../ui/Comments';
 import DivProgress from '../ui/DivProgress';
 import Leaderboard from '../ui/Leaderboard';
+import ModalRecord from '../ui/ModalRecord';
 import ModalTest from '../ui/ModalTest';
 import RatingStarTest from '../ui/RatingButton';
 import RatingStatic from '../ui/RatingStatic';
@@ -37,10 +38,10 @@ const TestDetail = () => {
   const [score, setScore] = useState(0);
   const [seconds, setSeconds] = useState(0);
   const [initialSeconds, setInitialSeconds] = useState(0);
-  const [userMinutes, setUserMinutes] = useState('');
-  const [userSeconds, setUserSeconds] = useState('');
   const [userRecord, setUserRecord] = useState(null);
-  const [average, setAverage] = useState(0);
+  const [timeUserRecord, setTimeUserRecord] = useState(10000000);
+  const [scoreUserRecord, setscoreUserRecord] = useState(0);
+  const [average, setAverage] = useState(100);
   const [comments, setComments] = useState([]);
   const [moreComments, setMoreComments] = useState(false);
   const [newComment, setNewComment] = useState({});
@@ -57,7 +58,18 @@ const TestDetail = () => {
         if (res.status === 200) {
           setTest(res.data.test);
           setUserRecord(res.data.record);
-          setAverage(res.data.average);
+          if (res.data.record != undefined) {
+            setTimeUserRecord(
+              parseInt(res.data.record.score.split('/')[2].split(':')[0]) * 60 +
+                parseInt(res.data.record.score.split(':')[1]),
+            );
+          }
+          if (res.data.record != undefined) {
+            setscoreUserRecord(res.data.record.score.split('/')[0]);
+          }
+          if (res.data.average != null) {
+            setAverage(res.data.average);
+          }
           setFavorites(res.data.test.favorites.length);
           res.data.test.favorites.forEach((userIdFav) => {
             if (userIdFav == user._id) {
@@ -238,27 +250,6 @@ const TestDetail = () => {
   }, [questions]);
   const countDown = useCallback(() => {
     setSeconds((prevSeconds) => prevSeconds - 1);
-    setUserMinutes(() => {
-      return Math.floor((initialSeconds - seconds) / 60) >= 10
-        ? Math.floor((initialSeconds - seconds) / 60)
-        : `0${Math.floor((initialSeconds - seconds) / 60)}`;
-    });
-    setUserSeconds(() => {
-      return Math.round(
-        ((initialSeconds - seconds) / 60 - Math.floor((initialSeconds - seconds) / 60)) *
-        60,
-      ) >= 10
-        ? Math.round(
-          ((initialSeconds - seconds) / 60 -
-            Math.floor((initialSeconds - seconds) / 60)) *
-          60,
-        )
-        : `0${Math.round(
-          ((initialSeconds - seconds) / 60 -
-            Math.floor((initialSeconds - seconds) / 60)) *
-          60,
-        )}`;
-    });
   });
   useEffect(() => {
     if (!start) {
@@ -300,6 +291,11 @@ const TestDetail = () => {
       });
     }
   };
+  useEffect(() => {
+    if (start) {
+      setStart(!start);
+    }
+  }, [finish]);
   return (
     <div>
       {!start & (test.creator != undefined) ? (
@@ -443,32 +439,36 @@ const TestDetail = () => {
             </div>
           </div>
           <div className="commentsection_container">
-            <div className="postacomment_container">
-              <h4>Post Comment</h4>
+            {test.comments_enabled ? (
+              <div className="postacomment_container">
+                <h4>Post Comment</h4>
 
-              <div className="textInputWrapper">
-                <input
-                  type="text"
-                  className="textInput"
-                  placeholder="Write a comment"
-                  onChange={(ev) =>
-                    setNewComment({
-                      ...newComment,
-                      comment: { ...newComment.comment, content: ev.target.value },
-                    })
-                  }
-                />
-                <button
-                  className="post_btn"
-                  onClick={() => {
-                    postComment();
-                  }}
-                >
-                  Post
-                </button>
+                <div className="textInputWrapper">
+                  <input
+                    type="text"
+                    className="textInput"
+                    placeholder="Write a comment"
+                    onChange={(ev) =>
+                      setNewComment({
+                        ...newComment,
+                        comment: { ...newComment.comment, content: ev.target.value },
+                      })
+                    }
+                  />
+                  <button
+                    className="post_btn"
+                    onClick={() => {
+                      postComment();
+                    }}
+                  >
+                    Post
+                  </button>
+                </div>
               </div>
-            </div>
-            {comments != undefined ? (
+            ) : (
+              <div></div>
+            )}
+            {comments != undefined && test.comments_enabled ? (
               comments.length != 0 ? (
                 !moreComments ? (
                   <div>
@@ -546,7 +546,9 @@ const TestDetail = () => {
                 <h6>No comments yet...</h6>
               )
             ) : (
-              <div></div>
+              <div>
+                <h6>Comments are disabled for this test...</h6>
+              </div>
             )}
           </div>
         </div>
@@ -556,42 +558,60 @@ const TestDetail = () => {
       {start & (index != randomQuestions.length) & !finish ? (
         <div className="testone_container">
           <DivProgress type="CountDown" className="timer" maxValue={initialSeconds} />
-          <div className='testtwo_continer'>
+          <div className="testtwo_continer">
             {testType == 'featuredtests' ? (
               <div className="titlett_container">
                 {randomQuestions[index].question
                   .toString()
                   .includes('https://res.cloudinary.com') ? (
                   <div className="questionDiv">
-                    <h3>{`${test.question_text[0] == '.' ? '' : test.question_text[0]
-                      } `}</h3>
+                    <h3>{`${
+                      test.question_text[0] == '.' ? '' : test.question_text[0]
+                    } `}</h3>
                     <img alt="question" src={randomQuestions[index].question} />
-                    <h3>{` ${test.question_text[1] == '.' ? '' : test.question_text[1]
-                      }`}</h3>
+                    <h3>{` ${
+                      test.question_text[1] == '.' ? '' : test.question_text[1]
+                    }`}</h3>
                   </div>
                 ) : (
                   <h3>
-                    {`${test.question_text[0] == '.' ? '' : test.question_text[0]} ${randomQuestions[index].question
-                      } ${test.question_text[1] == '.' ? '' : test.question_text[1]}`}
+                    {`${test.question_text[0] == '.' ? '' : test.question_text[0]} ${
+                      randomQuestions[index].question
+                    } ${test.question_text[1] == '.' ? '' : test.question_text[1]}`}
                   </h3>
                 )}
               </div>
             ) : (
               <div className="questionTwoDiv">
                 <h3>{randomQuestions[index].question}</h3>
-                <img alt="question" src={randomQuestions[index].question_img} />
+                {randomQuestions[index].question_img !=
+                'https://res.cloudinary.com/dva9zee9r/image/upload/v1679340393/achievements%20icons/testbuster_icon_brsbfz.png' ? (
+                  <img
+                    alt="question"
+                    src={randomQuestions[index].question_img}
+                    className="question-image-position"
+                  />
+                ) : (
+                  <div></div>
+                )}
               </div>
             )}
             {testType == 'featuredtests' ? (
               <>
-                <div className={featuredData
-                  .find((item) => item.id == randomQuestions[index].options[0])
-                [test.answer].toString()
-                  .includes('https://res.cloudinary.com') ? "optionImgDiv" : "optionDiv"}>
+                <div
+                  className={
+                    featuredData
+                      .find((item) => item.id == randomQuestions[index].options[0])
+                      [test.answer].toString()
+                      .includes('https://res.cloudinary.com')
+                      ? 'optionImgDiv'
+                      : 'optionDiv'
+                  }
+                >
                   {randomQuestions[index].options.map((option) =>
                     featuredData
                       .find((item) => item.id == option)
-                    [test.answer].toString()
+                      [test.answer].toString()
                       .includes('https://res.cloudinary.com') ? (
                       <img
                         key={option}
@@ -605,7 +625,8 @@ const TestDetail = () => {
                         }}
                       />
                     ) : (
-                      <div className="name_container"
+                      <div
+                        className="name_container"
                         key={option}
                         alt="option"
                         onClick={() => {
@@ -626,36 +647,61 @@ const TestDetail = () => {
               </>
             ) : (
               <>
-                <div className="optionTwoDiv">
+                <div
+                  className={
+                    randomQuestions[index].options[0]
+                      .toString()
+                      .includes('https://res.cloudinary.com')
+                      ? 'optionImgDiv'
+                      : randomQuestions[index].options[1]
+                          .toString()
+                          .includes('https://res.cloudinary.com')
+                      ? 'optionImgDiv'
+                      : randomQuestions[index].options[2]
+                          .toString()
+                          .includes('https://res.cloudinary.com')
+                      ? 'optionImgDiv'
+                      : randomQuestions[index].options[3]
+                          .toString()
+                          .includes('https://res.cloudinary.com')
+                      ? 'optionImgDiv'
+                      : randomQuestions[index].options[4]
+                          .toString()
+                          .includes('https://res.cloudinary.com')
+                      ? 'optionImgDiv'
+                      : 'optionDiv'
+                  }
+                >
                   {randomQuestions[index].options.map((option) =>
                     option.toString().includes('https://res.cloudinary.com')
                       ? option != '' && (
-                        <img
-                          key={option}
-                          alt="option"
-                          src={option}
-                          onClick={() => {
-                            if (option == randomQuestions[index].answer) {
-                              setScore((prevScore) => prevScore + 1);
-                            }
-                            setIndex((prevIndex) => prevIndex + 1);
-                          }}
-                        />
-                      )
+                          <img
+                            key={option}
+                            alt="option"
+                            src={option}
+                            onClick={() => {
+                              if (option == randomQuestions[index].answer) {
+                                setScore((prevScore) => prevScore + 1);
+                              }
+                              setIndex((prevIndex) => prevIndex + 1);
+                            }}
+                          />
+                        )
                       : option != '' && (
-                        <div className="option_container"
-                          key={option}
-                          alt="option"
-                          onClick={() => {
-                            if (option == randomQuestions[index].answer) {
-                              setScore((prevScore) => prevScore + 1);
-                            }
-                            setIndex((prevIndex) => prevIndex + 1);
-                          }}
-                        >
-                          <h4>{option}</h4>
-                        </div>
-                      ),
+                          <div
+                            className="option_container"
+                            key={option}
+                            alt="option"
+                            onClick={() => {
+                              if (option == randomQuestions[index].answer) {
+                                setScore((prevScore) => prevScore + 1);
+                              }
+                              setIndex((prevIndex) => prevIndex + 1);
+                            }}
+                          >
+                            <h4>{option}</h4>
+                          </div>
+                        ),
                   )}
                 </div>
                 <ModalTest text="Exit" id={test._id} />
@@ -664,24 +710,50 @@ const TestDetail = () => {
           </div>
         </div>
       ) : (
-        <></>
-      )}{' '}
+        <div></div>
+      )}
       {index == randomQuestions.length && randomQuestions.length != 0 ? (
-        <div>
-          <h4>
-            Score: {score}/{randomQuestions.length}
-          </h4>
-          <h4>
-            Time: {userMinutes}:{userSeconds}
-          </h4>
-        </div>
+        <ModalRecord
+          text="Test finished!"
+          score={score}
+          maxScore={randomQuestions.length}
+          time={initialSeconds - seconds}
+          timeRecord={
+            timeUserRecord < initialSeconds - seconds
+              ? timeUserRecord
+              : initialSeconds - seconds
+          }
+          maxTime={initialSeconds}
+          scoreRecord={scoreUserRecord > score ? scoreUserRecord : score}
+          isNewRecord={
+            scoreUserRecord < score ||
+            (scoreUserRecord == score && timeUserRecord > initialSeconds - seconds)
+          }
+          userId={user._id}
+          testId={testId}
+          testType={testType == 'featuredtests' ? 'FeaturedTest' : 'GenericTest'}
+        />
       ) : finish ? (
-        <div>
-          <h4>Time ran out!</h4>
-          <h4>
-            Score: {score}/{randomQuestions.length}
-          </h4>
-        </div>
+        <ModalRecord
+          text="Time ran out!"
+          score={score}
+          maxScore={randomQuestions.length}
+          time={initialSeconds - seconds}
+          timeRecord={
+            timeUserRecord < initialSeconds - seconds
+              ? timeUserRecord
+              : initialSeconds - seconds
+          }
+          maxTime={initialSeconds}
+          scoreRecord={scoreUserRecord > score ? scoreUserRecord : score}
+          isNewRecord={
+            scoreUserRecord < score ||
+            (scoreUserRecord == score && timeUserRecord > initialSeconds - seconds)
+          }
+          userId={user._id}
+          testId={testId}
+          testType={testType == 'featuredtests' ? 'FeaturedTest' : 'GenericTest'}
+        />
       ) : (
         <div></div>
       )}
