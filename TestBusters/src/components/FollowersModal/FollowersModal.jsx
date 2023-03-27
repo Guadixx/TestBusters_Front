@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import './FollowersModal.css';
 
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { API } from '../../services/API';
 import Avatar from '../../ui/Avatar';
@@ -10,7 +10,6 @@ import { Heading_3, Heading_4, Heading_5 } from '../../ui/Headings';
 
 const FollowersModal = ({ userFollowers, setShowFollowersModal }) => {
   const navigate = useNavigate();
-
   const getFollower = (id) => {
     API.get(`/users/${id}`).then((res) => {
       localStorage.setItem('communityUser', res.data.user);
@@ -39,9 +38,8 @@ const FollowersModal = ({ userFollowers, setShowFollowersModal }) => {
                 <Avatar src={follower.avatar} alt="user avatar" width="m" height="m" />
                 <div className="profile-followers-info">
                   <Heading_4 text={follower.username} weigth="700" />
-                  <Heading_5 text={`Level ${follower.level[0]}`} />
+                  {/*  <Heading_5 text={`Level ${follower.level[0]}`} /> */}
                 </div>
-                <Link to={`/profile/statistics/${follower._id}`}>Details</Link>
               </div>
             ))
           ) : (

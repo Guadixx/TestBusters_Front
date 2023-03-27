@@ -4,6 +4,7 @@ import './Community.css';
 
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useDebounce } from 'use-debounce';
 
 import { UserContext } from '../context/UserContext';
 import { API } from '../services/API';
@@ -12,6 +13,7 @@ import { Heading_3, Heading_4, Heading_5 } from '../ui/Headings';
 const Community = () => {
   const [commmunity, setCommunity] = useState([]);
   const { user } = useContext(UserContext);
+
   const navigate = useNavigate();
   const [params, setParams] = useState({
     limit: 12,
@@ -20,16 +22,25 @@ const Community = () => {
     page: 1,
     mode: -1,
   });
+  const [debounceKeyword] = useDebounce(params.username, 500);
   const getCommunity = () => {
-    console.log(params);
     API.get('/users', { params: params })
       .then((res) => {
         const data = res.data.results;
-        const me = data.find((person) => person.username == user.username);
-        data.splice(data.indexOf(me), 1);
-        setCommunity(data);
+        const dataWithoutMe = [];
+        data.forEach((eachUser) => {
+          if (eachUser.username != user.username) {
+            dataWithoutMe.push(eachUser);
+          }
+        });
+        setCommunity(dataWithoutMe);
       })
       .catch((error) => console.log(error));
+  };
+
+  const handleDebounce = (ev) => {
+    const value = ev.target.value;
+    setParams({ ...params, username: value });
   };
 
   const handleChange = (ev) => {
@@ -42,17 +53,16 @@ const Community = () => {
 
   useEffect(() => {
     getCommunity();
-  }, [params]);
+  }, [debounceKeyword, params.order]);
   return (
     <section className="community">
-      {console.log(params)}
       <div className="community-filter-sort">
         <input
           type="text"
           placeholder="Search user"
           className="community-filter-input"
           onChange={(ev) => {
-            setParams({ ...params, username: ev.target.value });
+            handleDebounce(ev);
           }}
         />
         <select

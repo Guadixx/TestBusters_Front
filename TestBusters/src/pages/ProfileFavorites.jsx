@@ -4,6 +4,7 @@ import { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import EditProfileModal from '../components/EditProfileModal/EditProfileModal';
+import FollowersModal from '../components/FollowersModal/FollowersModal';
 import ProfileHero from '../components/ProfileHero';
 import { UserContext } from '../context/UserContext';
 import { API } from '../services/API';
@@ -13,10 +14,13 @@ import TestProfile from '../ui/TestProfile';
 const ProfileFavorites = () => {
   const [favoritesTests, setFavoritesTest] = useState();
   const [userProfile, setUserProfile] = useState([]);
-  const userLocal = localStorage.getItem('communityUser');
-  const printedUser = JSON.parse(userLocal);
+  const [printedUser, setPrintedUser] = useState(
+    JSON.parse(localStorage.getItem('communityUser')),
+  );
   const { user } = useContext(UserContext);
   const [showModal, setShowModal] = useState(false);
+  const [showFollowersModal, setShowFollowersModal] = useState(false);
+  const [showFollowingModal, setShowFollowingModal] = useState(false);
   const { id } = useParams();
   const getUser = () => {
     API.get(`/users/${id}`).then((res) => {
@@ -46,8 +50,29 @@ const ProfileFavorites = () => {
           ) : (
             <></>
           )}
+          {showFollowersModal ? (
+            <FollowersModal
+              userFollowers={printedUser.followed_users}
+              setShowFollowersModal={setShowFollowersModal}
+            />
+          ) : (
+            <></>
+          )}
+          {showFollowingModal ? (
+            <FollowersModal
+              userFollowers={printedUser.following_users}
+              setShowFollowersModal={setShowFollowingModal}
+            />
+          ) : (
+            <></>
+          )}
 
-          <ProfileHero printedUser={userProfile} setShowModal={setShowModal} />
+          <ProfileHero
+            printedUser={userProfile}
+            setShowModal={setShowModal}
+            setShowFollowersModal={setShowFollowersModal}
+            setShowFollowingModal={setShowFollowingModal}
+          />
           <section className="created-section">
             {favoritesTests.length != 0 ? (
               favoritesTests.map((test) => (

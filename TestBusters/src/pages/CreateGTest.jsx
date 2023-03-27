@@ -3,6 +3,7 @@ import './CreateGTest.css';
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import CreateTestModal from '../components/CreateTestModal/CreateTestModal';
 import { UserContext } from '../context/UserContext';
 import { API } from '../services/API';
 import Icons from '../styles/Icons';
@@ -59,6 +60,12 @@ const CreateGTest = () => {
     random: '',
     comments_enabled: '',
   });
+
+  const [showResultsModal, setShowResultsModal] = useState(false);
+  const [resultMessage, setResultMessage] = useState('Creating test...');
+  const [resultMessage2, setResultMessage2] = useState(
+    'This might take some seconds. Please, wait paciently',
+  );
 
   const generateUrlThumbnail = (item) => {
     const url = URL.createObjectURL(item);
@@ -490,6 +497,11 @@ const CreateGTest = () => {
               if (res.status === 200) {
                 console.log('data and test created');
                 navigate('/tests');
+                /*   setResultMessage('Test created!');
+                setResultMessage2(`We'll be redirecting you to the test page.`); */
+                /*   setTimeout(() => {
+                  navigate(`/tests/${res.data._id}`, { state: 'generictests' });
+                }, 1000); */
                 return;
               }
             })
@@ -503,7 +515,7 @@ const CreateGTest = () => {
   });
   return (
     <section className="create-generic-test">
-      {console.log(questions, 'questions')}
+      {/*      {console.log(questions, 'questions')}
       {console.log(questionImgs, 'questionImages')}
       {console.log(options1, 'options1')}
       {console.log(options2, 'options2')}
@@ -512,7 +524,7 @@ const CreateGTest = () => {
       {console.log(options5, 'options5')}
       {console.log(answers, 'answers')}
       {console.log(options, 'options')}
-      {console.log(questionType)}
+      {console.log(questionType)} */}
       <Heading_1 text="Create Generic Test" weigth="700" size="28px" />
       <form className="create-generic-test-body" onSubmit={(ev) => handleSubmit(ev)}>
         <section className="create-generic-test-filters">
@@ -862,7 +874,20 @@ const CreateGTest = () => {
           ) : (
             <></>
           )}
-          <button type="submit" className="create-test-button">
+          {showResultsModal ? (
+            <CreateTestModal
+              text1={resultMessage}
+              text2={resultMessage2}
+              setShowResultsModal={setShowResultsModal}
+            />
+          ) : (
+            <></>
+          )}
+          <button
+            type="submit"
+            className="create-test-button"
+            onClick={() => setShowResultsModal(true)}
+          >
             Create Test
           </button>
         </section>

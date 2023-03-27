@@ -18,8 +18,9 @@ import StaticsDiv from '../ui/StaticsDiv';
 
 const ProfileStatistics = () => {
   const { id } = useParams();
-  const userLocal = localStorage.getItem('communityUser');
-  const printedUser = JSON.parse(userLocal);
+  const [printedUser, setPrintedUser] = useState(
+    JSON.parse(localStorage.getItem('communityUser')),
+  );
   const { user } = useContext(UserContext);
   const [userProfile, setUserProfile] = useState([]);
   const [averageUser, setAverageUser] = useState(0);
@@ -51,7 +52,6 @@ const ProfileStatistics = () => {
           ) : (
             <></>
           )}
-          {console.log(user.followed_users)}
           {showFollowersModal ? (
             <FollowersModal
               userFollowers={printedUser.followed_users}
@@ -143,12 +143,9 @@ const ProfileStatistics = () => {
               </div>
             </section>
           </section>
-          {console.log(userProfile)}
         </>
       ) : (
         <>
-          {console.log(printedUser)}
-          {console.log(userProfile)}
           <ProfileHero printedUser={printedUser} setShowModal={setShowModal} />
           <div className="loading-statistics"></div>
         </>
