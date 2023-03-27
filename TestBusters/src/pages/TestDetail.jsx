@@ -246,18 +246,18 @@ const TestDetail = () => {
     setUserSeconds(() => {
       return Math.round(
         ((initialSeconds - seconds) / 60 - Math.floor((initialSeconds - seconds) / 60)) *
-          60,
+        60,
       ) >= 10
         ? Math.round(
-            ((initialSeconds - seconds) / 60 -
-              Math.floor((initialSeconds - seconds) / 60)) *
-              60,
-          )
+          ((initialSeconds - seconds) / 60 -
+            Math.floor((initialSeconds - seconds) / 60)) *
+          60,
+        )
         : `0${Math.round(
-            ((initialSeconds - seconds) / 60 -
-              Math.floor((initialSeconds - seconds) / 60)) *
-              60,
-          )}`;
+          ((initialSeconds - seconds) / 60 -
+            Math.floor((initialSeconds - seconds) / 60)) *
+          60,
+        )}`;
     });
   });
   useEffect(() => {
@@ -554,45 +554,44 @@ const TestDetail = () => {
         <div></div>
       )}
       {start & (index != randomQuestions.length) & !finish ? (
-        <div>
+        <div className="testone_container">
           <DivProgress type="CountDown" className="timer" maxValue={initialSeconds} />
-          <div>
+          <div className='testtwo_continer'>
             {testType == 'featuredtests' ? (
-              <div>
+              <div className="titlett_container">
                 {randomQuestions[index].question
                   .toString()
                   .includes('https://res.cloudinary.com') ? (
                   <div className="questionDiv">
-                    <h3>{`${
-                      test.question_text[0] == '.' ? '' : test.question_text[0]
-                    } `}</h3>
+                    <h3>{`${test.question_text[0] == '.' ? '' : test.question_text[0]
+                      } `}</h3>
                     <img alt="question" src={randomQuestions[index].question} />
-                    <h3>{` ${
-                      test.question_text[1] == '.' ? '' : test.question_text[1]
-                    }`}</h3>
+                    <h3>{` ${test.question_text[1] == '.' ? '' : test.question_text[1]
+                      }`}</h3>
                   </div>
                 ) : (
                   <h3>
-                    {`${test.question_text[0] == '.' ? '' : test.question_text[0]} ${
-                      randomQuestions[index].question
-                    } ${test.question_text[1] == '.' ? '' : test.question_text[1]}`}
+                    {`${test.question_text[0] == '.' ? '' : test.question_text[0]} ${randomQuestions[index].question
+                      } ${test.question_text[1] == '.' ? '' : test.question_text[1]}`}
                   </h3>
                 )}
               </div>
             ) : (
-              <div className="questionDiv">
+              <div className="questionTwoDiv">
                 <h3>{randomQuestions[index].question}</h3>
                 <img alt="question" src={randomQuestions[index].question_img} />
               </div>
             )}
-
             {testType == 'featuredtests' ? (
               <>
-                <div className="optionDiv">
+                <div className={featuredData
+                  .find((item) => item.id == randomQuestions[index].options[0])
+                [test.answer].toString()
+                  .includes('https://res.cloudinary.com') ? "optionImgDiv" : "optionDiv"}>
                   {randomQuestions[index].options.map((option) =>
                     featuredData
                       .find((item) => item.id == option)
-                      [test.answer].toString()
+                    [test.answer].toString()
                       .includes('https://res.cloudinary.com') ? (
                       <img
                         key={option}
@@ -606,7 +605,7 @@ const TestDetail = () => {
                         }}
                       />
                     ) : (
-                      <div
+                      <div className="name_container"
                         key={option}
                         alt="option"
                         onClick={() => {
@@ -623,41 +622,40 @@ const TestDetail = () => {
                     ),
                   )}
                 </div>
-
                 <ModalTest text="Exit" id={test._id} />
               </>
             ) : (
               <>
-                <div className="optionDiv">
+                <div className="optionTwoDiv">
                   {randomQuestions[index].options.map((option) =>
                     option.toString().includes('https://res.cloudinary.com')
                       ? option != '' && (
-                          <img
-                            key={option}
-                            alt="option"
-                            src={option}
-                            onClick={() => {
-                              if (option == randomQuestions[index].answer) {
-                                setScore((prevScore) => prevScore + 1);
-                              }
-                              setIndex((prevIndex) => prevIndex + 1);
-                            }}
-                          />
-                        )
+                        <img
+                          key={option}
+                          alt="option"
+                          src={option}
+                          onClick={() => {
+                            if (option == randomQuestions[index].answer) {
+                              setScore((prevScore) => prevScore + 1);
+                            }
+                            setIndex((prevIndex) => prevIndex + 1);
+                          }}
+                        />
+                      )
                       : option != '' && (
-                          <div
-                            key={option}
-                            alt="option"
-                            onClick={() => {
-                              if (option == randomQuestions[index].answer) {
-                                setScore((prevScore) => prevScore + 1);
-                              }
-                              setIndex((prevIndex) => prevIndex + 1);
-                            }}
-                          >
-                            <h4>{option}</h4>
-                          </div>
-                        ),
+                        <div className="option_container"
+                          key={option}
+                          alt="option"
+                          onClick={() => {
+                            if (option == randomQuestions[index].answer) {
+                              setScore((prevScore) => prevScore + 1);
+                            }
+                            setIndex((prevIndex) => prevIndex + 1);
+                          }}
+                        >
+                          <h4>{option}</h4>
+                        </div>
+                      ),
                   )}
                 </div>
                 <ModalTest text="Exit" id={test._id} />
