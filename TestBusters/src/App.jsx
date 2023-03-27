@@ -7,12 +7,15 @@ import Header from './components/Header';
 import RequiredAuth from './components/RequiredAuth/RequiredAuth';
 import GridLayout from './Layout/GridLayout';
 import Community from './pages/Community';
+import CookiesPolicy from './pages/CookiesPolicy';
 import Create from './pages/Create';
 import CreateFTest from './pages/CreateFTest';
 import CreateGTest from './pages/CreateGTest';
 import Home from './pages/Home';
+import LegalAdvice from './pages/LegalAdvice';
 import Login from './pages/Login';
 import NotFound from './pages/NotFound';
+import PrivacyPolicy from './pages/PrivacyPolicy';
 import Profile from './pages/Profile';
 import ProfileCreated from './pages/ProfileCreated';
 import ProfileFavorites from './pages/ProfileFavorites';
@@ -32,6 +35,9 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/register/validate" element={<Validation />} />
+          <Route path="/privacy" element={<PrivacyPolicy />} />
+          <Route path="/cookies" element={<CookiesPolicy />} />
+          <Route path="/legaladvice" element={<LegalAdvice />} />
           <Route
             path="/community"
             element={
