@@ -21,6 +21,8 @@ import ModalRecord from '../ui/ModalRecord';
 import ModalTest from '../ui/ModalTest';
 import RatingStarTest from '../ui/RatingButton';
 import RatingStatic from '../ui/RatingStatic';
+import Spinner from '../ui/Spinner';
+import EditTestsModal from '../components/EditTestsModal';
 
 const TestDetail = () => {
   const testId = useParams().id;
@@ -30,6 +32,7 @@ const TestDetail = () => {
   const userId = {
     userId: user._id,
   };
+  const [showEditModal, setShowEditModal] = useState(false);
   const [test, setTest] = useState({});
   const [featuredData, setFeaturedData] = useState([]);
   const [questions, setQuestions] = useState([]);
@@ -300,291 +303,415 @@ const TestDetail = () => {
   }, [finish]);
   return (
     <div className="testdetail">
-      {!start & (test.creator != undefined) ? (
+      {test != {} ? (
         <>
-          <img src={test.banner} alt="test thumbnail" className="testdetail_banner" />
-          <div className="testdetail_content">
-            <div className="info_container">
-              <div className="testdetail_info">
-                <div className="info_content">
-                  <img
-                    src={test.thumbnail}
-                    alt="test thumbnail"
-                    className="testdetail_thumbnail"
-                  />
-                  <div className="createinfo_container">
-                    <h1>{test != {} && test.title}</h1>
-                    <div className="creator_container">
-                      <img src={test.creator.avatar} alt="avatar of the creator" />
-                      <h4>{test.creator.username}</h4>
-                    </div>
-                    <div className="timesplayed_container">
-                      <img src={Icons.play} alt="play icon" />
-                      <h4>{test.times_played}</h4>
-                    </div>
-
-                    <div className="yourfavorite_container">
-                      <RatingStarTest action={() => handleFavorite()} rated={rated} />
-                      <h4>{favortites}</h4>
-                    </div>
-                    <div className="testdetail-created">
-                      <img src={Icons.clock} alt="clock icon" />
-                      <h4>{test.created.split('T')[0]}</h4>
-                    </div>
-                  </div>
-                </div>
-                <div className="detailtest_container">
-                  <div className="testdetail-rating">
-                    <Heading_3 text={test.rating[0] / test.rating[1]} size="32px" />
-                    <Heading_3 text="/5" size="20px" />
-                  </div>
-                  <RatingStatic rating={test.rating[0] / test.rating[1]} />
-                </div>
-                <div className="finalbtn_container">
-                  <Button
-                    action={() => {
-                      handleStart();
-                    }}
-                    fixed_width="120px"
-                    src={Icons.play}
-                    background={Palette.color_highlight_primary}
-                    color={Palette.color_bg}
-                    textAfter="Play"
-                    size={5}
-                  />
-                </div>
-              </div>
-              <div className="text_container">
-                <Heading_4 text="Description" size="20px" weigth="600" />
-                <p>{test.description.split('/')[0]}</p>
-              </div>
-            </div>
-
-            <div className="middle_content">
-              <div className="leaderboard_content">
-                <Heading_3 text="Leaderboard" size="22px" weigth="600" />
-                <div className="leaderranking_container">
-                  {test.first.length != 0 ? (
-                    <Leaderboard
-                      position="1"
-                      avatar={
-                        test.first[0].user != null
-                          ? test.first[0].user.avatar
-                          : 'https://res.cloudinary.com/dva9zee9r/image/upload/v1679067709/user-dummy-p4ao7p3l9bvrme1wyabiin2vr079ietul8qza7zw2w_dl4uos.png'
-                      }
-                      name={
-                        test.first[0].user != null
-                          ? test.first[0].user.username
-                          : test.first[0].backup_name
-                      }
-                      score={test.first[0].score.split('/').slice(0, 2).join('/')}
-                      time={
-                        test.first[0].score.split('/')[2].split(':')[1].length == 2
-                          ? test.first[0].score.split('/')[2]
-                          : `${test.first[0].score.split('/')[2].split(':')[0]}:0${
-                              test.first[0].score.split('/')[2].split(':')[1]
-                            }`
-                      }
-                    />
-                  ) : (
-                    <Heading_2 text="No first position yet" />
-                  )}
-                  {test.second.length != 0 ? (
-                    <Leaderboard
-                      position="2"
-                      avatar={
-                        test.second[0].user != null
-                          ? test.second[0].user.avatar
-                          : 'https://res.cloudinary.com/dva9zee9r/image/upload/v1679067709/user-dummy-p4ao7p3l9bvrme1wyabiin2vr079ietul8qza7zw2w_dl4uos.png'
-                      }
-                      name={
-                        test.second[0].user != null
-                          ? test.second[0].user.username
-                          : test.second[0].backup_name
-                      }
-                      score={test.second[0].score.split('/').slice(0, 2).join('/')}
-                      time={test.second[0].score.split('/')[2]}
-                    />
-                  ) : (
-                    <Heading_2 text="No second position yet" />
-                  )}
-                  {test.third.length != 0 ? (
-                    <Leaderboard
-                      position="3"
-                      avatar={
-                        test.third[0].user != null
-                          ? test.third[0].user.avatar
-                          : 'https://res.cloudinary.com/dva9zee9r/image/upload/v1679067709/user-dummy-p4ao7p3l9bvrme1wyabiin2vr079ietul8qza7zw2w_dl4uos.png'
-                      }
-                      name={
-                        test.third[0].user != null
-                          ? test.third[0].user.username
-                          : test.third[0].backup_name
-                      }
-                      score={test.third[0].score.split('/').slice(0, 2).join('/')}
-                      time={test.third[0].score.split('/')[2]}
-                    />
-                  ) : (
-                    <Heading_2 text="No third position yet" />
-                  )}
-                </div>
-              </div>
-              <div className="statics_content">
-                {userRecord != null ? (
-                  <>
-                    <Heading_4 text="Your Stats" size="22px" weigth="600" />
-                    <div className="testdetail-circle-message">
-                      <div className="test-detail-message">
-                        <img src={Icons.starsEmoji} alt="emoji star eyes" />
-                        <Heading_5 text="You are awesome!" size="20px" weigth="500" />
-                      </div>
-                      <CircleBar value={average} label="BETTER THAN" />
-                    </div>
-                    <DivProgress
-                      value={parseInt(userRecord.score.split('/')[0])}
-                      maxValue={parseInt(userRecord.score.split('/')[1])}
-                      type="score"
-                      text1="record"
-                      widthb="680px"
-                      widtha="500px"
-                      marginright="3.2rem"
-                    />
-                    <DivProgress
-                      value={
-                        parseInt(userRecord.score.split('/')[2].split(':')[0]) * 60 +
-                        parseInt(userRecord.score.split(':')[1])
-                      }
-                      maxValue={
-                        parseInt(test.time.split(':')[0] * 60) +
-                        parseInt(test.time.split(':')[1])
-                      }
-                      type="time"
-                      text1="time"
-                      widthb="680px"
-                      widtha="500px"
-                    />
-                  </>
-                ) : (
-                  <div className="emptyplayer_container">
-                    <h3> you have not played this test yet</h3>
-                  </div>
-                )}
-              </div>
-            </div>
-            <div className="commentsection_container">
-              <Heading_3 text="Comments" weigth="600" size="22px" />
-              {test.comments_enabled ? (
-                <div className="postacomment_container">
-                  <input
-                    type="text"
-                    className="comment-textInput"
-                    placeholder="Write a comment"
-                    onChange={(ev) =>
-                      setNewComment({
-                        ...newComment,
-                        comment: { ...newComment.comment, content: ev.target.value },
-                      })
-                    }
-                  />
-                  <button
-                    className="post_btn"
-                    onClick={() => {
-                      postComment();
-                    }}
-                  >
-                    Post
-                  </button>
-                </div>
-              ) : (
-                <div></div>
-              )}
-              {comments != undefined && test.comments_enabled ? (
-                comments.length != 0 ? (
-                  !moreComments ? (
-                    <div>
-                      {comments
-                        .reverse()
-                        .slice(0, 3)
-                        .map((comment) => (
-                          <Comment
-                            user={user}
-                            comment={comment}
-                            key={comment._id}
-                            avatar={comment.user.avatar}
-                            name={comment.user.username}
-                            date={comment.date}
-                            content={comment.content}
+          {showEditModal ? (
+            <EditTestsModal
+              test={test}
+              showEditModal={showEditModal}
+              setShowEditModal={setShowEditModal}
+            />
+          ) : (
+            <></>
+          )}
+          {!start & (test.creator != undefined) ? (
+            <>
+              <img src={test.banner} alt="test thumbnail" className="testdetail_banner" />
+              <div className="testdetail_content">
+                <div className="info_container">
+                  <div className="testdetail_info">
+                    <div className="info_content">
+                      <img
+                        src={test.thumbnail}
+                        alt="test thumbnail"
+                        className="testdetail_thumbnail"
+                      />
+                      <div className="createinfo_container">
+                        <div className="testdetail-title-creator">
+                          <h1>{test != {} && test.title}</h1>
+                          <div className="creator_container">
+                            <img src={test.creator.avatar} alt="avatar of the creator" />
+                            <h3>{test.creator.username}</h3>
+                          </div>
+                        </div>
+                        <div className="testdetail-info-others">
+                          <div className="timesplayed_container">
+                            <div>
+                              <img src={Icons.play} alt="play icon" />
+                              <h4>{test.times_played}</h4>
+                            </div>
+                            <Heading_5
+                              text="Times played"
+                              color={Palette.color_secundary}
+                              weigth="500"
+                              size="14px"
+                            />
+                          </div>
+                          <span></span>
+                          <div className="yourfavorite_container">
+                            <div>
+                              <RatingStarTest
+                                action={() => handleFavorite()}
+                                rated={rated}
+                                width="26px"
+                                height="26px"
+                              />
+                              <h4>{favortites}</h4>
+                            </div>
+                            <Heading_5
+                              text="Favorites"
+                              color={Palette.color_secundary}
+                              weigth="500"
+                              size="14px"
+                            />
+                          </div>
+                          <span></span>
+                          <div className="testdetail-created">
+                            <div>
+                              <h6>{test.created.split('T')[0]}</h6>
+                            </div>
+                            <Heading_5
+                              text="Created"
+                              color={Palette.color_secundary}
+                              weigth="500"
+                              size="14px"
+                            />
+                          </div>
+                        </div>
+                        <div className="finalbtn_container">
+                          <Button
                             action={() => {
-                              const actualizedComments = [];
-                              comments.forEach((com) => {
-                                if (com._id != comment._id) {
-                                  actualizedComments.push(com);
-                                }
-                              });
-                              deleteComment(comment._id);
-                              setComments(actualizedComments);
+                              handleStart();
                             }}
-                          ></Comment>
-                        ))}
-                      {comments.length > 3 ? (
-                        <Button
-                          variant="solid"
-                          color={Palette.color_highlight_secondary}
-                          background={Palette.color_bg}
-                          textAfter="See more"
-                          size={4}
-                          action={() => setMoreComments(true)}
-                        />
-                      ) : (
-                        <div></div>
-                      )}
+                            fixed_width="180px"
+                            src={Icons.play}
+                            background={Palette.color_highlight_primary}
+                            color={Palette.color_bg}
+                            textAfter="Play"
+                            size={5}
+                            invert="invert(100%)"
+                            justify="center"
+                          />
+                          {test.creator._id === user._id ? (
+                            <Button
+                              textAfter="Edit Test"
+                              src={Icons.edit}
+                              size={5}
+                              fixed_width="180px"
+                              action={() => setShowEditModal(true)}
+                            />
+                          ) : (
+                            <></>
+                          )}
+                        </div>
+                      </div>
                     </div>
-                  ) : (
-                    <div>
-                      {comments.reverse().map((comment) => (
-                        <Comment
-                          user={user}
-                          comment={comment}
-                          key={comment._id}
-                          avatar={comment.user.avatar}
-                          name={comment.user.username}
-                          date={comment.date}
-                          content={comment.content}
-                          action={() => {
-                            const actualizedComments = [];
-                            comments.forEach((com) => {
-                              if (com._id != comment._id) {
-                                actualizedComments.push(com);
-                              }
-                            });
-                            deleteComment(comment._id);
-                            setComments(actualizedComments);
-                          }}
-                        ></Comment>
-                      ))}
-                      <Button
-                        variant="solid"
-                        color={Palette.color_highlight_secondary}
-                        background={Palette.color_bg}
-                        textAfter="See less"
-                        size={4}
-                        action={() => setMoreComments(false)}
+                    <div className="detailtest_container">
+                      <div className="testdetail-rating">
+                        {test.rating[0] != 0 ? (
+                          <>
+                            <Heading_3
+                              text={(test.rating[0] / test.rating[1]).toFixed(1)}
+                              size="48px"
+                            />
+                            <Heading_3 text="/5" size="25px" />{' '}
+                          </>
+                        ) : (
+                          <Heading_3 text="No ratings yet" />
+                        )}
+                      </div>
+                      <RatingStatic
+                        rating={test.rating[0] / test.rating[1]}
+                        width="30px"
+                        height="30px"
                       />
                     </div>
-                  )
-                ) : (
-                  <h6>No comments yet...</h6>
-                )
-              ) : (
-                <div>
-                  <h6>Comments are disabled for this test...</h6>
+                  </div>
+                  <div className="text_container">
+                    <Heading_4 text="Description" size="22px" weigth="600" />
+                    <p>{test.description.split('/')[0]}</p>
+                  </div>
                 </div>
-              )}
-            </div>
-          </div>
+
+                <div className="middle_content">
+                  <div className="leaderboard_content">
+                    <Heading_3 text="Leaderboard" size="22px" weigth="600" />
+                    <div className="leaderranking_container">
+                      {test.first.length != 0 ? (
+                        <Leaderboard
+                          position="1"
+                          avatar={
+                            test.first[0].user != null
+                              ? test.first[0].user.avatar
+                              : 'https://res.cloudinary.com/dva9zee9r/image/upload/v1679067709/user-dummy-p4ao7p3l9bvrme1wyabiin2vr079ietul8qza7zw2w_dl4uos.png'
+                          }
+                          name={
+                            test.first[0].user != null
+                              ? test.first[0].user.username
+                              : test.first[0].backup_name
+                          }
+                          score={test.first[0].score.split('/').slice(0, 2).join('/')}
+                          time={
+                            test.first[0].score.split('/')[2].split(':')[1].length == 1 &&
+                            test.first[0].score.split('/')[2].split(':')[0].length == 1
+                              ? `0${test.first[0].score.split('/')[2].split(':')[0]}:0${
+                                  test.first[0].score.split('/')[2].split(':')[1]
+                                }`
+                              : test.first[0].score.split('/')[2].split(':')[0].length ==
+                                1
+                              ? `0${test.first[0].score.split('/')[2].split(':')[0]}:${
+                                  test.first[0].score.split('/')[2].split(':')[1]
+                                }`
+                              : test.first[0].score.split('/')[2].split(':')[1].length ==
+                                1
+                              ? `${test.first[0].score.split('/')[2].split(':')[0]}:0${
+                                  test.first[0].score.split('/')[2].split(':')[1]
+                                }`
+                              : test.first[0].score.split('/')[2]
+                          }
+                        />
+                      ) : (
+                        <Heading_2 text="No first position yet" />
+                      )}
+                      {test.second.length != 0 ? (
+                        <Leaderboard
+                          position="2"
+                          avatar={
+                            test.second[0].user != null
+                              ? test.second[0].user.avatar
+                              : 'https://res.cloudinary.com/dva9zee9r/image/upload/v1679067709/user-dummy-p4ao7p3l9bvrme1wyabiin2vr079ietul8qza7zw2w_dl4uos.png'
+                          }
+                          name={
+                            test.second[0].user != null
+                              ? test.second[0].user.username
+                              : test.second[0].backup_name
+                          }
+                          score={test.second[0].score.split('/').slice(0, 2).join('/')}
+                          time={
+                            test.second[0].score.split('/')[2].split(':')[1].length ==
+                              1 &&
+                            test.second[0].score.split('/')[2].split(':')[0].length == 1
+                              ? `0${test.second[0].score.split('/')[2].split(':')[0]}:0${
+                                  test.second[0].score.split('/')[2].split(':')[1]
+                                }`
+                              : test.second[0].score.split('/')[2].split(':')[0].length ==
+                                1
+                              ? `0${test.second[0].score.split('/')[2].split(':')[0]}:${
+                                  test.second[0].score.split('/')[2].split(':')[1]
+                                }`
+                              : test.second[0].score.split('/')[2].split(':')[1].length ==
+                                1
+                              ? `${test.second[0].score.split('/')[2].split(':')[0]}:0${
+                                  test.second[0].score.split('/')[2].split(':')[1]
+                                }`
+                              : test.second[0].score.split('/')[2]
+                          }
+                        />
+                      ) : (
+                        <Heading_2 text="No second position yet" />
+                      )}
+                      {test.third.length != 0 ? (
+                        <Leaderboard
+                          position="3"
+                          avatar={
+                            test.third[0].user != null
+                              ? test.third[0].user.avatar
+                              : 'https://res.cloudinary.com/dva9zee9r/image/upload/v1679067709/user-dummy-p4ao7p3l9bvrme1wyabiin2vr079ietul8qza7zw2w_dl4uos.png'
+                          }
+                          name={
+                            test.third[0].user != null
+                              ? test.third[0].user.username
+                              : test.third[0].backup_name
+                          }
+                          score={test.third[0].score.split('/').slice(0, 2).join('/')}
+                          time={
+                            test.third[0].score.split('/')[2].split(':')[1].length == 1 &&
+                            test.third[0].score.split('/')[2].split(':')[0].length == 1
+                              ? `0${test.third[0].score.split('/')[2].split(':')[0]}:0${
+                                  test.third[0].score.split('/')[2].split(':')[1]
+                                }`
+                              : test.third[0].score.split('/')[2].split(':')[0].length ==
+                                1
+                              ? `0${test.third[0].score.split('/')[2].split(':')[0]}:${
+                                  test.third[0].score.split('/')[2].split(':')[1]
+                                }`
+                              : test.third[0].score.split('/')[2].split(':')[1].length ==
+                                1
+                              ? `${test.third[0].score.split('/')[2].split(':')[0]}:0${
+                                  test.third[0].score.split('/')[2].split(':')[1]
+                                }`
+                              : test.third[0].score.split('/')[2]
+                          }
+                        />
+                      ) : (
+                        <Heading_2 text="No third position yet" />
+                      )}
+                    </div>
+                  </div>
+                  <div className="statics_content">
+                    {userRecord != null ? (
+                      <>
+                        <Heading_4 text="Your Stats" size="22px" weigth="600" />
+                        <div className="testdetail-circle-message">
+                          <div className="test-detail-message">
+                            <img src={Icons.starsEmoji} alt="emoji star eyes" />
+                            <Heading_5 text="You are awesome!" size="20px" weigth="500" />
+                          </div>
+                          <CircleBar value={average} label="BETTER THAN" />
+                        </div>
+                        <DivProgress
+                          value={parseInt(userRecord.score.split('/')[0])}
+                          maxValue={parseInt(userRecord.score.split('/')[1])}
+                          type="score"
+                          text1="record"
+                          widthb="50vw"
+                          widtha="37vw"
+                          marginright="1rem"
+                        />
+                        <DivProgress
+                          value={
+                            parseInt(userRecord.score.split('/')[2].split(':')[0]) * 60 +
+                            parseInt(userRecord.score.split(':')[1])
+                          }
+                          maxValue={
+                            parseInt(test.time.split(':')[0] * 60) +
+                            parseInt(test.time.split(':')[1])
+                          }
+                          type="time"
+                          text1="time"
+                          widthb="50vw"
+                          widtha="37vw"
+                        />
+                      </>
+                    ) : (
+                      <div className="emptyplayer_container">
+                        <Heading_4 text="Your Stats" size="22px" weigth="600" />
+                        <h3> you have not played this test yet</h3>
+                      </div>
+                    )}
+                  </div>
+                </div>
+                <div className="commentsection_container">
+                  <Heading_3 text="Comments" weigth="600" size="22px" />
+                  {test.comments_enabled ? (
+                    <div className="postacomment_container">
+                      <input
+                        type="text"
+                        className="comment-textInput"
+                        placeholder="Write a comment"
+                        onChange={(ev) =>
+                          setNewComment({
+                            ...newComment,
+                            comment: { ...newComment.comment, content: ev.target.value },
+                          })
+                        }
+                      />
+                      <button
+                        className="post_btn"
+                        onClick={() => {
+                          postComment();
+                        }}
+                      >
+                        Post
+                      </button>
+                    </div>
+                  ) : (
+                    <div></div>
+                  )}
+                  {comments != undefined && test.comments_enabled ? (
+                    comments.length != 0 ? (
+                      !moreComments ? (
+                        <div>
+                          {comments
+                            .reverse()
+                            .slice(0, 3)
+                            .map((comment) => (
+                              <>
+                                <Comment
+                                  user={user}
+                                  comment={comment}
+                                  key={comment._id}
+                                  avatar={comment.user.avatar}
+                                  name={comment.user.username}
+                                  date={comment.date}
+                                  content={comment.content}
+                                  action={() => {
+                                    const actualizedComments = [];
+                                    comments.forEach((com) => {
+                                      if (com._id != comment._id) {
+                                        actualizedComments.push(com);
+                                      }
+                                    });
+                                    deleteComment(comment._id);
+                                    setComments(actualizedComments);
+                                  }}
+                                ></Comment>
+                                <span></span>
+                              </>
+                            ))}
+                          {comments.length > 3 ? (
+                            <Button
+                              variant="solid"
+                              color={Palette.color_highlight_secondary}
+                              background={Palette.color_bg}
+                              textAfter="See more"
+                              size={4}
+                              action={() => setMoreComments(true)}
+                            />
+                          ) : (
+                            <div></div>
+                          )}
+                        </div>
+                      ) : (
+                        <div>
+                          {comments.reverse().map((comment) => (
+                            <Comment
+                              user={user}
+                              comment={comment}
+                              key={comment._id}
+                              avatar={comment.user.avatar}
+                              name={comment.user.username}
+                              date={comment.date}
+                              content={comment.content}
+                              action={() => {
+                                const actualizedComments = [];
+                                comments.forEach((com) => {
+                                  if (com._id != comment._id) {
+                                    actualizedComments.push(com);
+                                  }
+                                });
+                                deleteComment(comment._id);
+                                setComments(actualizedComments);
+                              }}
+                            ></Comment>
+                          ))}
+                          <Button
+                            variant="solid"
+                            color={Palette.color_highlight_secondary}
+                            background={Palette.color_bg}
+                            textAfter="See less"
+                            size={4}
+                            action={() => setMoreComments(false)}
+                          />
+                        </div>
+                      )
+                    ) : (
+                      <h6>Be the first one to comment!</h6>
+                    )
+                  ) : (
+                    <div>
+                      <h5>Comments are disabled for this test...</h5>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </>
+          ) : (
+            <div></div>
+          )}{' '}
         </>
       ) : (
-        <div></div>
+        <Spinner />
       )}
       {start & (index != randomQuestions.length) & !finish ? (
         <div className="testone_container">

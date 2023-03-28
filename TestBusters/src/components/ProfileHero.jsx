@@ -13,6 +13,7 @@ const ProfileHero = ({
   setShowModal,
   setShowFollowersModal,
   setShowFollowingModal,
+  setShowPasswordModal,
 }) => {
   const { id } = useParams();
   const user = JSON.parse(localStorage.getItem('user'));
@@ -104,6 +105,7 @@ const ProfileHero = ({
           action={() => setShowModal(true)}
           action1={() => setShowFollowersModal(true)}
           action2={() => setShowFollowingModal(true)}
+          action3={() => setShowPasswordModal(true)}
         />
       ) : (
         <ProfileInfo
@@ -126,6 +128,7 @@ const ProfileHero = ({
           }}
           action1={() => setShowFollowersModal(true)}
           action2={() => setShowFollowingModal(true)}
+          display="none"
         />
       )}
       <NavBar links={links} />

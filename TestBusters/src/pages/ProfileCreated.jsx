@@ -1,8 +1,9 @@
 import './ProfileCreated.css';
 
 import { useContext, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
+import ChangePasswordModal from '../components/ChangePasswordModal';
 import EditProfileModal from '../components/EditProfileModal/EditProfileModal';
 import FollowersModal from '../components/FollowersModal/FollowersModal';
 import ProfileHero from '../components/ProfileHero';
@@ -13,15 +14,23 @@ import TestProfile from '../ui/TestProfile';
 
 const ProfileCreated = () => {
   const [createdTests, setCreatedTest] = useState();
+  const navigate = useNavigate();
   const [userProfile, setUserProfile] = useState([]);
-  const [printedUser, setPrintedUser] = useState(
-    JSON.parse(localStorage.getItem('communityUser')),
-  );
+  const [printedUser] = useState(JSON.parse(localStorage.getItem('communityUser')));
   const { user } = useContext(UserContext);
   const [showModal, setShowModal] = useState(false);
   const [showFollowersModal, setShowFollowersModal] = useState(false);
   const [showFollowingModal, setShowFollowingModal] = useState(false);
+  const [showPasswordModal, setShowPasswordModal] = useState(false);
   const { id } = useParams();
+
+  const handleTestType = (test) => {
+    if (test.test_type == 'generic') {
+      navigate(`/tests/${test._id}`, { state: { testType: 'generictests' } });
+    } else {
+      navigate(`/tests/${test._id}`, { state: { testType: 'featuredtests' } });
+    }
+  };
 
   const getUser = () => {
     API.get(`/users/${id}`).then((res) => {
@@ -66,11 +75,21 @@ const ProfileCreated = () => {
           ) : (
             <></>
           )}
+          {showPasswordModal ? (
+            <ChangePasswordModal
+              user={user}
+              showPasswordModal={showPasswordModal}
+              setShowPasswordModal={setShowPasswordModal}
+            />
+          ) : (
+            <></>
+          )}
           <ProfileHero
             printedUser={userProfile}
             setShowModal={setShowModal}
             setShowFollowersModal={setShowFollowersModal}
             setShowFollowingModal={setShowFollowingModal}
+            setShowPasswordModal={setShowPasswordModal}
           />
           <section className="created-section">
             {createdTests.length != 0 ? (
@@ -81,6 +100,10 @@ const ProfileCreated = () => {
                   testcreator={test.creator}
                   rating={test.rating[0] / test.rating[1]}
                   thumbnail={test.thumbnail}
+                  text="Details"
+                  action={() => {
+                    handleTestType(test);
+                  }}
                 />
               ))
             ) : (
