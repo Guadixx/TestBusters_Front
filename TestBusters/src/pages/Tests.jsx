@@ -22,6 +22,8 @@ const Tests = () => {
     page: 1,
     mode: -1,
   });
+  const [debounceValue] = useDebounce(params.title, 200);
+
   const handleDebounce = (ev) => {
     const value = ev.target.value;
     setParams({ ...params, title: value });
@@ -39,13 +41,40 @@ const Tests = () => {
         console.log(response.data.info);
         response.data.info.next === null ? setNextPage(false) : setNextPage(true);
       })
-
+      .catch((error) => console.log(error));
+  };
+  window.addEventListener('scroll', () => {
+    if (nextPage) {
+      setOffset(window.scrollY);
+    }
+  });
+  useEffect(() => {
+    if (loaded && nextPage && tests.length > 19) {
+      const observer = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+          const limit = params.limit + 20;
+          setParams({ ...params, limit: limit });
+          const actualizedParams = { ...params, limit: limit };
+          getTest(actualizedParams);
+        }
+      });
 
       observer.observe(document.querySelector('.scroll-target'));
       return () => observer.disconnect();
     }
   }, [offSet]);
   useEffect(() => {
+    const actualizedParams = {
+      limit: 20,
+      order: params.order,
+      title: debounceValue,
+      page: 1,
+      mode: params.mode,
+    };
+    setParams(actualizedParams);
+    getTest(actualizedParams);
+  }, [typeTest, params.order, params.mode, debounceValue]);
+
   return (
     <div className="tests">
       <h1>Choose a Test!!</h1>
@@ -118,11 +147,11 @@ const Tests = () => {
             <Heading_3 text="ORDER" weigth="600" size="16px" />
             <div className="order-test">
               <input type="radio" id="ascending" name="mode" value="-1" />
-              <label htmlFor="ascending">Ascending</label>
+              <label htmlFor="ascending">Latest</label>
             </div>
             <div className="order-test">
               <input type="radio" id="descending" name="mode" value="1" />
-              <label htmlFor="descending">Descending</label>
+              <label htmlFor="descending">Most Popular</label>
             </div>
           </div>
         </div>
@@ -134,6 +163,11 @@ const Tests = () => {
               <h1>Loading</h1>
             )}
           </div>
+          {loaded && nextPage && tests.length > 19 ? (
+            <h4 className="scroll-target">Load More</h4>
+          ) : (
+            <div></div>
+          )}
         </div>
       </section>
     </div>
