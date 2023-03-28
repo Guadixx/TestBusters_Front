@@ -80,6 +80,7 @@ const ModalTest = ({ text }) => {
           <div className="buttons">
             <Button
               fixed_width={'100px'}
+              fixed_height={'30px'}
               textAfter="No"
               size="4"
               margin={'10px'}
@@ -91,6 +92,7 @@ const ModalTest = ({ text }) => {
             />
             <Button
               fixed_width={'100px'}
+              fixed_height={'30px'}
               textAfter="Yes"
               size="4"
               margin={'10px'}
