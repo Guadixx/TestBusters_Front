@@ -52,6 +52,7 @@ const Heading3Styled = styled.h3`
   font-weight: ${({ weigth }) => (weigth ? weigth : 400)};
   margin-left: ${({ marginleft }) => (marginleft ? marginleft : 0)};
   margin-right: ${({ marginright }) => (marginright ? marginright : 0)};
+  text-shadow: ${({ shadow }) => (shadow ? shadow : 0)};
   z-index: ${({ z }) => z};
 `;
 export const Heading_3 = ({
@@ -63,6 +64,7 @@ export const Heading_3 = ({
   weigth,
   marginleft,
   marginright,
+  shadow,
 }) => {
   return (
     <Heading3Styled
@@ -74,6 +76,7 @@ export const Heading_3 = ({
       weigth={weigth}
       marginleft={marginleft}
       marginright={marginright}
+      shadow={shadow}
     >
       {text}
     </Heading3Styled>
