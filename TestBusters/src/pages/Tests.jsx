@@ -12,53 +12,67 @@ const Tests = () => {
   const [typeTest, setTypeTest] = useState('featuredtests');
   const [onFocus, setOnFocus] = useState(false);
   const [disable, setDisable] = useState(false);
-  const [nextPage, setNextPage] = useState(true);
+  const [nextPage, setNextPage] = useState(false);
+  const [loaded, setLoaded] = useState(false);
+  const [offSet, setOffset] = useState(0);
   const [params, setParams] = useState({
-    limit: 9,
+    limit: 20,
     order: '',
     title: '',
     page: 1,
     mode: -1,
   });
-  const [debounceValue] = useDebounce(params.title, 500);
+  const [debounceValue] = useDebounce(params.title, 200);
 
   const handleDebounce = (ev) => {
     const value = ev.target.value;
     setParams({ ...params, title: value });
   };
-  const getTest = () => {
+  const getTest = (actualizedParams) => {
+    setLoaded(false);
     setDisable(true);
-    if (nextPage) {
-      API.get(`/${typeTest}`, {
-        params: params,
+    API.get(`/${typeTest}`, {
+      params: actualizedParams,
+    })
+      .then((response) => {
+        setTests(response.data.results);
+        setLoaded(true);
+        setDisable(false);
+        console.log(response.data.info);
+        response.data.info.next === null ? setNextPage(false) : setNextPage(true);
       })
-        .then((response) => {
-          setTests((prevTests) => [...prevTests, ...response.data.results]);
-          console.log(response.data.info);
-          if (response.data.info.next === null) {
-            setNextPage(false);
-          }
-        })
-        .catch((error) => console.log(error));
-    }
+      .catch((error) => console.log(error));
   };
-
+  window.addEventListener('scroll', () => {
+    if (nextPage) {
+      setOffset(window.scrollY);
+    }
+  });
   useEffect(() => {
-    const observer = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting) {
-        setParams({ ...params, page: params.page + 1 });
-        console.log(params);
-        getTest();
-      }
-    });
+    if (loaded && nextPage && tests.length > 19) {
+      const observer = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+          const limit = params.limit + 20;
+          setParams({ ...params, limit: limit });
+          const actualizedParams = { ...params, limit: limit };
+          getTest(actualizedParams);
+        }
+      });
 
-    observer.observe(document.querySelector('.scroll-target'));
-
-    return () => observer.disconnect();
-  }, [params.page]);
-
+      observer.observe(document.querySelector('.scroll-target'));
+      return () => observer.disconnect();
+    }
+  }, [offSet]);
   useEffect(() => {
-    getTest();
+    const actualizedParams = {
+      limit: 20,
+      order: params.order,
+      title: debounceValue,
+      page: 1,
+      mode: params.mode,
+    };
+    setParams(actualizedParams);
+    getTest(actualizedParams);
   }, [typeTest, params.order, params.mode, debounceValue]);
 
   return (
@@ -149,7 +163,11 @@ const Tests = () => {
               <h1>Loading</h1>
             )}
           </div>
-          <h4 className="scroll-target"> Load More</h4>
+          {loaded && nextPage && tests.length > 19 ? (
+            <h4 className="scroll-target">Load More</h4>
+          ) : (
+            <div></div>
+          )}
         </div>
       </section>
     </div>
