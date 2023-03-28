@@ -12,71 +12,40 @@ const Tests = () => {
   const [typeTest, setTypeTest] = useState('featuredtests');
   const [onFocus, setOnFocus] = useState(false);
   const [disable, setDisable] = useState(false);
-  const [nextPage, setNextPage] = useState(true);
+  const [nextPage, setNextPage] = useState(false);
+  const [loaded, setLoaded] = useState(false);
+  const [offSet, setOffset] = useState(0);
   const [params, setParams] = useState({
-    limit: 9,
+    limit: 20,
     order: '',
     title: '',
     page: 1,
     mode: -1,
   });
-  const [debounceValue] = useDebounce(params.title, 500);
-  const [loadMessage, setLoadMessage] = useState('Load More');
-
   const handleDebounce = (ev) => {
     const value = ev.target.value;
     setParams({ ...params, title: value });
   };
-  const getTest = () => {
+  const getTest = (actualizedParams) => {
+    setLoaded(false);
     setDisable(true);
-    if (nextPage) {
-      API.get(`/${typeTest}`, {
-        params: params,
+    API.get(`/${typeTest}`, {
+      params: actualizedParams,
+    })
+      .then((response) => {
+        setTests(response.data.results);
+        setLoaded(true);
+        setDisable(false);
+        console.log(response.data.info);
+        response.data.info.next === null ? setNextPage(false) : setNextPage(true);
       })
-        .then((response) => {
-          setDisable(false);
-          handleObserver();
-          const newTests = [];
-          const actualTests = [...tests];
-          if (actualTests.length != 0) {
-            for (const newtest of response.data.results) {
-              console.log(newtest);
-              for (const actualtest of actualTests) {
-                console.log(actualtest);
-                if (newTests._id != actualtest._id) {
-                  newTests.push(newtest);
-                }
-              }
-            }
-            setTests((prevTests) => [...prevTests, ...newTests]);
-          } else {
-            setTests(response.data.results);
-          }
-          if (response.data.info.next === null) {
-            setNextPage(false);
-            setLoadMessage('No more tests');
-          }
-        })
-        .catch((error) => console.log(error));
+
+
+      observer.observe(document.querySelector('.scroll-target'));
+      return () => observer.disconnect();
     }
-  };
-
-  const handleObserver = () => {
-    const observer = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting) {
-        setParams({ ...params, page: params.page + 1 });
-      }
-    });
-
-    observer.observe(document.querySelector('.scroll-target'));
-
-    return () => observer.disconnect();
-  };
-
+  }, [offSet]);
   useEffect(() => {
-    getTest();
-  }, [typeTest, params.order, params.mode, debounceValue, params.page]);
-
   return (
     <div className="tests">
       <h1>Choose a Test!!</h1>
@@ -165,7 +134,6 @@ const Tests = () => {
               <h1>Loading</h1>
             )}
           </div>
-          <h4 className="scroll-target">{loadMessage}</h4>
         </div>
       </section>
     </div>
