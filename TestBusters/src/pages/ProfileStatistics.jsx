@@ -3,6 +3,7 @@ import './ProfileStatistics.css';
 import { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
+import ChangePasswordModal from '../components/ChangePasswordModal';
 import EditProfileModal from '../components/EditProfileModal/EditProfileModal';
 import FollowersModal from '../components/FollowersModal/FollowersModal';
 import ProfileHero from '../components/ProfileHero';
@@ -19,15 +20,14 @@ import StaticsDiv from '../ui/StaticsDiv';
 
 const ProfileStatistics = () => {
   const { id } = useParams();
-  const [printedUser, setPrintedUser] = useState(
-    JSON.parse(localStorage.getItem('communityUser')),
-  );
+  const [printedUser] = useState(JSON.parse(localStorage.getItem('communityUser')));
   const { user } = useContext(UserContext);
   const [userProfile, setUserProfile] = useState([]);
   const [averageUser, setAverageUser] = useState(0);
   const [showModal, setShowModal] = useState(false);
   const [showFollowersModal, setShowFollowersModal] = useState(false);
   const [showFollowingModal, setShowFollowingModal] = useState(false);
+  const [showPasswordModal, setShowPasswordModal] = useState(false);
   const getUser = () => {
     API.get(`/users/${id}`).then((res) => {
       setUserProfile(res.data.user);
@@ -70,11 +70,22 @@ const ProfileStatistics = () => {
             <></>
           )}
 
+          {showPasswordModal ? (
+            <ChangePasswordModal
+              user={user}
+              showPasswordModal={showPasswordModal}
+              setShowPasswordModal={setShowPasswordModal}
+            />
+          ) : (
+            <></>
+          )}
+
           <ProfileHero
             printedUser={userProfile}
             setShowModal={setShowModal}
             setShowFollowersModal={setShowFollowersModal}
             setShowFollowingModal={setShowFollowingModal}
+            setShowPasswordModal={setShowPasswordModal}
           />
           <section className="statistics-section">
             <section className="statistics-first">
@@ -130,7 +141,22 @@ const ProfileStatistics = () => {
                       score={`${record.score.split('/')[0]}/${
                         record.score.split('/')[1]
                       }`}
-                      time={record.score.split('/')[2]}
+                      time={
+                        record.score.split('/')[2].split(':')[1].length == 1 &&
+                        record.score.split('/')[2].split(':')[0].length == 1
+                          ? `0${record.score.split('/')[2].split(':')[0]}:0${
+                              record.score.split('/')[2].split(':')[1]
+                            }`
+                          : record.score.split('/')[2].split(':')[0].length == 1
+                          ? `0${record.score.split('/')[2].split(':')[0]}:${
+                              record.score.split('/')[2].split(':')[1]
+                            }`
+                          : record.score.split('/')[2].split(':')[1].length == 1
+                          ? `${record.score.split('/')[2].split(':')[0]}:0${
+                              record.score.split('/')[2].split(':')[1]
+                            }`
+                          : record.score.split('/')[2]
+                      }
                     />
                   ))
                 ) : (

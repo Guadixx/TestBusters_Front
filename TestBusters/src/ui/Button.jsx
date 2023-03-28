@@ -2,8 +2,8 @@ import styled from 'styled-components';
 
 import { Spacing } from '../styles/Spacing';
 const ButtonStyled = styled.button`
-  display: flex;
-  justify-content: space-around;
+  display: ${({ display }) => (display ? display : 'flex')};
+  justify-content: ${({ justify }) => (justify ? justify : 'space-around')};
   align-items: center;
   width: ${({ fixed_width }) => (fixed_width ? fixed_width : 'max-content')};
   height: ${({ fixed_height }) => (fixed_height ? fixed_height : 'max-content')};
@@ -84,7 +84,7 @@ const ButtonStyled = styled.button`
     transform: ${({ disabled }) => (disabled ? 'scale(100%)' : 'scale(99.5%)')};
   }
   & img {
-    filter: invert(100%);
+    filter: ${({ invert }) => (invert ? invert : 'invert(0%)')};
     width: ${({ size }) =>
       size == 1
         ? Spacing._1
@@ -119,6 +119,9 @@ const Button = ({
   margin,
   padding,
   type,
+  invert,
+  display,
+  justify,
 }) => {
   return (
     <ButtonStyled
@@ -135,6 +138,9 @@ const Button = ({
       margin={margin}
       padding={padding}
       type={type}
+      invert={invert}
+      display={display}
+      justify={justify}
     >
       {textBefore}
       {src && <img src={src} alt={alt} />}

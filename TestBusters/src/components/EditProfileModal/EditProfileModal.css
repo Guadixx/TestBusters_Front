@@ -1,5 +1,5 @@
 .edit-profile-modal {
-  background-color: #cccccba7;
+  background-color: #5c5c5ca7;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -17,8 +17,7 @@
   background-color: var(--color-bg);
   width: 500px;
   min-height: 400px;
-  border-top-right-radius: 8px;
-  border-top-left-radius: 8px;
+  border-radius: 8px;
   padding: 2.5rem 3rem;
   overflow: hidden;
   box-shadow: rgba(154, 157, 160, 0.3) 0px 0px 2px 0px,
@@ -28,8 +27,8 @@
   align-items: center;
   gap: 1rem;
   animation-name: pulso;
-  animation-duration: 0.3s;
-  animation-timing-function: ease-out;
+  animation-duration: 0.15s;
+  animation-timing-function: ease-in-out;
 }
 
 .edit-profile-images {
@@ -94,19 +93,17 @@
   position: absolute;
   pointer-events: none;
   transition: all 0.2s ease-in-out;
-  bottom: 7px;
+  bottom: 5px;
   left: 9px;
-  text-transform: lowercase !important;
-  font-size: 14px !important;
   color: rgba(51, 51, 51, 0.597);
   background-color: var(--color-bg);
-  font-weight: 400 !important;
 }
 
 .input_username:focus ~ .custom-placeholder-profile,
 .input_username:not(:placeholder-shown) ~ .custom-placeholder-profile {
   left: 9px;
-  bottom: 30px;
+  bottom: 28px;
+  font-size: 13px;
   color: rgba(51, 51, 51, 0.597);
 }
 .edit-username,
@@ -119,9 +116,8 @@
 .edit-username > label,
 .edit-bio > label {
   margin: 0.6rem 0.1rem;
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  font-weight: 600;
+  font-size: 14px;
+  font-weight: 400;
 }
 
 .input_bio {
@@ -138,6 +134,7 @@
 .input_bio:not(:placeholder-shown) ~ .custom-placeholder-profile-bio {
   left: 9px;
   bottom: 74px;
+  font-size: 13px;
   color: rgba(51, 51, 51, 0.597);
 }
 
@@ -147,11 +144,8 @@
   transition: all 0.2s ease-in-out;
   bottom: 52px;
   left: 9px;
-  text-transform: lowercase !important;
-  font-size: 14px !important;
   color: rgba(51, 51, 51, 0.597);
   background-color: var(--color-bg);
-  font-weight: 400 !important;
 }
 .input_username-rescale {
   margin-top: 0;
@@ -168,9 +162,13 @@
   border-top-right-radius: 0;
   border-top-left-radius: 0;
 }
+
+.see_btn img {
+  filter: opacity(50%);
+}
 @keyframes pulso {
   0% {
-    transform: scale(0.8);
+    transform: scale(0.95);
   }
   100% {
     transform: scale(1);

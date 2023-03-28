@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import useLocalStorage from '../customHooks/useLocalStorage';
 import { API } from '../services/API';
+import Icons from '../styles/Icons';
 //import { UserContext } from '../context/UserContext';
 //import { API } from '../services/API';
 import Palette from '../styles/Palette';
@@ -60,10 +61,17 @@ const ModalRecordStyled = styled.div`
   }
   & .rating-end-test-container {
     display: flex;
-    width: 50%;
+    width: 100%;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+  }
+  & .rating-end-test-container img {
+    width: 80px;
+  }
+
+  & .rating-end-test-container h2 {
+    font-size: 24px;
   }
   & .containers-end-test-container {
     display: flex;
@@ -166,6 +174,7 @@ const ModalRecord = ({
             <div className="stats-container">
               <div className="circlebar-end-test-container">
                 <div className="rating-end-test-container">
+                  <img src={Icons.starsEmoji} alt="star eyes emoji" />
                   <h2>You are awesome!!</h2>
                 </div>
               </div>
@@ -223,7 +232,7 @@ const ModalRecord = ({
               </div>
               <div className="button-end-test-container">
                 <Button
-                  fixed_width={'100px'}
+                  fixed_width={'150px'}
                   textAfter="Close results"
                   size="4"
                   background={Palette.color_highlight_primary}

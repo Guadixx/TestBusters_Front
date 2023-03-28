@@ -1,25 +1,28 @@
-import './EditProfileModal.css';
+import '../EditProfileModal/EditProfileModal.css';
+import './EditTestModal.css';
 
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { API } from '../../services/API';
-import { checkUser } from '../../services/checkForm';
+/* import { checkUser } from '../services/checkForm'; */
 import Palette from '../../styles/Palette';
-import Avatar from '../../ui/Avatar';
 import Button from '../../ui/Button';
 import { Heading_6 } from '../../ui/Headings';
 import ImageTests from '../../ui/ImageTests';
-const EditProfileModal = ({ user, showModal, setShowModal }) => {
-  const { register, handleSubmit } = useForm();
-  const [avatarFileName, setAvatarFileName] = useState('');
-  const [bannerFileName, setBannerFileName] = useState('');
-  const [avatarPreview, setAvatarPreview] = useState('');
-  const [bannerPreview, setBannerPreview] = useState('');
-  const [editUsername, setEditUsername] = useState(0);
-  const [editBio, setEditBio] = useState(0);
-  const [errorMessage, setErrorMesssage] = useState('');
+import Thumbnail from '../../ui/Thumbnail';
 
+const EditTestsModal = ({ test, showEditModal, setShowEditModal }) => {
+  const { register, handleSubmit } = useForm();
+  const [thumbnailFileName, setThumbnailFileName] = useState('');
+  const [bannerFileName, setBannerFileName] = useState('');
+  const [thumbnailPreview, setThumbnailPreview] = useState('');
+  const [bannerPreview, setBannerPreview] = useState('');
+  const [editTitle, setEditTitle] = useState(0);
+  const [editDescription, setEditDescription] = useState(0);
+  const [errorMessage, setErrorMesssage] = useState('');
+  const testType = test.test_type == 'generic' ? 'generictests' : 'featuredtests';
+  /* 
   const userObject = {
     spaces: 0,
     lowerCase: -1,
@@ -28,39 +31,35 @@ const EditProfileModal = ({ user, showModal, setShowModal }) => {
     symbol: 0,
     forbidden: ['pene', 'caca', 'pussy', 'penis', 'verga', 'puta'],
   };
-
-  const updateUser = (formData) => {
-    const updatedUser = {
-      username: formData.username,
-      bio: formData.bio,
-      avatar: formData.avatar[0],
+ */
+  const updateTest = (formData) => {
+    const updatedTest = {
+      title: formData.title,
+      description: formData.description,
+      thumbnail: formData.thumbnail[0],
       banner: formData.banner[0],
     };
-    if (checkUser(formData.username, userObject)[0]) {
-      API.put(`/users/${user._id}`, updatedUser, {
-        headers: { 'Content-Type': 'multipart/form-data' },
+
+    API.put(`/${testType}/id/${test._id}`, updatedTest, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    })
+      .then((res) => {
+        if (res.status === 200) {
+          console.log('test updated');
+          window.location.reload();
+        } else {
+          console.log('error updating');
+        }
       })
-        .then((res) => {
-          if (res.status === 200) {
-            console.log('user updated');
-            localStorage.setItem('user', JSON.stringify(res.data));
-            localStorage.setItem('communityUser', JSON.stringify(res.data));
-            window.location.reload();
-          } else {
-            console.log('error updating');
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-          setErrorMesssage('That username is taken. Try another?');
-        });
-    } else {
-      setErrorMesssage('That username is not valid. Try another?');
-    }
+      .catch((error) => {
+        console.log(error);
+        setErrorMesssage('That title is taken. Try another?');
+      });
   };
-  const generateUrlAvatar = (item) => {
+
+  const generateUrlThumbnail = (item) => {
     const url = URL.createObjectURL(item);
-    setAvatarPreview(url);
+    setThumbnailPreview(url);
     console.log(url);
   };
 
@@ -69,41 +68,37 @@ const EditProfileModal = ({ user, showModal, setShowModal }) => {
     setBannerPreview(url);
     console.log(url);
   };
-
   return (
     <>
-      {showModal ? (
+      {showEditModal ? (
         <div className="edit-profile-modal">
-          <form className="edit-profile" onSubmit={handleSubmit(updateUser)}>
+          <form className="edit-profile" onSubmit={handleSubmit(updateTest)}>
             <div className="edit-profile-images">
               <div className="edit-profile-avatar">
-                <Avatar
-                  src={avatarPreview != '' ? avatarPreview : user.avatar}
-                  alt="user avatar"
-                  width="l"
-                  height="l"
-                  id="avatarImg"
+                <Thumbnail
+                  src={thumbnailPreview != '' ? thumbnailPreview : test.thumbnail}
+                  alt="test thumbnail"
                 />
                 <input
                   type="file"
-                  id="avatar"
-                  className="avatar-file"
-                  {...register('avatar')}
+                  id="thumbnail"
+                  className="thumbnail-file"
+                  {...register('thumbnail')}
                   onChange={(ev) => {
-                    setAvatarFileName(ev.target.files[0].name);
-                    generateUrlAvatar(ev.target.files[0]);
+                    setThumbnailFileName(ev.target.files[0].name);
+                    generateUrlThumbnail(ev.target.files[0]);
                   }}
                 />
-                <label htmlFor="avatar" className="avatar-label">
-                  {avatarFileName != '' ? avatarFileName : 'Upload file'}
+                <label htmlFor="thumbnail" className="thumbnail-label">
+                  {thumbnailFileName != '' ? thumbnailFileName : 'Upload file'}
                 </label>
               </div>
               <div className="edit-profile-banner">
                 <ImageTests
                   radius="xl"
                   width="200px"
-                  height="100px"
-                  src={bannerPreview != '' ? bannerPreview : user.banner}
+                  height="7.2rem"
+                  src={bannerPreview != '' ? bannerPreview : test.banner}
                 />
 
                 <input
@@ -126,19 +121,19 @@ const EditProfileModal = ({ user, showModal, setShowModal }) => {
                 className="input_username"
                 type="text"
                 placeholder=" "
-                id="username"
-                name="username"
-                defaultValue={user.username}
-                {...register('username')}
-                maxLength="20"
-                onChange={(ev) => setEditUsername(ev.target.value.length)}
+                id="title"
+                name="title"
+                defaultValue={test.title}
+                {...register('title')}
+                maxLength="100"
+                onChange={(ev) => setEditTitle(ev.target.value.length)}
               />
-              <label htmlFor="username" className="custom-placeholder-profile">
+              <label htmlFor="title" className="custom-placeholder-profile">
                 Username
               </label>
               <Heading_6
                 position="absolute"
-                text={editUsername ? `${editUsername}/20` : `${user.username.length}/20`}
+                text={editTitle ? `${editTitle}/100` : `${test.title.length}/100`}
                 top="0"
                 right="0"
                 margin=" 2rem 1rem 0 0 "
@@ -151,24 +146,24 @@ const EditProfileModal = ({ user, showModal, setShowModal }) => {
                 className="input_bio"
                 type="text"
                 placeholder=" "
-                id="bio"
-                name="bio"
-                defaultValue={user.bio}
-                {...register('bio')}
-                maxLength="200"
-                onChange={(ev) => setEditBio(ev.target.value.length)}
+                id="description"
+                name="description"
+                defaultValue={test.description}
+                {...register('description')}
+                maxLength="500"
+                onChange={(ev) => setEditDescription(ev.target.value.length)}
               />
-              <label htmlFor="bio" className="custom-placeholder-profile-bio">
+              <label htmlFor="description" className="custom-placeholder-profile-bio">
                 Description
               </label>
               <Heading_6
                 position="absolute"
                 text={
-                  user.bio
-                    ? editBio
-                      ? `${editBio}/200`
-                      : `${user.bio.length}/200`
-                    : '0/200'
+                  test.description
+                    ? editDescription
+                      ? `${editDescription}/500`
+                      : `${test.description.length}/500`
+                    : '0/500'
                 }
                 top="0"
                 right="0"
@@ -193,7 +188,7 @@ const EditProfileModal = ({ user, showModal, setShowModal }) => {
                 textBefore="Cancel"
                 size="4"
                 fixed_width="90px"
-                action={() => setShowModal(false)}
+                action={() => setShowEditModal(false)}
               />
               <Button
                 background={Palette.color_highlight_primary}
@@ -213,4 +208,4 @@ const EditProfileModal = ({ user, showModal, setShowModal }) => {
   );
 };
 
-export default EditProfileModal;
+export default EditTestsModal;

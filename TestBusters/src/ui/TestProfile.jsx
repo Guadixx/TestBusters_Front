@@ -36,7 +36,7 @@ const TestProfileInfo = styled.div`
   gap: ${Spacing._2};
 `;
 
-const TestProfile = ({ testtitle, rating, thumbnail, action }) => {
+const TestProfile = ({ testtitle, rating, thumbnail, action, text }) => {
   return (
     <TestProfileStyled>
       <div className="profile-test-card">
@@ -50,8 +50,8 @@ const TestProfile = ({ testtitle, rating, thumbnail, action }) => {
       </div>
 
       <Button
-        textBefore="Details"
-        color={Palette.color_secundary}
+        textBefore={text}
+        color={Palette.color_primary}
         size="3"
         margin=" 0 0 0 0.5rem"
         action={action}

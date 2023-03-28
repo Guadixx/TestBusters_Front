@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import { Spacing } from '../styles/Spacing';
 const RecordStyled = styled.div`
   display: flex;
-  justify-content: space-between;
   align-items: center;
   padding: 10px 0;
   border-radius: 5px;
@@ -41,11 +40,13 @@ const Name = styled.div`
 
 const Score = styled.div`
   font-size: 1rem;
+  width: 110px;
 `;
 
 const Time = styled.div`
   font-size: 1rem;
   padding-left: 10px;
+  width: 120px;
 `;
 
 const Record = ({ position, thumbnail, name, score, time }) => {

@@ -39,5 +39,7 @@ const Icons = {
     'https://res.cloudinary.com/dva9zee9r/image/upload/v1679993063/achievements%20icons/wall-clock_mvhdcx.png',
   starsEmoji:
     'https://res.cloudinary.com/dva9zee9r/image/upload/v1679996553/grinning-face-with-star-eyes_1f929_fqb9lj.png',
+  settings:
+    'https://res.cloudinary.com/dva9zee9r/image/upload/v1680017939/achievements%20icons/settings_wo0ayi.png',
 };
 export default Icons;

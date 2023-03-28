@@ -1,8 +1,9 @@
 import styled from 'styled-components';
 
+import Icons from '../styles/Icons';
 import { Spacing } from '../styles/Spacing';
 import Button from './Button';
-import { Heading_3, Heading_4, Heading_5 } from './Headings';
+import { Heading_3, Heading_4 } from './Headings';
 
 const ProfileInfoStyled = styled.div`
   margin-top: 4rem;
@@ -10,6 +11,13 @@ const ProfileInfoStyled = styled.div`
   flex-direction: column;
   align-items: center;
   gap: ${Spacing._2};
+
+  & .profile-info-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
 `;
 
 const ProfileInfoUser = styled.div`
@@ -52,6 +60,8 @@ const ProfileInfo = ({
   buttonBackground,
   action1,
   action2,
+  action3,
+  display,
 }) => {
   return (
     <ProfileInfoStyled>
@@ -64,18 +74,31 @@ const ProfileInfo = ({
         <button onClick={action1}>{`Followers ${followers}`}</button>
         <button onClick={action2}>{`Following ${following}`}</button>
       </ProfileInfoFollows>
-
-      <Button
-        src={buttonimg}
-        alt={buttonalt}
-        textAfter={buttontext}
-        size="3"
-        margin=" 0.3rem 0 0 0 "
-        fixed_height="1.5rem"
-        background={buttonBackground}
-        color={buttonColor}
-        action={action}
-      />
+      <div className="profile-info-buttons">
+        <Button
+          src={buttonimg}
+          alt={buttonalt}
+          textAfter={buttontext}
+          size="3"
+          margin=" 0.3rem 0 0 0 "
+          fixed_height="1.5rem"
+          background={buttonBackground}
+          color={buttonColor}
+          action={action}
+        />
+        <Button
+          src={Icons.settings}
+          alt="settings icon"
+          size="3"
+          margin=" 0.3rem 0 0 0 "
+          fixed_height="1.5rem"
+          background={buttonBackground}
+          color={buttonColor}
+          action={action3}
+          fixed_width="30px"
+          display={display}
+        />
+      </div>
     </ProfileInfoStyled>
   );
 };

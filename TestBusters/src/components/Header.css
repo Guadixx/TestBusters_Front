@@ -45,7 +45,7 @@
 
 .header .user-header .create-button {
   padding: 0.3rem 1rem;
-  width: 90px;
+  width: 115px;
   margin-right: var(--spacing-0-5);
   font-size: 0.9rem;
   color: var(--color-bg);
@@ -68,6 +68,7 @@
 
 .header .active {
   color: var(--color-highlight-primary);
+  font-weight: 500;
 }
 
 .header .user-login {
