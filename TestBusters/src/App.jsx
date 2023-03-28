@@ -11,6 +11,7 @@ import CookiesPolicy from './pages/CookiesPolicy';
 import Create from './pages/Create';
 import CreateFTest from './pages/CreateFTest';
 import CreateGTest from './pages/CreateGTest';
+import FrequentQuestions from './pages/FrequentQuestions';
 import Home from './pages/Home';
 import LegalAdvice from './pages/LegalAdvice';
 import Login from './pages/Login';
@@ -38,6 +39,7 @@ function App() {
           <Route path="/privacy" element={<PrivacyPolicy />} />
           <Route path="/cookies" element={<CookiesPolicy />} />
           <Route path="/legaladvice" element={<LegalAdvice />} />
+          <Route path="/frequent" element={<FrequentQuestions />} />
           <Route
             path="/community"
             element={
