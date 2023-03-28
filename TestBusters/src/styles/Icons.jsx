@@ -35,5 +35,9 @@ const Icons = {
   tear: 'https://res.cloudinary.com/dva9zee9r/image/upload/v1679944740/face-with-tears-of-joy-1683_g14vnv.png',
   hearts:
     'https://res.cloudinary.com/dva9zee9r/image/upload/v1679944722/heavy-black-heart_2764_eu1vos.png',
+  clock:
+    'https://res.cloudinary.com/dva9zee9r/image/upload/v1679993063/achievements%20icons/wall-clock_mvhdcx.png',
+  starsEmoji:
+    'https://res.cloudinary.com/dva9zee9r/image/upload/v1679996553/grinning-face-with-star-eyes_1f929_fqb9lj.png',
 };
 export default Icons;

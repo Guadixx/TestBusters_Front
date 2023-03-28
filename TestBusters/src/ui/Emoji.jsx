@@ -8,10 +8,12 @@ const EmojiStyled = styled.div`
   position: relative;
   & .modal-emojis {
     position: absolute;
-    border-radius: 2px;
+    border-radius: 5px;
+    gap: 0.3rem;
     background-color: var(--color-bg);
     height: 44px;
-    bottom: -38px;
+    bottom: -40px;
+    left: 15px;
     display: flex;
     border: 1px solid #ccc;
     flex-direction: row;
@@ -33,29 +35,36 @@ const EmojiStyled = styled.div`
   }
   & .result-emojis {
     display: flex;
+    align-items: center;
+    gap: 0.4rem;
   }
   & .modal-emojis img {
-    width: 35px;
+    width: 32px;
     padding: 5px;
     filter: brightness(95%);
   }
   & .result-emojis > div > button {
-    border-radius: 2px;
-    padding: 3px;
-    font-size: 20px;
+    border-radius: 5px;
+    padding: 2px 6px 2px 3px;
+    font-size: 15px;
     background: none;
     position: relative;
-    border: none;
+    border: 1px solid #ccc;
     gap: 2px;
+    display: flex;
+    align-items: center;
   }
   & .result-emojis img {
-    width: 35px;
+    width: 32px;
     padding: 5px;
     filter: brightness(95%);
   }
   & .like-main-button-emoji {
-    width: 35px;
+    width: 32px;
     padding: 5px;
+    margin-left: 0.7rem;
+    display: flex;
+    align-items: center;
   }
 `;
 
