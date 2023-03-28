@@ -13,6 +13,7 @@
   margin: 1.5rem 0;
   gap: var(--spacing-2);
   justify-content: space-between;
+  min-height: 100vh;
 }
 .tests-filters {
   display: flex;
@@ -119,4 +120,61 @@
   width: 100%;
   gap: 1rem;
   min-height: 59vh;
+}
+.pagination-test-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+}
+.test-page-button-page {
+  background-color: rgb(214, 214, 214);
+  outline: none;
+  width: 120px;
+  height: 44px;
+  font-size: 20px;
+  border: none;
+  border-radius: 2px;
+}
+.test-page-button-page-disabled {
+  color: rgb(214, 214, 214);
+  background-color: rgb(235, 235, 235);
+}
+.button-go-specific-page {
+  border: none;
+  border-radius: 2px;
+  outline: none;
+  background-color: rgb(214, 214, 214);
+  height: 44px;
+  width: 44px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.nav-pagination-specific-page {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  min-width: 400px;
+  gap: 0.2rem;
+}
+.actual-page-nav-buttons {
+  background-color: var(--color-highlight-primary);
+}
+.button-go-specific-page:hover {
+  background-color: var(--color-highlight-primary);
+}
+.test-page-button-page:hover {
+  background-color: var(--color-highlight-primary);
+}
+.test-page-button-page-disabled {
+  color: rgb(214, 214, 214);
+  background-color: rgb(235, 235, 235);
+}
+.test-page-button-page-disabled:hover {
+  color: rgb(214, 214, 214);
+  background-color: rgb(235, 235, 235);
+}
+.more-nav-buttons-pages {
+  letter-spacing: 5px;
 }

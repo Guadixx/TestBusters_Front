@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import './Community.css';
+import './Tests.css';
 
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -15,7 +16,10 @@ const Community = () => {
   const [commmunity, setCommunity] = useState([]);
   const [onFocus, setOnFocus] = useState(false);
   const { user } = useContext(UserContext);
-
+  const [info, setInfo] = useState(undefined);
+  const [loaded, setLoaded] = useState(false);
+  const [nextPage, setNextPage] = useState(false);
+  const [pagesButtons, setPagesButtons] = useState([]);
   const navigate = useNavigate();
   const [params, setParams] = useState({
     limit: 12,
@@ -26,9 +30,20 @@ const Community = () => {
   });
   const [debounceKeyword] = useDebounce(params.username, 500);
   const getCommunity = () => {
+    setLoaded(false);
     API.get('/users', { params: params })
       .then((res) => {
+        setLoaded(true);
         const data = res.data.results;
+        res.data.info.next === null ? setNextPage(false) : setNextPage(true);
+        setInfo(res.data.info);
+        let acc = 1;
+        const pagesButtonsList = [];
+        while (acc < res.data.info.totalpages + 1) {
+          pagesButtonsList.push(acc);
+          acc++;
+        }
+        setPagesButtons(pagesButtonsList);
         const dataWithoutMe = [];
         data.forEach((eachUser) => {
           if (eachUser.username != user.username) {
@@ -39,23 +54,27 @@ const Community = () => {
       })
       .catch((error) => console.log(error));
   };
-
+  const goToPage = (numPage) => {
+    if (params.page != numPage) {
+      setParams({ ...params, page: numPage });
+    }
+  };
   const handleDebounce = (ev) => {
     const value = ev.target.value;
-    setParams({ ...params, username: value });
+    setParams({ ...params, username: value, page: 1 });
   };
 
   const handleChange = (ev) => {
     if (ev.target.value == 'Tests played') {
-      setParams({ ...params, order: 'tests_played' });
+      setParams({ ...params, order: 'tests_played', page: 1 });
     } else {
-      setParams({ ...params, order: 'next_level' });
+      setParams({ ...params, order: 'next_level', page: 1 });
     }
   };
 
   useEffect(() => {
     getCommunity();
-  }, [debounceKeyword, params.order]);
+  }, [debounceKeyword, params.order, params.page]);
   return (
     <section className="community">
       <div className="community-filter-sort">
@@ -113,6 +132,169 @@ const Community = () => {
           <Spinner />
         )}
       </section>
+      {(commmunity.length > params.limit - 1 || params.page != 1) &&
+      info.totalpages > 5 ? (
+        <div className="pagination-test-buttons">
+          <button
+            disabled={!loaded}
+            onClick={() => {
+              if (params.page != 1) {
+                const page = params.page - 1;
+                setParams({ ...params, page: page });
+              }
+            }}
+            className={
+              params.page != 1
+                ? 'test-page-button-page'
+                : 'test-page-button-page test-page-button-page-disabled'
+            }
+          >
+            Prev
+          </button>
+
+          <div className="nav-pagination-specific-page">
+            {info.totalpages > 3 && params.page > 3 ? (
+              <button className="button-go-specific-page" onClick={() => goToPage(1)}>
+                <h4>1</h4>
+              </button>
+            ) : (
+              <div></div>
+            )}
+            {info.totalpages > 3 && params.page > 3 ? (
+              <h5 className="more-nav-buttons-pages">...</h5>
+            ) : (
+              <div></div>
+            )}
+            {params.page - 2 > 0 ? (
+              <button
+                className="button-go-specific-page"
+                onClick={() => goToPage(params.page - 2)}
+              >
+                <h4>{params.page - 2}</h4>
+              </button>
+            ) : (
+              <div></div>
+            )}
+            {params.page - 1 ? (
+              <button
+                className="button-go-specific-page"
+                onClick={() => goToPage(params.page - 1)}
+              >
+                <h4>{params.page - 1}</h4>
+              </button>
+            ) : (
+              <div></div>
+            )}
+            <button className="button-go-specific-page actual-page-nav-buttons">
+              <h4>{params.page}</h4>
+            </button>
+            {info.totalpages > params.page ? (
+              <button
+                className="button-go-specific-page"
+                onClick={() => goToPage(params.page + 1)}
+              >
+                <h4>{params.page + 1}</h4>
+              </button>
+            ) : (
+              <div></div>
+            )}
+            {info.totalpages > params.page + 1 ? (
+              <button
+                className="button-go-specific-page"
+                onClick={() => goToPage(params.page + 2)}
+              >
+                <h4>{params.page + 2}</h4>
+              </button>
+            ) : (
+              <div></div>
+            )}
+            {info.totalpages > 3 && info.totalpages - params.page > 2 ? (
+              <h5 className="more-nav-buttons-pages">...</h5>
+            ) : (
+              <div></div>
+            )}
+            {info.totalpages > 3 && info.totalpages - params.page > 2 ? (
+              <button
+                className="button-go-specific-page"
+                onClick={() => goToPage(info.totalpages)}
+              >
+                <h4>{info.totalpages}</h4>
+              </button>
+            ) : (
+              <div></div>
+            )}
+          </div>
+          <button
+            disabled={!loaded}
+            onClick={() => {
+              if (nextPage) {
+                const page = params.page + 1;
+                setParams({ ...params, page: page });
+              }
+            }}
+            className={
+              nextPage
+                ? 'test-page-button-page'
+                : 'test-page-button-page test-page-button-page-disabled'
+            }
+          >
+            Next
+          </button>
+        </div>
+      ) : (commmunity.length > params.limit - 1 || params.page != 1) &&
+        info.totalpages < 5 ? (
+        <div className="pagination-test-buttons">
+          <button
+            disabled={!loaded}
+            onClick={() => {
+              if (params.page != 1) {
+                const page = params.page - 1;
+                setParams({ ...params, page: page });
+              }
+            }}
+            className={
+              params.page != 1
+                ? 'test-page-button-page'
+                : 'test-page-button-page test-page-button-page-disabled'
+            }
+          >
+            Prev
+          </button>
+          <div className="nav-pagination-specific-page">
+            {pagesButtons.map((page) => (
+              <button
+                key={page}
+                onClick={() => goToPage(page)}
+                className={
+                  params.page == page
+                    ? 'button-go-specific-page actual-page-nav-buttons'
+                    : 'button-go-specific-page'
+                }
+              >
+                <h4>{page}</h4>
+              </button>
+            ))}
+          </div>
+          <button
+            disabled={!loaded}
+            onClick={() => {
+              if (nextPage) {
+                const page = params.page + 1;
+                setParams({ ...params, page: page });
+              }
+            }}
+            className={
+              nextPage
+                ? 'test-page-button-page'
+                : 'test-page-button-page test-page-button-page-disabled'
+            }
+          >
+            Next
+          </button>
+        </div>
+      ) : (
+        <div></div>
+      )}
     </section>
   );
 };
