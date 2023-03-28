@@ -50,9 +50,20 @@ const Heading3Styled = styled.h3`
   font-size: ${({ size }) => (size ? size : Spacing._4)};
   color: ${({ color }) => (color ? color : Palette.color_primary)};
   font-weight: ${({ weigth }) => (weigth ? weigth : 400)};
+  margin-left: ${({ marginleft }) => (marginleft ? marginleft : 0)};
+  margin-right: ${({ marginright }) => (marginright ? marginright : 0)};
   z-index: ${({ z }) => z};
 `;
-export const Heading_3 = ({ font, size, color, text, z, weigth }) => {
+export const Heading_3 = ({
+  font,
+  size,
+  color,
+  text,
+  z,
+  weigth,
+  marginleft,
+  marginright,
+}) => {
   return (
     <Heading3Styled
       font={font}
@@ -61,6 +72,8 @@ export const Heading_3 = ({ font, size, color, text, z, weigth }) => {
       text={text}
       z={z}
       weigth={weigth}
+      marginleft={marginleft}
+      marginright={marginright}
     >
       {text}
     </Heading3Styled>

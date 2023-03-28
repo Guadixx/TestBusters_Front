@@ -48,7 +48,6 @@ const DivProgressStyled = styled.div`
   align-items: center;
   height: min-content;
   width: ${({ widthb }) => (widthb ? widthb : '800px')};
-  gap: 0.2rem;
 `;
 const DivProgress = ({
   widtha,
@@ -60,6 +59,7 @@ const DivProgress = ({
   value = 0,
   maxValue,
   className,
+  marginright,
 }) => {
   const [animatedWidth, setanimatedWidth] = useState(() => {
     return type == 'CountDown' ? maxValue : 0;
@@ -128,7 +128,7 @@ const DivProgress = ({
       value={value}
       maxValue={maxValue}
     >
-      <Heading_3 text={text1} />
+      <Heading_3 text={text1} size="14px" marginleft="1.5rem" />
       <ProgressTrackStyled heighta={heighta} widtha={widtha}>
         {animatedWidth != 0 && (
           <ProgressBarStyled
@@ -141,6 +141,8 @@ const DivProgress = ({
         )}
       </ProgressTrackStyled>
       <Heading_3
+        marginright={marginright}
+        size="14px"
         text={
           type == 'CountDown'
             ? `${minutes}:${seconds}`

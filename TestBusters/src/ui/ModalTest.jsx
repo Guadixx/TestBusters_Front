@@ -38,6 +38,16 @@ const ModalTestStyled = styled.div`
   & .buttons {
     display: flex;
   }
+
+  & .exit-button {
+    padding: 0.3rem 1.2rem;
+    border: none;
+    border-radius: 3px;
+    transition: 0.1s all ease-in;
+  }
+  & .exit-button:hover {
+    filter: brightness(90%);
+  }
   @keyframes vibrar {
     0% {
       transform: scale(0.8);
@@ -56,6 +66,7 @@ const ModalTest = ({ text }) => {
     <ModalTestStyled>
       <div>
         <button
+          className="exit-button"
           onClick={() => {
             setModal(!modal);
           }}

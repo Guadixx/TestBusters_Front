@@ -84,6 +84,7 @@ const ButtonStyled = styled.button`
     transform: ${({ disabled }) => (disabled ? 'scale(100%)' : 'scale(99.5%)')};
   }
   & img {
+    filter: invert(100%);
     width: ${({ size }) =>
       size == 1
         ? Spacing._1
