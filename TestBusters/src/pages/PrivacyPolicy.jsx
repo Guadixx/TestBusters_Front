@@ -3,6 +3,7 @@ import React from 'react';
 const PrivacyPolicy = () => {
   return (
     <div className="policy_container">
+      <h1> About our Privacy Policy 🔒</h1>
       <p>
         At TestBusters, we take the privacy of our customers and website visitors very
         seriously. This privacy policy outlines how we collect, use, and protect personal

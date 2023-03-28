@@ -3,6 +3,7 @@ import React from 'react';
 const LegalAdvice = () => {
   return (
     <div className="policy_container">
+      <h1> About our Legal Advice 📜</h1>
       <p>
         At TestBusters, we take the privacy of our users seriously. This Privacy Policy
         describes how we collect, use, and disclose information about you when you use our
