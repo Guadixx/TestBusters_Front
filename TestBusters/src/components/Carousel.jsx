@@ -170,15 +170,24 @@ const Carousel = ({ list }) => {
         }}
       >
         <div className="aruba aruba1" ref={div1}>
-          <img src={index == 0 ? list[list.length - 1] : list[index - 1]} alt="a saber" />
+          <img
+            src={index == 0 ? list[list.length - 1].banner : list[index - 1].banner}
+            alt="a saber"
+          />
+          <h2>{index == 0 ? list[list.length - 1].title : list[index - 1].title}</h2>
           {/* <h1>{index == 0 ? list[list.length - 1] : list[index - 1]}</h1> */}
         </div>
         <div className="aruba aruba2" ref={div2}>
-          <img src={list[index]} alt="sdfd" />
+          <img src={list[index].banner} alt="sdfd" />
+          <h2>{list[index].title}</h2>
           {/* <h1>{list[index]}</h1> */}
         </div>
         <div className="aruba aruba3" ref={div3}>
-          <img src={index == list.length - 1 ? list[0] : list[index + 1]} alt="ala" />
+          <img
+            src={index == list.length - 1 ? list[0].banner : list[index + 1].banner}
+            alt="ala"
+          />
+          <h2>{index == list.length - 1 ? list[0].title : list[index + 1].title}</h2>
           {/* <h1>{index == list.length - 1 ? list[0] : list[index + 1]}</h1> */}
         </div>
       </div>

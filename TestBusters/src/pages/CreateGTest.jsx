@@ -512,7 +512,7 @@ const CreateGTest = () => {
   };
   useEffect(() => {
     handleTypeImg();
-  });
+  }, []);
   return (
     <section className="create-generic-test">
       {/*      {console.log(questions, 'questions')}
