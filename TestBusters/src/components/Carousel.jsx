@@ -5,6 +5,7 @@ import './Carousel.css';
 import { useEffect, useRef, useState } from 'react';
 
 import Icons from '../styles/Icons';
+import CarouselCard from './CarouselCard';
 
 const Carousel = ({ list }) => {
   const [clicked, setClicked] = useState(false);
@@ -170,25 +171,28 @@ const Carousel = ({ list }) => {
         }}
       >
         <div className="aruba aruba1" ref={div1}>
-          <img
+          <CarouselCard test={index == 0 ? list[list.length - 1] : list[index - 1]} />
+          {/* <img
             src={index == 0 ? list[list.length - 1].banner : list[index - 1].banner}
             alt="a saber"
           />
-          <h2>{index == 0 ? list[list.length - 1].title : list[index - 1].title}</h2>
-          {/* <h1>{index == 0 ? list[list.length - 1] : list[index - 1]}</h1> */}
+          <h2>{index == 0 ? list[list.length - 1].title : list[index - 1].title}</h2> 
+          <h1>{index == 0 ? list[list.length - 1] : list[index - 1]}</h1> */}
         </div>
         <div className="aruba aruba2" ref={div2}>
-          <img src={list[index].banner} alt="sdfd" />
+          <CarouselCard test={list[index]} />
+          {/* <img src={list[index].banner} alt="sdfd" />
           <h2>{list[index].title}</h2>
-          {/* <h1>{list[index]}</h1> */}
+          <h1>{list[index]}</h1> */}
         </div>
         <div className="aruba aruba3" ref={div3}>
-          <img
+          <CarouselCard test={index == list.length - 1 ? list[0] : list[index + 1]} />
+          {/* <img
             src={index == list.length - 1 ? list[0].banner : list[index + 1].banner}
             alt="ala"
           />
-          <h2>{index == list.length - 1 ? list[0].title : list[index + 1].title}</h2>
-          {/* <h1>{index == list.length - 1 ? list[0] : list[index + 1]}</h1> */}
+          <h2>{index == list.length - 1 ? list[0].title : list[index + 1].title}</h2> 
+          <h1>{index == list.length - 1 ? list[0] : list[index + 1]}</h1> */}
         </div>
       </div>
     </div>
