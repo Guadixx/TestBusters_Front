@@ -6,6 +6,7 @@ import { useDebounce } from 'use-debounce';
 import TestCard from '../components/TestCard';
 import { API } from '../services/API';
 import { Heading_3 } from '../ui/Headings';
+import Spinner from '../ui/Spinner';
 
 const Tests = () => {
   const [tests, setTests] = useState([]);
@@ -160,7 +161,7 @@ const Tests = () => {
             {tests.length != 0 ? (
               tests.map((test) => <TestCard test={test} key={test._id} />)
             ) : (
-              <h1>Loading</h1>
+              <Spinner />
             )}
           </div>
           {loaded && nextPage && tests.length > 19 ? (

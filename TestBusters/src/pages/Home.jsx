@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 
 import Carousel from '../components/Carousel';
 import { API } from '../services/API';
+import Spinner from '../ui/Spinner';
 /* import DayTest from '../components/DayTest';
 import RandomTest from '../components/RandomTest'; */
 
@@ -42,7 +43,7 @@ const Home = () => {
   }, []);
   return (
     <section className="home-section">
-      {list != undefined ? <Carousel list={list} /> : <h3>Loading...</h3>}
+      {list != undefined ? <Carousel list={list} /> : <Spinner />}
 
       {/* <DayTest /> */}
       {/*  <RandomTest /> */}

@@ -602,7 +602,11 @@ const CreateFTest = () => {
               </div>
             )}
           </div>
-          <button type="submit" disabled={infoFilters != undefined ? false : true}>
+          <button
+            type="submit"
+            className="create-test-button"
+            disabled={infoFilters != undefined ? false : true}
+          >
             Create Test
           </button>
         </section>

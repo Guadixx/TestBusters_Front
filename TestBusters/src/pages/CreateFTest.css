@@ -194,3 +194,11 @@
   align-items: flex-end;
   gap: 0.3rem;
 }
+.create-test-button {
+  padding: 0.5rem 1rem;
+  background-color: var(--color-highlight-primary);
+  border-radius: 5px;
+  color: var(--color-bg);
+  border: none;
+  width: 100%;
+}

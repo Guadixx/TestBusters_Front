@@ -5,7 +5,7 @@
   width: 100%;
   height: 100%;
   z-index: 5;
-  background-color: #38383883 192, 192, 192;
+  background-color: #cccccba7; 
   display: flex;
   align-items: center;
   justify-content: center;
@@ -26,4 +26,25 @@
   align-items: center;
   justify-content: center;
   gap: var(--spacing-1);
+  animation-name: vibrar;
+  animation-duration: 0.3s;
+  animation-timing-function: ease-out;
+}
+
+.createtest-modal-content > button {
+  background: none;
+  border: none;
+  font-weight: bolder;
+  position: fixed;
+  top: 40%;
+  right: 41%;
+}
+
+@keyframes vibrar {
+  0% {
+    transform: scale(0.8);
+  }
+  100% {
+    transform: scale(1);
+  }
 }

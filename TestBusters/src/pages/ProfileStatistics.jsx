@@ -14,6 +14,7 @@ import Achievement from '../ui/Achievement';
 import CircleBar from '../ui/CircleBar';
 import { Heading_3, Heading_4 } from '../ui/Headings';
 import Record from '../ui/Record';
+import Spinner from '../ui/Spinner';
 import StaticsDiv from '../ui/StaticsDiv';
 
 const ProfileStatistics = () => {
@@ -147,7 +148,9 @@ const ProfileStatistics = () => {
       ) : (
         <>
           <ProfileHero printedUser={printedUser} setShowModal={setShowModal} />
-          <div className="loading-statistics"></div>
+          <div className="loading-statistics">
+            <Spinner />
+          </div>
         </>
       )}
     </section>
