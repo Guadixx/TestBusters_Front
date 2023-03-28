@@ -1,0 +1,24 @@
+.carousel-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 150vh;
+    height: 45vw;
+    position: relative;
+}
+.carousel-rating{
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+.carousel-card-info {
+    display: flex;
+    align-items: center;
+}
+.carousel-card-banner{
+    position: absolute;
+    width: 100%;
+}
+.carousel-card-thumbnail{
+    z-index: 9;
+}
