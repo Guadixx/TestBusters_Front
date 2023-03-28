@@ -3,6 +3,9 @@ import styled from 'styled-components';
 import Palette from '../styles/Palette';
 
 const SpinnerDivStyled = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   display: inline-block;
   width: 80px;
   height: 80px;

@@ -9,9 +9,11 @@ import { useDebounce } from 'use-debounce';
 import { UserContext } from '../context/UserContext';
 import { API } from '../services/API';
 import { Heading_3, Heading_4, Heading_5 } from '../ui/Headings';
+import Spinner from '../ui/Spinner';
 
 const Community = () => {
   const [commmunity, setCommunity] = useState([]);
+  const [onFocus, setOnFocus] = useState(false);
   const { user } = useContext(UserContext);
 
   const navigate = useNavigate();
@@ -57,14 +59,21 @@ const Community = () => {
   return (
     <section className="community">
       <div className="community-filter-sort">
-        <input
-          type="text"
-          placeholder="Search user"
-          className="community-filter-input"
-          onChange={(ev) => {
-            handleDebounce(ev);
-          }}
-        />
+        <div className="communuty-filter-label">
+          <input
+            type="text"
+            placeholder={onFocus ? ' ' : ' '}
+            onFocus={() => setOnFocus(true)}
+            onBlur={() => setOnFocus(false)}
+            className="community-filter-input"
+            onChange={(ev) => {
+              handleDebounce(ev);
+            }}
+          />
+          <label htmlFor="custom_input" className="placeholder_title">
+            Search user
+          </label>
+        </div>
         <select
           id="community-select"
           onChange={(ev) => {
@@ -77,28 +86,32 @@ const Community = () => {
         </select>
       </div>
       <section className="community-users">
-        {commmunity.map((user) => (
-          <div
-            className="community-user-card"
-            key={user._id}
-            onClick={() => {
-              navigate(`/profile/statistics/${user._id}`);
-              localStorage.setItem('communityUser', JSON.stringify(user));
-            }}
-          >
-            <img className="community-banner" src={user.banner} alt="user banner" />
-            <img className="community-avatar" src={user.avatar} alt="user avatar" />
-            <div className="community-user-info">
-              <Heading_3 size="14px" text={user.username} weigth="800" />
-              <Heading_4 size="12px" text={`Level ${user.level[0]}`} />
+        {commmunity.length != 0 ? (
+          commmunity.map((user) => (
+            <div
+              className="community-user-card"
+              key={user._id}
+              onClick={() => {
+                navigate(`/profile/statistics/${user._id}`);
+                localStorage.setItem('communityUser', JSON.stringify(user));
+              }}
+            >
+              <img className="community-banner" src={user.banner} alt="user banner" />
+              <img className="community-avatar" src={user.avatar} alt="user avatar" />
+              <div className="community-user-info">
+                <Heading_3 size="14px" text={user.username} weigth="800" />
+                <Heading_4 size="12px" text={`Level ${user.level[0]}`} />
+              </div>
+              <p>{user.bio}</p>
+              <div className="community-user-follows">
+                <Heading_5 text={`Followers ${user.followed_users.length}`} size="12px" />
+                <Heading_5 text={`Played ${user.tests_played}`} size="12px" />
+              </div>
             </div>
-            <p>{user.bio}</p>
-            <div className="community-user-follows">
-              <Heading_5 text={`Followers ${user.followed_users.length}`} size="12px" />
-              <Heading_5 text={`Played ${user.tests_played}`} size="12px" />
-            </div>
-          </div>
-        ))}
+          ))
+        ) : (
+          <Spinner />
+        )}
       </section>
     </section>
   );
