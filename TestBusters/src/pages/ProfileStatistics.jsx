@@ -132,33 +132,35 @@ const ProfileStatistics = () => {
               <Heading_3 text="BEST RECORDS" weigth="700" size={Spacing._5} />
               <div className="profile-records">
                 {userProfile.records.length != 0 ? (
-                  userProfile.records.map((record, index) => (
-                    <Record
-                      key={index}
-                      position={index + 1}
-                      thumbnail={record.test.thumbnail}
-                      name={record.test.title}
-                      score={`${record.score.split('/')[0]}/${
-                        record.score.split('/')[1]
-                      }`}
-                      time={
-                        record.score.split('/')[2].split(':')[1].length == 1 &&
-                        record.score.split('/')[2].split(':')[0].length == 1
-                          ? `0${record.score.split('/')[2].split(':')[0]}:0${
-                              record.score.split('/')[2].split(':')[1]
-                            }`
-                          : record.score.split('/')[2].split(':')[0].length == 1
-                          ? `0${record.score.split('/')[2].split(':')[0]}:${
-                              record.score.split('/')[2].split(':')[1]
-                            }`
-                          : record.score.split('/')[2].split(':')[1].length == 1
-                          ? `${record.score.split('/')[2].split(':')[0]}:0${
-                              record.score.split('/')[2].split(':')[1]
-                            }`
-                          : record.score.split('/')[2]
-                      }
-                    />
-                  ))
+                  userProfile.records
+                    .slice(0, 5)
+                    .map((record, index) => (
+                      <Record
+                        key={index}
+                        position={index + 1}
+                        thumbnail={record.test.thumbnail}
+                        name={record.test.title}
+                        score={`${record.score.split('/')[0]}/${
+                          record.score.split('/')[1]
+                        }`}
+                        time={
+                          record.score.split('/')[2].split(':')[1].length == 1 &&
+                          record.score.split('/')[2].split(':')[0].length == 1
+                            ? `0${record.score.split('/')[2].split(':')[0]}:0${
+                                record.score.split('/')[2].split(':')[1]
+                              }`
+                            : record.score.split('/')[2].split(':')[0].length == 1
+                            ? `0${record.score.split('/')[2].split(':')[0]}:${
+                                record.score.split('/')[2].split(':')[1]
+                              }`
+                            : record.score.split('/')[2].split(':')[1].length == 1
+                            ? `${record.score.split('/')[2].split(':')[0]}:0${
+                                record.score.split('/')[2].split(':')[1]
+                              }`
+                            : record.score.split('/')[2]
+                        }
+                      />
+                    ))
                 ) : (
                   <div className="no-records">
                     <Heading_4

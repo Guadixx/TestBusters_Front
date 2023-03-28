@@ -21,7 +21,7 @@ const RecordStyled = styled.div`
 const Position = styled.div`
   font-size: 20px;
   font-weight: bold;
-  padding: 15px 15px 15px 0;
+  width: 35px;
 `;
 
 const Thumbnail = styled.img`
