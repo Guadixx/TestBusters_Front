@@ -57,9 +57,14 @@ const ChangePasswordModal = ({ user, showPasswordModal, setShowPasswordModal }) 
     <>
       {showPasswordModal ? (
         <div className="edit-profile-modal">
-          <div className="edit-profile edit-profile-resize">
+          <div className="edit-profile">
             <div className="edit-username edit-username-rescale">
-              <Heading_3 text="Change password" />
+              <Heading_3
+                text="Change password"
+                size="24px"
+                marginbottom="2rem"
+                weigth="600"
+              />
               <input
                 className="input_username input_username-rescale"
                 type={see ? 'text' : 'password'}

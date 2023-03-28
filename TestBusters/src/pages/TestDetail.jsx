@@ -6,6 +6,8 @@ import './TestDetail.css';
 import { useCallback, useEffect, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 
+import DeleteTestModal from '../components/DeleteTestModal/DeleteTestModal';
+import EditTestsModal from '../components/EditTestsModal/EditTestsModal';
 import useLocalStorage from '../customHooks/useLocalStorage';
 import { API } from '../services/API';
 import randomArray from '../services/RandomArray';
@@ -22,7 +24,6 @@ import ModalTest from '../ui/ModalTest';
 import RatingStarTest from '../ui/RatingButton';
 import RatingStatic from '../ui/RatingStatic';
 import Spinner from '../ui/Spinner';
-import EditTestsModal from '../components/EditTestsModal';
 
 const TestDetail = () => {
   const testId = useParams().id;
@@ -33,6 +34,7 @@ const TestDetail = () => {
     userId: user._id,
   };
   const [showEditModal, setShowEditModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [test, setTest] = useState({});
   const [featuredData, setFeaturedData] = useState([]);
   const [questions, setQuestions] = useState([]);
@@ -203,6 +205,7 @@ const TestDetail = () => {
     }
   }, [featuredData]);
   useEffect(() => {
+    //AQUI TIENES QUE ARREGLAR COSAS RAFAEL
     if (testType == 'generictests' && test.data != undefined) {
       const random = randomArray(0, 6, 6).map((number) =>
         number == 0 || number == 6 ? 'answer' : `option_${number}`,
@@ -314,6 +317,15 @@ const TestDetail = () => {
           ) : (
             <></>
           )}
+          {showDeleteModal ? (
+            <DeleteTestModal
+              test={test}
+              showDeleteModal={showDeleteModal}
+              setShowDeleteModal={setShowDeleteModal}
+            />
+          ) : (
+            <></>
+          )}
           {!start & (test.creator != undefined) ? (
             <>
               <img src={test.banner} alt="test thumbnail" className="testdetail_banner" />
@@ -393,13 +405,22 @@ const TestDetail = () => {
                             justify="center"
                           />
                           {test.creator._id === user._id ? (
-                            <Button
-                              textAfter="Edit Test"
-                              src={Icons.edit}
-                              size={5}
-                              fixed_width="180px"
-                              action={() => setShowEditModal(true)}
-                            />
+                            <>
+                              <Button
+                                textAfter="Edit Test"
+                                src={Icons.edit}
+                                size={5}
+                                fixed_width="180px"
+                                action={() => setShowEditModal(true)}
+                              />
+                              <Button
+                                src={Icons.delete}
+                                size={5}
+                                fixed_width="30px"
+                                fixed_height="41px"
+                                action={() => setShowDeleteModal(true)}
+                              />
+                            </>
                           ) : (
                             <></>
                           )}
@@ -586,7 +607,7 @@ const TestDetail = () => {
                     ) : (
                       <div className="emptyplayer_container">
                         <Heading_4 text="Your Stats" size="22px" weigth="600" />
-                        <h3> you have not played this test yet</h3>
+                        <Heading_2 text="You have not played this test yet" />
                       </div>
                     )}
                   </div>
@@ -735,6 +756,12 @@ const TestDetail = () => {
                       size="22px"
                       weigth="500"
                     />
+                    <DivProgress
+                      type="CountDown"
+                      className="timer"
+                      maxValue={initialSeconds}
+                      margintop="1rem"
+                    />
                     <img alt="question" src={randomQuestions[index].question} />
                   </div>
                 ) : (
@@ -749,27 +776,34 @@ const TestDetail = () => {
                       size="2wpx"
                       weigth="500"
                     />
+                    <DivProgress
+                      type="CountDown"
+                      className="timer"
+                      maxValue={initialSeconds}
+                      margintop="1.5rem"
+                    />
                   </div>
                 )}
+              </div>
+            ) : (
+              <div className="questionTwoDiv">
+                <div className="questionTwoDiv-header">
+                  <h3>{randomQuestions[index].question}</h3>
+                  <Heading_4
+                    text={`Score: ${score}/${randomQuestions.length}`}
+                    size="22px"
+                    weigth="500"
+                  />
+                </div>
                 <DivProgress
                   type="CountDown"
                   className="timer"
                   maxValue={initialSeconds}
+                  margintop="1.5rem"
                 />
-              </div>
-            ) : (
-              <div className="questionTwoDiv">
-                <h3>
-                  {randomQuestions[index].question}.Score: {score}/
-                  {randomQuestions.length}
-                </h3>
                 {randomQuestions[index].question_img !=
                 'https://res.cloudinary.com/dva9zee9r/image/upload/v1679340393/achievements%20icons/testbuster_icon_brsbfz.png' ? (
-                  <img
-                    alt="question"
-                    src={randomQuestions[index].question_img}
-                    className="question-image-position"
-                  />
+                  <img alt="question" src={randomQuestions[index].question_img} />
                 ) : (
                   <div></div>
                 )}

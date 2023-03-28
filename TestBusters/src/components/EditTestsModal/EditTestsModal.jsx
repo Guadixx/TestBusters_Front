@@ -1,15 +1,16 @@
-import './EditProfileModal/EditProfileModal.css';
+import '../EditProfileModal/EditProfileModal.css';
+import './EditTestModal.css';
 
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { API } from '../services/API';
+import { API } from '../../services/API';
 /* import { checkUser } from '../services/checkForm'; */
-import Palette from '../styles/Palette';
-import Button from '../ui/Button';
-import { Heading_6 } from '../ui/Headings';
-import ImageTests from '../ui/ImageTests';
-import Thumbnail from '../ui/Thumbnail';
+import Palette from '../../styles/Palette';
+import Button from '../../ui/Button';
+import { Heading_6 } from '../../ui/Headings';
+import ImageTests from '../../ui/ImageTests';
+import Thumbnail from '../../ui/Thumbnail';
 
 const EditTestsModal = ({ test, showEditModal, setShowEditModal }) => {
   const { register, handleSubmit } = useForm();
@@ -20,7 +21,7 @@ const EditTestsModal = ({ test, showEditModal, setShowEditModal }) => {
   const [editTitle, setEditTitle] = useState(0);
   const [editDescription, setEditDescription] = useState(0);
   const [errorMessage, setErrorMesssage] = useState('');
-  const testType = test.test_type == 'generic' ? 'generictest' : 'featuredtests';
+  const testType = test.test_type == 'generic' ? 'generictests' : 'featuredtests';
   /* 
   const userObject = {
     spaces: 0,
@@ -31,7 +32,7 @@ const EditTestsModal = ({ test, showEditModal, setShowEditModal }) => {
     forbidden: ['pene', 'caca', 'pussy', 'penis', 'verga', 'puta'],
   };
  */
-  const updateUser = (formData) => {
+  const updateTest = (formData) => {
     const updatedTest = {
       title: formData.title,
       description: formData.description,
@@ -39,7 +40,7 @@ const EditTestsModal = ({ test, showEditModal, setShowEditModal }) => {
       banner: formData.banner[0],
     };
 
-    API.put(`/${testType}/${test._id}`, updatedTest, {
+    API.put(`/${testType}/id/${test._id}`, updatedTest, {
       headers: { 'Content-Type': 'multipart/form-data' },
     })
       .then((res) => {
@@ -55,6 +56,7 @@ const EditTestsModal = ({ test, showEditModal, setShowEditModal }) => {
         setErrorMesssage('That title is taken. Try another?');
       });
   };
+
   const generateUrlThumbnail = (item) => {
     const url = URL.createObjectURL(item);
     setThumbnailPreview(url);
@@ -70,7 +72,7 @@ const EditTestsModal = ({ test, showEditModal, setShowEditModal }) => {
     <>
       {showEditModal ? (
         <div className="edit-profile-modal">
-          <form className="edit-profile" onSubmit={handleSubmit(updateUser)}>
+          <form className="edit-profile" onSubmit={handleSubmit(updateTest)}>
             <div className="edit-profile-images">
               <div className="edit-profile-avatar">
                 <Thumbnail
@@ -123,7 +125,7 @@ const EditTestsModal = ({ test, showEditModal, setShowEditModal }) => {
                 name="title"
                 defaultValue={test.title}
                 {...register('title')}
-                maxLength="20"
+                maxLength="100"
                 onChange={(ev) => setEditTitle(ev.target.value.length)}
               />
               <label htmlFor="title" className="custom-placeholder-profile">
@@ -148,7 +150,7 @@ const EditTestsModal = ({ test, showEditModal, setShowEditModal }) => {
                 name="description"
                 defaultValue={test.description}
                 {...register('description')}
-                maxLength="200"
+                maxLength="500"
                 onChange={(ev) => setEditDescription(ev.target.value.length)}
               />
               <label htmlFor="description" className="custom-placeholder-profile-bio">
@@ -159,9 +161,9 @@ const EditTestsModal = ({ test, showEditModal, setShowEditModal }) => {
                 text={
                   test.description
                     ? editDescription
-                      ? `${editDescription}/200`
-                      : `${test.description.length}/200`
-                    : '0/200'
+                      ? `${editDescription}/500`
+                      : `${test.description.length}/500`
+                    : '0/500'
                 }
                 top="0"
                 right="0"

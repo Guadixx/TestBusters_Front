@@ -41,7 +41,7 @@ const ProgressTrackStyled = styled.div`
   transform: translate(-50%, -50%);
 `;
 const DivProgressStyled = styled.div`
-  margin-top: 2rem;
+  margin-top: ${({ margintop }) => (margintop ? margintop : '2rem')};
   display: flex;
   justify-content: space-between;
   position: relative;
@@ -60,6 +60,7 @@ const DivProgress = ({
   maxValue,
   className,
   marginright,
+  margintop,
 }) => {
   const [animatedWidth, setanimatedWidth] = useState(() => {
     return type == 'CountDown' ? maxValue : 0;
@@ -127,6 +128,7 @@ const DivProgress = ({
       type={type}
       value={value}
       maxValue={maxValue}
+      margintop={margintop}
     >
       <Heading_3 text={text1} size="14px" marginleft="1.5rem" />
       <ProgressTrackStyled heighta={heighta} widtha={widtha}>
