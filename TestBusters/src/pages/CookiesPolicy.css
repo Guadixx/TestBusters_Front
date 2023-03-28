@@ -11,3 +11,7 @@
 .policy_container > p {
   margin:0.5rem;
 }
+.policy_container > h1{
+  font-size: 2rem;
+  margin:1rem;
+}
