@@ -9,16 +9,15 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 2px solid black;
   }
   
   .createtest-modal-content {
     position: relative;
     background-color: var(--color-bg);
-    width: 850px;
-    height: 550px;
+    width: 900px;
+    height: 650px;
     border-radius: 8px;
-    padding: 2rem;
+    padding: 0 2rem;
     overflow: hidden;
     box-shadow: rgba(154, 157, 160, 0.3) 0px 0px 2px 0px,
       rgba(174, 178, 180, 0.15) 0px 1px 2px 1px;
@@ -32,7 +31,11 @@
     animation-timing-function: ease-out;
   }
   .textintruccion_container{
-    width:600px;
+    width:700px;
+    margin: 1rem 2rem;
+  }
+  .textintruccion_container > button{
+    margin:1rem;
   }
   .createtest-modal-content > h1{
     text-transform: uppercase;
@@ -45,7 +48,6 @@
   .textintruccion_container > h4{
     font-size: 1rem;
     font-weight: 500;
-    margin:rem
   }
   .createtest-modal-content > button {
     background: none;
@@ -55,19 +57,24 @@
     top: 40%;
     right: 41%;
   }
-
+  .list_container> li {
+    padding-top: 0.5rem;
+  }
   .list_container > ul > li > p{
     margin:0.5rem;
     font-size: 14px;
   }
-  .middleh4_container > h4{
-    font-size: 1rem;
-    font-weight: 200;
-    margin:0.3rem;
+  .middlelist_container > ul > li > p{
+    margin:0.5rem;
+    font-size: 14px;
   }
-  .middleh4title_container > h4{
+  .middlelist_container > p {
+    margin:0.5rem;
+    font-size: 14px;
     font-weight: 500;
-    margin-top:1rem;
+  }
+  .btnclose_container{
+    align-self: flex-end;
   }
   .btn_close{
     background-color: transparent;
@@ -80,8 +87,12 @@
 
   .bottomh4_container > h4{
     font-size: 1rem;
-    font-weight: 200;
-    margin:0.3rem;
+    font-weight: 600;
+    margin:0.5rem;
+  }
+
+  .bottomh4_container{
+    margin-top:0.6rem;
   }
   @keyframes vibrar {
     0% {
