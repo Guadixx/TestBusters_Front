@@ -500,7 +500,7 @@ const CreateGTest = () => {
               if (res.status === 200) {
                 console.log('data and test created');
                 const testParams = { testType: 'generictests' };
-                navigate(`/tests/${res.data._id}`, { state: testParams });
+                navigate(`/tests/${idTest}`, { state: testParams });
                 /*   setResultMessage('Test created!');
                 setResultMessage2(`We'll be redirecting you to the test page.`); */
                 /*   setTimeout(() => {
