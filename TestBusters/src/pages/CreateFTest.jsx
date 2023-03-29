@@ -5,6 +5,7 @@ import './CreateFTest.css';
 
 import { useContext, useEffect, useState } from 'react';
 
+import CreateFTestModal from '../components/InstructionTestModal/IntruccionFModal';
 import { UserContext } from '../context/UserContext';
 import { API } from '../services/API';
 import GetUnics from '../services/getUnics';
@@ -16,6 +17,7 @@ import Thumbnail from '../ui/Thumbnail';
 
 const CreateFTest = () => {
   const { user } = useContext(UserContext);
+  const [showInstruccionModal, setShowInstruccionModal] = useState(false);
   const [info, setInfo] = useState(undefined);
   const [data_type, setData_type] = useState(undefined);
   const [infoKeys, setInfoKeys] = useState(undefined);
@@ -221,7 +223,20 @@ const CreateFTest = () => {
       >
         PROBAR COSAS
       </button>
-      <Heading_1 text="Create Featured Test" weigth="700" size="28px" />
+      <div className="modalandtitle_container">
+        <Heading_1 text="Create Featured Test" weigth="700" size="28px" />
+        <button className="btn_instruccion" onClick={() => setShowInstruccionModal(true)}>
+          <img
+            src="https://res.cloudinary.com/dva9zee9r/image/upload/v1680033661/pregunta_kvibxl.png"
+            alt="question mark"
+          />
+        </button>
+        {showInstruccionModal ? (
+          <CreateFTestModal setShowInstruccionModal={setShowInstruccionModal} />
+        ) : (
+          <div></div>
+        )}
+      </div>
       <form className="create-generic-test-body" onSubmit={(ev) => handleSubmit(ev)}>
         <section className="create-generic-test-filters">
           <div className="time-filter">
