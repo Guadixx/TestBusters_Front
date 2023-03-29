@@ -81,7 +81,7 @@ const Comment = ({ comment, user, avatar, name, date, content, action }) => {
           <EmojiButton comment={comment} user={user} />
         </div>
       </div>
-      {comment.user._id == user._id ? (
+      {comment.user._id == user._id || user.admin ? (
         <button onClick={action} className="button-close-comment">
           <img src={Icons.delete} alt="delete icon" />
         </button>
