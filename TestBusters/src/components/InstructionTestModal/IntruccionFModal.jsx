@@ -23,7 +23,10 @@ const CreateFTestModal = ({ setShowInstruccionModal }) => {
                 </p>
               </li>
               <li>
-                <p>4th: Topic. What is your test about? Enter your chosen topic.</p>
+                <p>
+                  4th: Data Type. What is your test about? Choose from our data base what
+                  your test will be about!.
+                </p>
               </li>
             </ul>
           </div>
