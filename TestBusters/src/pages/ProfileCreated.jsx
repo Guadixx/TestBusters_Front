@@ -11,6 +11,7 @@ import { UserContext } from '../context/UserContext';
 import { API } from '../services/API';
 import { Heading_4 } from '../ui/Headings';
 import TestProfile from '../ui/TestProfile';
+import Spinner from '../ui/Spinner';
 
 const ProfileCreated = () => {
   const [createdTests, setCreatedTest] = useState();
@@ -118,7 +119,7 @@ const ProfileCreated = () => {
           {console.log(printedUser)}
           <ProfileHero printedUser={printedUser} setShowModal={setShowModal} />
           <div className="no-created-tests">
-            <Heading_4 text="No tests created yet" />
+            <Spinner />
           </div>
         </>
       )}

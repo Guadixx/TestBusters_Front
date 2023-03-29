@@ -28,6 +28,7 @@ const ProfileStatistics = () => {
   const [showFollowersModal, setShowFollowersModal] = useState(false);
   const [showFollowingModal, setShowFollowingModal] = useState(false);
   const [showPasswordModal, setShowPasswordModal] = useState(false);
+  const [keyword, setKeyword] = useState('');
   const getUser = () => {
     API.get(`/users/${id}`).then((res) => {
       setUserProfile(res.data.user);
@@ -83,6 +84,7 @@ const ProfileStatistics = () => {
           <ProfileHero
             printedUser={userProfile}
             setShowModal={setShowModal}
+            setKeyword={setKeyword}
             setShowFollowersModal={setShowFollowersModal}
             setShowFollowingModal={setShowFollowingModal}
             setShowPasswordModal={setShowPasswordModal}
