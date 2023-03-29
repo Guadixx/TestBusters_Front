@@ -7,6 +7,7 @@ import DayTest from '../components/DayTest';
 import RandomTest from '../components/RandomTest';
 import { API } from '../services/API';
 import Spinner from '../ui/Spinner';
+import { Heading_2 } from '../ui/Headings';
 
 const Home = () => {
   const [list, setList] = useState(undefined);
@@ -43,8 +44,16 @@ const Home = () => {
     <section className="home-section">
       {list != undefined ? <Carousel list={list} /> : <Spinner />}
 
-      <DayTest />
-      <RandomTest />
+      <div className="home-tests">
+        <div className="home-daytest">
+          <Heading_2 text="TEST OF THE DAY" weigth="800" size="22pz" />
+          <DayTest />
+        </div>
+        <div className="home-randomtest">
+          <Heading_2 text="RANDOM TEST" weigth="800" size="22pz" />
+          <RandomTest />
+        </div>
+      </div>
     </section>
   );
 };

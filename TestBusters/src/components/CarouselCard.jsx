@@ -30,14 +30,12 @@ const CarouselCard = ({ test }) => {
             alt="test thumbnail"
             className="carousel-card-thumbnail"
           />
-          <div className="carousel-card-info">
-            <Heading_3
-              text={test.title}
-              size="40px"
-              color={Palette.color_bg}
-              shadow="3px 3px 3px rgba(1, 1, 1, 1)"
-            />
-          </div>
+          <Heading_3
+            text={test.title}
+            size="24px"
+            color={Palette.color_bg}
+            shadow="3px 3px 3px rgba(1, 1, 1, 1)"
+          />
         </div>
       </div>
     ) : (
