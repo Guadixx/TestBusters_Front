@@ -16,6 +16,7 @@ const Carousel = ({ list }) => {
   const [loop, setLoop] = useState(false);
   const [lastLoop, setLastLoop] = useState(false);
   const [firstRender, setFirstRender] = useState(true);
+  const [disabled, setDisabled] = useState(true);
   const div1 = useRef(null);
   const div2 = useRef(null);
   const div3 = useRef(null);
@@ -93,6 +94,7 @@ const Carousel = ({ list }) => {
     setLastLoop(!lastLoop);
     setTimeout(() => {
       if (!clicked) {
+        setDisabled(false);
         setIndex((prevIndex) => {
           if (indexActualized == -1) {
             return list.length - 1;
@@ -116,6 +118,7 @@ const Carousel = ({ list }) => {
     if (clicked || loop || firstRender) {
       return;
     }
+    setDisabled(true);
     setTimeout(() => {
       moveLeft(700);
     }, 3500);
@@ -134,6 +137,9 @@ const Carousel = ({ list }) => {
         if (indexActualized == -1) {
           return list.length - 1;
         }
+        if (indexActualized < -1 || indexActualized > list.length) {
+          return 0;
+        }
         if (prevIndex == list.length - 1 && indexActualized == 0) {
           return 0;
         }
@@ -148,7 +154,7 @@ const Carousel = ({ list }) => {
   return (
     <div className="hola">
       {loop && (
-        <button className="gibraltar" onClick={() => setLoop(false)}>
+        <button className="gibraltar" disabled={disabled} onClick={() => setLoop(false)}>
           <img src={Icons.play} alt="play icon" />
         </button>
       )}
