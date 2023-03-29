@@ -10,6 +10,7 @@ import ProfileHero from '../components/ProfileHero';
 import { UserContext } from '../context/UserContext';
 import { API } from '../services/API';
 import { Heading_4 } from '../ui/Headings';
+import Spinner from '../ui/Spinner';
 import TestProfile from '../ui/TestProfile';
 
 const ProfileFavorites = () => {
@@ -21,6 +22,7 @@ const ProfileFavorites = () => {
   const [showFollowersModal, setShowFollowersModal] = useState(false);
   const [showFollowingModal, setShowFollowingModal] = useState(false);
   const [showPasswordModal, setShowPasswordModal] = useState(false);
+  const [loaded, setLoaded] = useState(false);
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -40,6 +42,7 @@ const ProfileFavorites = () => {
         ...res.data.user.favourite_featuredTests,
         ...res.data.user.favourite_genericTests,
       ]);
+      setLoaded(true);
     });
   };
 
@@ -49,7 +52,7 @@ const ProfileFavorites = () => {
 
   return (
     <section className="profile-favorites">
-      {favoritesTests != undefined && userProfile.length != 0 ? (
+      {favoritesTests != undefined && loaded && userProfile.length != 0 ? (
         <>
           {showModal ? (
             <EditProfileModal
@@ -118,10 +121,9 @@ const ProfileFavorites = () => {
         </>
       ) : (
         <>
-          {console.log(printedUser)}
           <ProfileHero printedUser={printedUser} setShowModal={setShowModal} />
           <div className="no-favorites-test">
-            <Heading_4 text="No favorites tests yet" />
+            <Spinner />
           </div>
         </>
       )}
