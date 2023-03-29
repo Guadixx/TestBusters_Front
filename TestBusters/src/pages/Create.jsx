@@ -41,7 +41,6 @@ const Create = () => {
             />
             {showMessage && (
               <p className="message">
-                {' '}
                 We have out own data base with different topics you can choose from, get
                 started!
               </p>
