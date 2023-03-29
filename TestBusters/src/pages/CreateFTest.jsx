@@ -38,6 +38,7 @@ const CreateFTest = () => {
   const [bannerFileName, setBannerFileName] = useState('');
   const [description, setDescription] = useState(0);
   const [title, setTitle] = useState(0);
+  const [errorNumItems, setErrorNumItems] = useState('');
   const [showResultsModal, setShowResultsModal] = useState(false);
   const [resultMessage] = useState('Creating test...');
   const [resultMessage2] = useState(
@@ -108,49 +109,53 @@ const CreateFTest = () => {
   };
   const handleSubmit = (ev) => {
     ev.preventDefault();
-    setShowResultsModal(true);
-    const description = `${newTest.description}/${optionsNumber}`;
-    const value1format =
-      newTestFilters.filter_1.value == 'All' ? '' : newTestFilters.filter_1.value;
-    const value2format =
-      newTestFilters.filter_2.value == 'All' ? '' : newTestFilters.filter_2.value;
-    const formData = new FormData();
-    formData.append('creator', newTest.creator);
-    formData.append('title', newTest.title);
-    formData.append('description', description);
-    formData.append('thumbnail', newTest.thumbnail);
-    formData.append('banner', newTest.banner);
-    formData.append('time', newTest.time);
-    formData.append('random', newTest.random);
-    formData.append('comments_enabled', newTest.comments_enabled);
-    formData.append('answer', newTest.answer);
-    formData.append('question', newTest.question);
-    formData.append('data_type', newTest.data_type);
-    for (const question_t of newTest.question_text) {
-      formData.append('question_text', question_t);
-    }
-    newTestFilters.filters.forEach((filter, index) => {
-      formData.append(`filters[${index}][key]`, filter.key);
-      filter.value.forEach((value, jindex) => {
-        formData.append(`filters[${index}][value][${jindex}]`, value);
+    if (newTestFilters.filters[0].value.length > 9) {
+      setShowResultsModal(true);
+      const description = `${newTest.description}/${optionsNumber}`;
+      const value1format =
+        newTestFilters.filter_1.value == 'All' ? '' : newTestFilters.filter_1.value;
+      const value2format =
+        newTestFilters.filter_2.value == 'All' ? '' : newTestFilters.filter_2.value;
+      const formData = new FormData();
+      formData.append('creator', newTest.creator);
+      formData.append('title', newTest.title);
+      formData.append('description', description);
+      formData.append('thumbnail', newTest.thumbnail);
+      formData.append('banner', newTest.banner);
+      formData.append('time', newTest.time);
+      formData.append('random', newTest.random);
+      formData.append('comments_enabled', newTest.comments_enabled);
+      formData.append('answer', newTest.answer);
+      formData.append('question', newTest.question);
+      formData.append('data_type', newTest.data_type);
+      for (const question_t of newTest.question_text) {
+        formData.append('question_text', question_t);
+      }
+      newTestFilters.filters.forEach((filter, index) => {
+        formData.append(`filters[${index}][key]`, filter.key);
+        filter.value.forEach((value, jindex) => {
+          formData.append(`filters[${index}][value][${jindex}]`, value);
+        });
       });
-    });
-    formData.append('filter_1[key]', newTestFilters.filter_1.key);
-    formData.append('filter_1[value]', value1format);
-    formData.append('filter_2[value]', value2format);
-    formData.append('filter_2[key]', newTestFilters.filter_2.key);
-    API.post('/featuredtests', formData, {
-      headers: { 'Content-Type': 'multipart/form-data' },
-    })
-      .then((res) => {
-        if (res.status === 201) {
-          console.log('test created');
-          setShowResultsModal(true);
-          const testParams = { testType: 'featuredtests' };
-          navigate(`/tests/${res.data._id}`, { state: testParams });
-        }
+      formData.append('filter_1[key]', newTestFilters.filter_1.key);
+      formData.append('filter_1[value]', value1format);
+      formData.append('filter_2[value]', value2format);
+      formData.append('filter_2[key]', newTestFilters.filter_2.key);
+      API.post('/featuredtests', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
       })
-      .catch((error) => console.log(error));
+        .then((res) => {
+          if (res.status === 201) {
+            console.log('test created');
+            setShowResultsModal(true);
+            const testParams = { testType: 'featuredtests' };
+            navigate(`/tests/${res.data._id}`, { state: testParams });
+          }
+        })
+        .catch((error) => console.log(error));
+    } else {
+      setErrorNumItems('Please, choose ten or more items');
+    }
   };
   useEffect(() => {
     getInfo();
@@ -643,6 +648,7 @@ const CreateFTest = () => {
           ) : (
             <></>
           )}
+          <h3>{errorNumItems}</h3>
           <button type="submit" className="create-test-button">
             Create Test
           </button>
