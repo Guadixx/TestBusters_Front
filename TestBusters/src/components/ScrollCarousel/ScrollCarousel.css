@@ -1,0 +1,79 @@
+.movie-carousel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  border: none;
+  margin: 1rem auto;
+  width: 100%;
+}
+
+.movie-carousel > .movie-carousel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1rem;
+}
+.movie-carousel > .movie-carousel-head h1 {
+  text-transform: uppercase;
+  font-size: 2vw;
+}
+
+.movie-carousel > .movie-carousel-head button {
+  border: none;
+  color: var(--dark-primary);
+  filter: brightness(60%);
+  background-color: transparent;
+}
+.movie-carousel > .movie-carousel-head button:hover {
+  color: inherit;
+  filter: brightness(100%);
+}
+
+.movie-carousel .scroll-container {
+  display: flex;
+  align-items: center;
+  margin: 0 auto;
+  width: 100%;
+  gap: 0.2rem;
+}
+
+.movie-carousel .scroll-container button {
+  border: none;
+  background-color: transparent;
+  margin-bottom: 3rem;
+}
+
+.movie-carousel .scroll-container button img {
+  width: 20px;
+  border: none;
+  filter: brightness(100%);
+  background-color: transparent;
+  padding: 0.2rem;
+}
+.movie-carousel .scroll-container button img:hover {
+  filter: brightness(0%);
+}
+
+.movie-carousel .scroll-container .prev {
+  transform: rotate(180deg);
+}
+
+.movie-carousel .recent-movies {
+  display: flex;
+  align-items: center;
+  height: 250px;
+  width: 100%;
+  gap: 0.5rem;
+  overflow-x: scroll;
+  scroll-behavior: smooth;
+}
+
+.movie-carousel .recent-movies::-webkit-scrollbar {
+  height: 0;
+}
+
+@media screen and (max-width: 930px) {
+  .movie-carousel .scroll-container button {
+    display: none;
+  }
+}

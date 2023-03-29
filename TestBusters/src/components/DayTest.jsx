@@ -28,7 +28,7 @@ const DayTest = () => {
   return (
     <div className="daytest-div">
       <div className="daytest-header">
-        <Heading_2 text="TEST OF THE DAY" weigth="800" size="24px" />
+        <Heading_2 text="TEST OF THE DAY" weigth="800" size="2.8vw" />
         <div className="daytest-input-date-div">
           <button
             className="daytest-input-button"
@@ -42,19 +42,19 @@ const DayTest = () => {
               className="daytest-input-image"
             />
           </button>
+          <input
+            min="2023-03-26"
+            max={today}
+            id="inputdate"
+            type="date"
+            className="daytest-input-date"
+            onChange={(ev) => {
+              setDateTest(ev.target.value);
+            }}
+          />
+          <h4 className="daytest-input-text">{dateTest}</h4>
         </div>
       </div>
-
-      <input
-        min="2023-03-26"
-        max={today}
-        id="inputdate"
-        type="date"
-        className="daytest-input-date"
-        onChange={(ev) => {
-          setDateTest(ev.target.value);
-        }}
-      />
       {test != undefined ? (
         <TestCardDayTest test={test.test} creator={test.creator} />
       ) : (
