@@ -4,6 +4,7 @@ import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import CreateTestModal from '../components/CreateTestModal/CreateTestModal';
+import InstruccionModal from '../components/InstructionTestModal/InstruccionModal';
 import { UserContext } from '../context/UserContext';
 import { API } from '../services/API';
 import Icons from '../styles/Icons';
@@ -62,6 +63,7 @@ const CreateGTest = () => {
   });
 
   const [showResultsModal, setShowResultsModal] = useState(false);
+  const [showInstruccionModal, setShowInstruccionModal] = useState(false);
   const [resultMessage, setResultMessage] = useState('Creating test...');
   const [resultMessage2, setResultMessage2] = useState(
     'This might take some seconds. Please, wait paciently',
@@ -525,7 +527,21 @@ const CreateGTest = () => {
       {console.log(answers, 'answers')}
       {console.log(options, 'options')}
       {console.log(questionType)} */}
-      <Heading_1 text="Create Generic Test" weigth="700" size="28px" />
+      <div className="modalandtitle_container">
+        <Heading_1 text="Create Generic Test" weigth="700" size="28px" />
+        <button className="btn_instruccion" onClick={() => setShowInstruccionModal(true)}>
+          <img
+            src="https://res.cloudinary.com/dva9zee9r/image/upload/v1680033661/pregunta_kvibxl.png"
+            alt="question mark"
+          />
+        </button>
+        {showInstruccionModal ? (
+          <InstruccionModal setShowInstruccionModal={setShowInstruccionModal} />
+        ) : (
+          <div></div>
+        )}
+      </div>
+
       <form className="create-generic-test-body" onSubmit={(ev) => handleSubmit(ev)}>
         <section className="create-generic-test-filters">
           <div className="time-filter">
