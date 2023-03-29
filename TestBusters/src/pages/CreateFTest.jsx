@@ -5,6 +5,7 @@ import './CreateFTest.css';
 
 import { useContext, useEffect, useState } from 'react';
 
+import CreateTestModal from '../components/CreateTestModal/CreateTestModal';
 import CreateFTestModal from '../components/InstructionTestModal/IntruccionFModal';
 import { UserContext } from '../context/UserContext';
 import { API } from '../services/API';
@@ -35,6 +36,11 @@ const CreateFTest = () => {
   const [bannerFileName, setBannerFileName] = useState('');
   const [description, setDescription] = useState(0);
   const [title, setTitle] = useState(0);
+  const [showResultsModal, setShowResultsModal] = useState(false);
+  const [resultMessage] = useState('Creating test...');
+  const [resultMessage2] = useState(
+    'This might take some seconds. Please, wait paciently',
+  );
   const [newTest, setNewTest] = useState({
     creator: user._id,
     title: '',
@@ -212,17 +218,6 @@ const CreateFTest = () => {
   }, [filter_1_value, filter_2_value, valuesFilters]);
   return (
     <section className="create-generic-test">
-      <button
-        onClick={() => {
-          console.log({
-            ...newTest,
-            description: `${newTest.description}/${optionsNumber}`,
-          });
-          console.log(newTestFilters);
-        }}
-      >
-        PROBAR COSAS
-      </button>
       <div className="modalandtitle_container">
         <Heading_1 text="Create Featured Test" weigth="700" size="28px" />
         <button className="btn_instruccion" onClick={() => setShowInstruccionModal(true)}>
@@ -617,10 +612,19 @@ const CreateFTest = () => {
               </div>
             )}
           </div>
+          {showResultsModal ? (
+            <CreateTestModal
+              text1={resultMessage}
+              text2={resultMessage2}
+              setShowResultsModal={setShowResultsModal}
+            />
+          ) : (
+            <></>
+          )}
           <button
             type="submit"
             className="create-test-button"
-            disabled={infoFilters != undefined ? false : true}
+            onClick={() => setShowResultsModal(true)}
           >
             Create Test
           </button>
