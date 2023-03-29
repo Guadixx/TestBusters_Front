@@ -485,6 +485,7 @@ const CreateGTest = () => {
     options5.forEach((option_5) => {
       formData2.append('option_5', option_5);
     });
+    setShowResultsModal(true);
     API.post('/generictests', formData, {
       headers: { 'Content-Type': 'multipart/form-data' },
     })
@@ -498,7 +499,8 @@ const CreateGTest = () => {
             .then((res) => {
               if (res.status === 200) {
                 console.log('data and test created');
-                navigate('/tests');
+                const testParams = { testType: 'generictests' };
+                navigate(`/tests/${res.data._id}`, { state: testParams });
                 /*   setResultMessage('Test created!');
                 setResultMessage2(`We'll be redirecting you to the test page.`); */
                 /*   setTimeout(() => {
@@ -547,6 +549,7 @@ const CreateGTest = () => {
           <div className="time-filter">
             <Heading_3 text="TIME" weigth="600" size="16px" />
             <input
+              required
               type="time"
               onChange={(ev) => setNewTest({ ...newTest, time: ev.target.value })}
             />
@@ -554,28 +557,35 @@ const CreateGTest = () => {
           <div className="order-filter" onChange={(ev) => handleOrder(ev)}>
             <Heading_3 text="ORDER" weigth="600" size="16px" />
             <div className="order-random">
-              <input type="radio" id="random" name="order" value="Random" />
+              <input required type="radio" id="random" name="order" value="Random" />
               <label htmlFor="random">Random</label>
             </div>
             <div className="order-random">
-              <input type="radio" id="normal" name="order" value="Normal" />
+              <input required type="radio" id="normal" name="order" value="Normal" />
               <label htmlFor="normal">Normal</label>
             </div>
           </div>
           <div className="order-filter" onChange={(ev) => handleComments(ev)}>
             <Heading_3 text="COMMENTS" weigth="600" size="16px" />
             <div className="order-random">
-              <input type="radio" id="enabled" name="comments" value="Enabled" />
+              <input required type="radio" id="enabled" name="comments" value="Enabled" />
               <label htmlFor="enabled">Enabled</label>
             </div>
             <div className="order-random">
-              <input type="radio" id="disabled" name="comments" value="Disabled" />
+              <input
+                required
+                type="radio"
+                id="disabled"
+                name="comments"
+                value="Disabled"
+              />
               <label htmlFor="disabled">Disabled</label>
             </div>
           </div>
           <div className="test-topic">
             <Heading_3 text="TOPIC" weigth="600" size="16px" />
             <input
+              required
               className="topic-input"
               type="text"
               onChange={(ev) => setNewTest({ ...newTest, topic: ev.target.value })}
@@ -587,6 +597,7 @@ const CreateGTest = () => {
             <div className="generic-test-thumbnail">
               <Thumbnail src={thumbnailPrev ? thumbnailPrev : ' '} />
               <input
+                required
                 type="file"
                 id="thumbnail"
                 className="thumbnail-file"
@@ -609,6 +620,7 @@ const CreateGTest = () => {
               />
 
               <input
+                required
                 type="file"
                 id="banner"
                 className="test-banner-file"
@@ -625,6 +637,7 @@ const CreateGTest = () => {
             <div className="generic-test-title">
               <div className="edit-title">
                 <input
+                  required
                   type="text"
                   id="title"
                   maxLength="100"
@@ -678,7 +691,7 @@ const CreateGTest = () => {
           </div>
           <div className="generic-test-data">
             {questions.map((q, i) => (
-              <>
+              <div key={i}>
                 {questionType[i] == 'image' ? (
                   <div className="generic-test-question" key={i}>
                     <div className="generic-test-header">
@@ -691,6 +704,7 @@ const CreateGTest = () => {
                         <option>image</option>
                       </select>
                       <input
+                        required
                         type="text"
                         placeholder="Question"
                         className="input-question"
@@ -752,6 +766,7 @@ const CreateGTest = () => {
                                 : 'Upload file'}
                             </label>
                             <input
+                              required
                               type="file"
                               id={`option ${index + 1} ${i}`}
                               className="test-banner-file"
@@ -783,6 +798,7 @@ const CreateGTest = () => {
                           {ansFileName[i] ? ansFileName[i] : 'Upload file'}
                         </label>
                         <input
+                          required
                           type="file"
                           id={`answer ${i}`}
                           className="test-banner-file"
@@ -804,12 +820,14 @@ const CreateGTest = () => {
                       </select>
 
                       <input
+                        required
                         type="text"
                         placeholder="Question"
                         className="input-question"
                         onChange={(ev) => addQuestionValue(ev, i)}
                       />
                       <input
+                        required
                         type="file"
                         id={`questionImg ${i}`}
                         className="questionImg-file"
@@ -843,6 +861,7 @@ const CreateGTest = () => {
                         {options[i].map((option, index) => (
                           <div className="option-delete" key={index}>
                             <input
+                              required
                               className="generic-test-option"
                               placeholder={`Option ${index + 1}`}
                               onChange={(ev) => addOptionValue(ev, index, i)}
@@ -857,6 +876,7 @@ const CreateGTest = () => {
                           </div>
                         ))}
                         <input
+                          required
                           className="generic-test-option"
                           placeholder="Answer"
                           onChange={(ev) => addAnswerValue(ev, i)}
@@ -873,7 +893,7 @@ const CreateGTest = () => {
                     </div>
                   </div>
                 )}
-              </>
+              </div>
             ))}
             <button
               className="add-question"
@@ -899,11 +919,7 @@ const CreateGTest = () => {
           ) : (
             <></>
           )}
-          <button
-            type="submit"
-            className="create-test-button"
-            onClick={() => setShowResultsModal(true)}
-          >
+          <button type="submit" className="create-test-button">
             Create Test
           </button>
         </section>
