@@ -84,7 +84,7 @@ const ProfileHero = ({
         src={printedUser.banner}
         name="profile banner"
         radius="xl"
-        width="80vw"
+        width="70vw"
       />
       <Avatar
         position="absolute"

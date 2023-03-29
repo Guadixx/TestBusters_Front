@@ -47,11 +47,12 @@
   padding: 0.3rem 1rem;
   width: 115px;
   margin-right: var(--spacing-0-5);
-  font-size: 0.9rem;
+  font-size: 15px;
   color: var(--color-bg);
   background-color: var(--color-highlight-primary);
   border-radius: 5px;
   border: 1.5px var(--color-highlight-primary) solid;
+  font-weight: 400;
 }
 
 .header .user-header .avatar-button {

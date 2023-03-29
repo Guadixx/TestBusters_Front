@@ -4,7 +4,9 @@ import './CreateGTest.css';
 import './CreateFTest.css';
 
 import { useContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
+import CreateTestModal from '../components/CreateTestModal/CreateTestModal';
 import CreateFTestModal from '../components/InstructionTestModal/IntruccionFModal';
 import { UserContext } from '../context/UserContext';
 import { API } from '../services/API';
@@ -16,6 +18,7 @@ import ImageTests from '../ui/ImageTests';
 import Thumbnail from '../ui/Thumbnail';
 
 const CreateFTest = () => {
+  const navigate = useNavigate();
   const { user } = useContext(UserContext);
   const [showInstruccionModal, setShowInstruccionModal] = useState(false);
   const [info, setInfo] = useState(undefined);
@@ -35,6 +38,11 @@ const CreateFTest = () => {
   const [bannerFileName, setBannerFileName] = useState('');
   const [description, setDescription] = useState(0);
   const [title, setTitle] = useState(0);
+  const [showResultsModal, setShowResultsModal] = useState(false);
+  const [resultMessage] = useState('Creating test...');
+  const [resultMessage2] = useState(
+    'This might take some seconds. Please, wait paciently',
+  );
   const [newTest, setNewTest] = useState({
     creator: user._id,
     title: '',
@@ -100,6 +108,7 @@ const CreateFTest = () => {
   };
   const handleSubmit = (ev) => {
     ev.preventDefault();
+    setShowResultsModal(true);
     const description = `${newTest.description}/${optionsNumber}`;
     const value1format =
       newTestFilters.filter_1.value == 'All' ? '' : newTestFilters.filter_1.value;
@@ -136,6 +145,9 @@ const CreateFTest = () => {
       .then((res) => {
         if (res.status === 201) {
           console.log('test created');
+          setShowResultsModal(true);
+          const testParams = { testType: 'featuredtests' };
+          navigate(`/tests/${res.data._id}`, { state: testParams });
         }
       })
       .catch((error) => console.log(error));
@@ -156,7 +168,12 @@ const CreateFTest = () => {
       setValuesFilters(values_Filters);
       setFilter_1_value('All');
       setFilter_2_value('All');
-      setNewTest({ ...newTest, data_type: data_type });
+      setNewTest({
+        ...newTest,
+        data_type: data_type,
+        question: info[data_type].possible[0],
+        answer: info[data_type].possible[0],
+      });
       setnewTestFilters({
         filter_1: {
           key: info[data_type].filter_1,
@@ -212,17 +229,6 @@ const CreateFTest = () => {
   }, [filter_1_value, filter_2_value, valuesFilters]);
   return (
     <section className="create-generic-test">
-      <button
-        onClick={() => {
-          console.log({
-            ...newTest,
-            description: `${newTest.description}/${optionsNumber}`,
-          });
-          console.log(newTestFilters);
-        }}
-      >
-        PROBAR COSAS
-      </button>
       <div className="modalandtitle_container">
         <Heading_1 text="Create Featured Test" weigth="700" size="28px" />
         <button className="btn_instruccion" onClick={() => setShowInstruccionModal(true)}>
@@ -242,6 +248,7 @@ const CreateFTest = () => {
           <div className="time-filter">
             <Heading_3 text="TIME" weigth="600" size="16px" />
             <input
+              required
               type="time"
               onChange={(ev) => setNewTest({ ...newTest, time: ev.target.value })}
             />
@@ -249,22 +256,28 @@ const CreateFTest = () => {
           <div className="order-filter" onChange={(ev) => handleOrder(ev)}>
             <Heading_3 text="ORDER" weigth="600" size="16px" />
             <div className="order-random">
-              <input type="radio" id="random" name="order" value="Random" />
+              <input required type="radio" id="random" name="order" value="Random" />
               <label htmlFor="random">Random</label>
             </div>
             <div className="order-random">
-              <input type="radio" id="normal" name="order" value="Normal" />
+              <input required type="radio" id="normal" name="order" value="Normal" />
               <label htmlFor="normal">Normal</label>
             </div>
           </div>
           <div className="order-filter" onChange={(ev) => handleComments(ev)}>
             <Heading_3 text="COMMENTS" weigth="600" size="16px" />
             <div className="order-random">
-              <input type="radio" id="enabled" name="comments" value="Enabled" />
+              <input required type="radio" id="enabled" name="comments" value="Enabled" />
               <label htmlFor="enabled">Enabled</label>
             </div>
             <div className="order-random">
-              <input type="radio" id="disabled" name="comments" value="disabled" />
+              <input
+                required
+                type="radio"
+                id="disabled"
+                name="comments"
+                value="disabled"
+              />
               <label htmlFor="disabled">Disabled</label>
             </div>
           </div>
@@ -274,6 +287,7 @@ const CreateFTest = () => {
               infoKeys.map((key) => (
                 <div className="order-random" key={key}>
                   <input
+                    required
                     type="radio"
                     id="datatype"
                     name="datatype"
@@ -299,6 +313,7 @@ const CreateFTest = () => {
             <div className="generic-test-thumbnail">
               <Thumbnail src={thumbnailPrev ? thumbnailPrev : ' '} />
               <input
+                required
                 type="file"
                 id="thumbnail"
                 className="thumbnail-file"
@@ -321,6 +336,7 @@ const CreateFTest = () => {
               />
 
               <input
+                required
                 type="file"
                 id="banner"
                 className="test-banner-file"
@@ -337,10 +353,11 @@ const CreateFTest = () => {
             <div className="generic-test-title">
               <div className="edit-title">
                 <input
+                  required
                   type="text"
                   id="title"
                   maxLength="100"
-                  className="input-title"
+                  className="input required-title"
                   placeholder=" "
                   onChange={(ev) => {
                     setTitle(ev.target.value.length);
@@ -362,7 +379,7 @@ const CreateFTest = () => {
               </div>
               <div className="edit-description">
                 <textarea
-                  className="input-description"
+                  className="input required-description"
                   type="text"
                   placeholder=" "
                   id="description"
@@ -435,6 +452,7 @@ const CreateFTest = () => {
                           className="filters-featured-test-data-checkboxdiv"
                         >
                           <input
+                            required
                             type="checkbox"
                             id={value}
                             defaultChecked={valuesFilters.includes(value)}
@@ -471,6 +489,7 @@ const CreateFTest = () => {
                       <div className="filters-featured-test-question-custom">
                         <label htmlFor="question1">1st part of the question</label>
                         <input
+                          required
                           type="text"
                           placeholder="Ej: What is this"
                           id="question1"
@@ -494,7 +513,6 @@ const CreateFTest = () => {
                             });
                           }}
                         >
-                          <option value="-">-</option>
                           {possible.map((pos) => (
                             <option value={pos} key={pos}>
                               {pos}
@@ -505,6 +523,7 @@ const CreateFTest = () => {
                       <div className="filters-featured-test-question-custom">
                         <label htmlFor="question2">2nd part of the question</label>
                         <input
+                          required
                           type="text"
                           placeholder="Ej: ?"
                           id="question2"
@@ -531,7 +550,6 @@ const CreateFTest = () => {
                               });
                             }}
                           >
-                            <option value="-">-</option>
                             {possible.map((pos) => (
                               <option value={pos} key={pos}>
                                 {pos}
@@ -617,11 +635,16 @@ const CreateFTest = () => {
               </div>
             )}
           </div>
-          <button
-            type="submit"
-            className="create-test-button"
-            disabled={infoFilters != undefined ? false : true}
-          >
+          {showResultsModal ? (
+            <CreateTestModal
+              text1={resultMessage}
+              text2={resultMessage2}
+              setShowResultsModal={setShowResultsModal}
+            />
+          ) : (
+            <></>
+          )}
+          <button type="submit" className="create-test-button">
             Create Test
           </button>
         </section>

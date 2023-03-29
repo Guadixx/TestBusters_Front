@@ -4,4 +4,27 @@
   align-items: center;
   flex-direction: column;
   padding: 1rem 6rem;
+  gap: 2rem;
+}
+
+.home-tests {
+  display: flex;
+  justify-content: center;
+  gap: 6rem;
+}
+
+.home-daytest {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 1rem;
+}
+
+.home-randomtest {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 1rem;
 }

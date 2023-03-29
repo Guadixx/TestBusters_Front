@@ -196,7 +196,7 @@ const TestDetail = () => {
           options: randomArray(
             1,
             featuredData.length,
-            test.description.split('/')[1],
+            parseInt(test.description.split('/')[1]) + 1,
             item.id,
             0,
           ),
@@ -305,15 +305,9 @@ const TestDetail = () => {
     if (testType == 'featuredtests') {
       randomQuestions.forEach((question) => {
         const randomIndex = Math.round(
-          Math.random() * parseInt(test.description.split('/')[1] - 1),
+          Math.random() * parseInt(test.description.split('/')[1]),
         );
-        const replacedOption = question.options[randomIndex];
         question.options[randomIndex] = question.id;
-        if (randomIndex > question.options.length / 2) {
-          question.options.unshift(replacedOption);
-        } else {
-          question.options.push(replacedOption);
-        }
         let index = 0;
         question.options.forEach((number) => {
           if (number == 0) {
