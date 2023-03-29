@@ -13,6 +13,7 @@ const Login = () => {
   const [onFocus, setOnFocus] = useState(false);
   const [userNotFound, setUserNotFound] = useState(false);
   const [wrongPassword, setWrongPassword] = useState(false);
+  const [emailSent, setEmailSent] = useState(false);
   const [email, setEmail] = useState('');
   const [see, setSee] = useState(false);
   const [forgot, setForgot] = useState(false);
@@ -50,7 +51,7 @@ const Login = () => {
     API.patch('/users/forgotpassword', { email: email })
       .then((res) => {
         if (res.status == 200) {
-          console.log('email sent');
+          setEmailSent(true);
         } else {
           setUserNotFound(true);
         }
@@ -120,7 +121,13 @@ const Login = () => {
           <div className="error_container">
             <Heading_6
               text={
-                userNotFound ? 'User not found' : wrongPassword ? 'Wrong Password' : ''
+                userNotFound
+                  ? 'User not found'
+                  : wrongPassword
+                  ? 'Wrong Password'
+                  : emailSent
+                  ? 'Check your email. We have sent you a new password'
+                  : ''
               }
               color="red"
               size="16px"
