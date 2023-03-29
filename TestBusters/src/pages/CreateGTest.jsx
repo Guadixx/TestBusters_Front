@@ -64,8 +64,8 @@ const CreateGTest = () => {
 
   const [showResultsModal, setShowResultsModal] = useState(false);
   const [showInstruccionModal, setShowInstruccionModal] = useState(false);
-  const [resultMessage, setResultMessage] = useState('Creating test...');
-  const [resultMessage2, setResultMessage2] = useState(
+  const [resultMessage] = useState('Creating test...');
+  const [resultMessage2] = useState(
     'This might take some seconds. Please, wait paciently',
   );
 

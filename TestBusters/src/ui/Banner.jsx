@@ -12,7 +12,7 @@ const BannerStyled = styled.div`
     position: ${({ position }) => position};
     height: ${({ size }) =>
       size === 'xl'
-        ? '10rem'
+        ? '12rem'
         : size === 'm'
         ? '6rem'
         : size === 's'
