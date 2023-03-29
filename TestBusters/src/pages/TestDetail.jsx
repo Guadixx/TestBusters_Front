@@ -304,9 +304,16 @@ const TestDetail = () => {
     });
     if (testType == 'featuredtests') {
       randomQuestions.forEach((question) => {
-        question.options[
-          Math.round(Math.random() * parseInt(test.description.split('/')[1] - 1))
-        ] = question.id;
+        const randomIndex = Math.round(
+          Math.random() * parseInt(test.description.split('/')[1] - 1),
+        );
+        const replacedOption = question.options[randomIndex];
+        question.options[randomIndex] = question.id;
+        if (randomIndex > question.options.length / 2) {
+          question.options.unshift(replacedOption);
+        } else {
+          question.options.push(replacedOption);
+        }
         let index = 0;
         question.options.forEach((number) => {
           if (number == 0) {
