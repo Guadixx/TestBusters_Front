@@ -3,28 +3,32 @@
   display: flex;
   align-items: center;
   flex-direction: column;
-  padding: 1rem 6rem;
+  padding: 1rem 0;
   gap: 2rem;
+  width: 90vw;
+  margin: 0 auto;
 }
 
 .home-tests {
   display: flex;
   justify-content: center;
-  gap: 6rem;
-}
-
-.home-daytest {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
   gap: 1rem;
 }
 
-.home-randomtest {
+.home-hero {
+  display: flex;
+  width: 90vw;
+  justify-content: space-between;
+}
+
+.home-message {
+  max-width: 30vw;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-  gap: 1rem;
+  gap: 2rem;
+}
+
+.home-test-today {
+  display: flex;
+  gap: 2vw;
 }
