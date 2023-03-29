@@ -207,10 +207,28 @@ const TestDetail = () => {
   useEffect(() => {
     //AQUI TIENES QUE ARREGLAR COSAS RAFAEL
     if (testType == 'generictests' && test.data != undefined) {
-      const random = randomArray(0, 6, 6).map((number) =>
-        number == 0 || number == 6 ? 'answer' : `option_${number}`,
-      );
-      setQuestions(
+      const randomQuestions = [];
+      test.data.forEach((item) => {
+        const random = randomArray(0, 6, 6).map((number) =>
+          number == 0 || number == 6 ? 'answer' : `option_${number}`,
+        );
+        randomQuestions.push({
+          question: item.question,
+          answer: item.answer,
+          question_img: item.question_img,
+          id: item.id,
+          options: [
+            item[random[0]],
+            item[random[1]],
+            item[random[2]],
+            item[random[3]],
+            item[random[4]],
+            item[random[5]],
+          ],
+        });
+      });
+      setQuestions(randomQuestions);
+      /* setQuestions(
         test.data.map((item) => ({
           question: item.question,
           answer: item.answer,
@@ -225,7 +243,7 @@ const TestDetail = () => {
             item[random[5]],
           ],
         })),
-      );
+      ); */
     }
   }, [test]);
   useEffect(() => {

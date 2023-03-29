@@ -104,7 +104,7 @@ const checkForbidden = (value, forbbidenList) => {
 };
 
 export const checkEmail = (value) => {
-  const email = value.match(/\w+@{1}\w+.{1}(\w{4}|\w{3}|\w{2})|./g);
+  const email = value.match(/@{1}.+\./g);
   if (email == null) {
     return false;
   }
