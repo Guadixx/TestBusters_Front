@@ -16,6 +16,9 @@ const CreateFTestModal = ({ setShowInstruccionModal }) => {
           <div className="list_container">
             <ul>
               <li>
+                <h4>Minimum 10 questions</h4>
+              </li>
+              <li>
                 <h4>Time</h4>
                 <p>Time. You set how long the test will last </p>
               </li>
@@ -34,7 +37,6 @@ const CreateFTestModal = ({ setShowInstruccionModal }) => {
                 </p>
               </li>
               <li>
-
                 <h4>Topic</h4>
                 <p>Topic. What is your test about? Enter your chosen topic.</p>
               </li>
