@@ -2,16 +2,13 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import './ScrollCarousel.css';
 
-import { useEffect, useRef, useState } from 'react';
+import { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { API } from '../../services/API';
 import Spinner from '../../ui/Spinner';
 import TestCard from '../TestCard';
 
-const ScrollCarousel = () => {
-  const [popularTests, setPopularTests] = useState([]);
-  const [loaded, setLoaded] = useState(false);
+const ScrollCarousel = ({ text, loaded, tests }) => {
   const ref = useRef();
   const navigate = useNavigate();
 
@@ -19,38 +16,10 @@ const ScrollCarousel = () => {
     ref.current.scrollLeft += offset;
   };
 
-  const params = {
-    limit: 6,
-    order: 'times_played',
-    title: '',
-    page: 1,
-    mode: 1,
-  };
-
-  const getBestTests = () => {
-    API.get('/generictests', { params: params })
-      .then((res) => {
-        if (res.status === 200) {
-          let prevList = res.data.results;
-
-          API.get('/featuredtests', { params: params }).then((res) => {
-            prevList = [...prevList, ...res.data.results];
-            setPopularTests(prevList);
-            setLoaded(true);
-          });
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-  useEffect(() => {
-    getBestTests();
-  }, []);
   return (
     <section className="movie-carousel">
       <div className="movie-carousel-head">
-        <h1>Most Popular Tests</h1>
+        <h1>{text}</h1>
 
         <button
           onClick={() => {
@@ -70,7 +39,7 @@ const ScrollCarousel = () => {
         </button>
         <div className="recent-movies" ref={ref}>
           {loaded ? (
-            popularTests.map((test) => <TestCard test={test} key={test._id} />)
+            tests.map((test) => <TestCard test={test} key={test._id} />)
           ) : (
             <Spinner />
           )}

@@ -137,7 +137,13 @@ const Tests = () => {
           >
             <Heading_3 text="FILTER BY" weigth="600" size="16px" />
             <div className="order-test">
-              <input type="radio" id="times_played" name="order" value="times_played" />
+              <input
+                type="radio"
+                id="times_played"
+                name="order"
+                value="times_played"
+                defaultChecked
+              />
               <label htmlFor="times_played">Most Popular</label>
             </div>
             <div className="order-test">
@@ -157,7 +163,7 @@ const Tests = () => {
           >
             <Heading_3 text="ORDER" weigth="600" size="16px" />
             <div className="order-test">
-              <input type="radio" id="ascending" name="mode" value="-1" />
+              <input type="radio" id="ascending" name="mode" value="-1" defaultChecked />
               <label htmlFor="ascending">Ascending</label>
             </div>
             <div className="order-test">

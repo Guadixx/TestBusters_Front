@@ -4,21 +4,58 @@
   align-items: center;
   flex-direction: column;
   padding: 1rem 0;
-  gap: 2rem;
   width: 90vw;
   margin: 0 auto;
+  gap: 0.8rem;
 }
 
 .home-tests {
   display: flex;
   justify-content: center;
   gap: 1rem;
+  margin: 1.5rem 0 2rem 0;
 }
 
 .home-hero {
   display: flex;
   width: 90vw;
   justify-content: space-between;
+  margin-bottom: 2rem;
+}
+
+.home-create {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 3rem 1rem;
+  border-radius: 10px;
+  width: 29vw;
+  cursor: pointer;
+  transition: 0.1s all ease-in-out;
+  box-shadow: rgba(121, 121, 121, 0.3) 0px 0px 2px 0px,
+    rgba(192, 192, 192, 0.15) 0px 1px 2px 1px;
+}
+
+.home-create:hover {
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 5px;
+}
+
+.home-create div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.home-create img {
+  width: 100px;
+  height: 100px;
+}
+
+.home-create p {
+  width: 300px;
+  text-align: center;
 }
 
 .home-message {
@@ -31,4 +68,5 @@
 .home-test-today {
   display: flex;
   gap: 2vw;
+  margin-bottom: 2.5rem;
 }

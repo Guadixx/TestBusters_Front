@@ -1,74 +1,3 @@
-/* .daytest-div {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 1.3rem;
-  padding: 2rem;
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 5px;
-  border-radius: 10px;
-  width: 29vw;
-}
-
-.daytest-header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.8rem;
-  height: 80px;
-}
-.daytest-input-date-div {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  position: relative;
-  height: 44px;
-}
-.daytest-input-image {
-  width: 35px;
-  height: 35px;
-}
-.daytest-input-button {
-  position: absolute;
-  left: 20%;
-  border: none;
-  outline: none;
-  background-color: transparent;
-}
-.daytest-input-date {
-  pointer-events: none;
-  position: absolute;
-  opacity: 0%;
-  right: 80px;
-  bottom: 140px;
-}
-.goooooooo {
-  position: absolute;
-  right: 0;
-}
-.daytest-input-text {
-  position: absolute;
-  right: 18%;
-  top: 10px;
-  font-size: 14px;
-}
-
-.random-btn {
-  border: none;
-  background-color: transparent;
-  display: flex;
-  align-items: center;
-  gap: 0.8rem;
-  font-size: 15px;
-  font-weight: 700;
-}
-
-.random-btn img {
-  width: 35px;
-  height: 35px;
-  z-index: 1;
-} */
-
 .daytest-div {
   display: flex;
   justify-content: space-between;
@@ -117,7 +46,7 @@
 }
 .daytest-input-text {
   position: absolute;
-  right: 30%;
+  left: 25%;
   top: 10px;
   font-size: 14px;
 }
