@@ -90,7 +90,7 @@ const ProfileHero = ({
         position="absolute"
         src={printedUser.avatar}
         alt="user avatar"
-        margin="4rem"
+        margin="6.2rem"
       />
       {user.username == printedUser.username ? (
         <ProfileInfo
@@ -103,8 +103,12 @@ const ProfileHero = ({
           buttonalt="edit icon"
           buttontext="Edit Profile"
           action={() => setShowModal(true)}
-          action1={() => setShowFollowersModal(true)}
-          action2={() => setShowFollowingModal(true)}
+          action1={() => {
+            setShowFollowersModal(true);
+          }}
+          action2={() => {
+            setShowFollowingModal(true);
+          }}
           action3={() => setShowPasswordModal(true)}
         />
       ) : (
@@ -126,8 +130,12 @@ const ProfileHero = ({
           action={() => {
             handleFollow();
           }}
-          action1={() => setShowFollowersModal(true)}
-          action2={() => setShowFollowingModal(true)}
+          action1={() => {
+            setShowFollowersModal(true);
+          }}
+          action2={() => {
+            setShowFollowingModal(true);
+          }}
           display="none"
         />
       )}

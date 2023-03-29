@@ -62,8 +62,8 @@ const CreateGTest = () => {
   });
 
   const [showResultsModal, setShowResultsModal] = useState(false);
-  const [resultMessage, setResultMessage] = useState('Creating test...');
-  const [resultMessage2, setResultMessage2] = useState(
+  const [resultMessage] = useState('Creating test...');
+  const [resultMessage2] = useState(
     'This might take some seconds. Please, wait paciently',
   );
 
@@ -497,11 +497,6 @@ const CreateGTest = () => {
               if (res.status === 200) {
                 console.log('data and test created');
                 navigate('/tests');
-                /*   setResultMessage('Test created!');
-                setResultMessage2(`We'll be redirecting you to the test page.`); */
-                /*   setTimeout(() => {
-                  navigate(`/tests/${res.data._id}`, { state: 'generictests' });
-                }, 1000); */
                 return;
               }
             })
@@ -875,11 +870,7 @@ const CreateGTest = () => {
             <></>
           )}
           {showResultsModal ? (
-            <CreateTestModal
-              text1={resultMessage}
-              text2={resultMessage2}
-              setShowResultsModal={setShowResultsModal}
-            />
+            <CreateTestModal text1={resultMessage} text2={resultMessage2} />
           ) : (
             <></>
           )}

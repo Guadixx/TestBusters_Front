@@ -10,11 +10,13 @@ import { Heading_3, Heading_4, Heading_5 } from '../../ui/Headings';
 
 const FollowersModal = ({ userFollowers, setShowFollowersModal }) => {
   const navigate = useNavigate();
+
   const getFollower = (id) => {
     API.get(`/users/${id}`).then((res) => {
       localStorage.setItem('communityUser', res.data.user);
     });
   };
+
   return (
     <div className="followers-modal">
       <div className="followers-modal-content">
@@ -38,7 +40,7 @@ const FollowersModal = ({ userFollowers, setShowFollowersModal }) => {
                 <Avatar src={follower.avatar} alt="user avatar" width="m" height="m" />
                 <div className="profile-followers-info">
                   <Heading_4 text={follower.username} weigth="700" />
-                  {/*  <Heading_5 text={`Level ${follower.level[0]}`} /> */}
+                  <Heading_5 text={`Level ${follower.level[0]}`} />
                 </div>
               </div>
             ))

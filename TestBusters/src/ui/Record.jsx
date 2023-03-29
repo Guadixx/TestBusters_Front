@@ -28,6 +28,7 @@ const Thumbnail = styled.img`
   width: 50px;
   height: 50px;
   border-radius: 20%;
+  object-fit: cover;
 `;
 
 const Name = styled.div`

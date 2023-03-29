@@ -5,10 +5,11 @@ import './CreateFTest.css';
 
 import { useContext, useEffect, useState } from 'react';
 
+//import Icons from '../styles/Icons';
+import CreateTestModal from '../components/CreateTestModal/CreateTestModal';
 import { UserContext } from '../context/UserContext';
 import { API } from '../services/API';
 import GetUnics from '../services/getUnics';
-//import Icons from '../styles/Icons';
 import Palette from '../styles/Palette';
 import { Heading_1, Heading_3, Heading_6 } from '../ui/Headings';
 import ImageTests from '../ui/ImageTests';
@@ -33,6 +34,11 @@ const CreateFTest = () => {
   const [bannerFileName, setBannerFileName] = useState('');
   const [description, setDescription] = useState(0);
   const [title, setTitle] = useState(0);
+  const [showResultsModal, setShowResultsModal] = useState(false);
+  const [resultMessage] = useState('Creating test...');
+  const [resultMessage2] = useState(
+    'This might take some seconds. Please, wait paciently',
+  );
   const [newTest, setNewTest] = useState({
     creator: user._id,
     title: '',
@@ -210,17 +216,6 @@ const CreateFTest = () => {
   }, [filter_1_value, filter_2_value, valuesFilters]);
   return (
     <section className="create-generic-test">
-      <button
-        onClick={() => {
-          console.log({
-            ...newTest,
-            description: `${newTest.description}/${optionsNumber}`,
-          });
-          console.log(newTestFilters);
-        }}
-      >
-        PROBAR COSAS
-      </button>
       <Heading_1 text="Create Featured Test" weigth="700" size="28px" />
       <form className="create-generic-test-body" onSubmit={(ev) => handleSubmit(ev)}>
         <section className="create-generic-test-filters">
@@ -602,10 +597,16 @@ const CreateFTest = () => {
               </div>
             )}
           </div>
+          {showResultsModal ? (
+            <CreateTestModal text1={resultMessage} text2={resultMessage2} />
+          ) : (
+            <></>
+          )}
           <button
             type="submit"
             className="create-test-button"
             disabled={infoFilters != undefined ? false : true}
+            onClick={() => setShowResultsModal(true)}
           >
             Create Test
           </button>
