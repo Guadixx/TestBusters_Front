@@ -452,7 +452,6 @@ const CreateFTest = () => {
                           className="filters-featured-test-data-checkboxdiv"
                         >
                           <input
-                            required
                             type="checkbox"
                             id={value}
                             defaultChecked={valuesFilters.includes(value)}
