@@ -16,9 +16,11 @@
   position: absolute;
   bottom: 28%;
   left: 3%;
-  -webkit-animation: slide-in-bottom 4.04s cubic-bezier(0.215, 0.61, 0.355, 1) both
-    infinite;
-  animation: slide-in-bottom 4.04s cubic-bezier(0.215, 0.61, 0.355, 1) both infinite;
+}
+
+.carousel-animation {
+  -webkit-animation: slide-in-bottom 4s cubic-bezier(0.215, 0.61, 0.355, 1) both infinite;
+  animation: slide-in-bottom 4s cubic-bezier(0.215, 0.61, 0.355, 1) both infinite;
 }
 .carousel-card-banner {
   position: absolute;

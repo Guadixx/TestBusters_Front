@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import Palette from '../styles/Palette';
 import { Heading_3 } from '../ui/Headings';
 
-const CarouselCard = ({ test }) => {
+const CarouselCard = ({ test, loop }) => {
   const navigate = useNavigate();
   let testParams = { testType: 'featuredtests' };
   if (test != undefined) {
@@ -22,7 +22,7 @@ const CarouselCard = ({ test }) => {
       <div className="carousel-card">
         <img src={test.banner} alt="test banner" className="carousel-card-banner" />
         <div
-          className="carousel-navigate"
+          className={loop ? 'carousel-navigate' : 'carousel-navigate carousel-animation'}
           onClick={() => navigate(`/tests/${test._id}`, { state: testParams })}
         >
           <img
@@ -34,7 +34,7 @@ const CarouselCard = ({ test }) => {
             text={test.title}
             size="24px"
             color={Palette.color_bg}
-            shadow="3px 3px 3px rgba(1, 1, 1, 1)"
+            shadow="3px 3px 3px #111010"
           />
         </div>
       </div>
@@ -43,9 +43,8 @@ const CarouselCard = ({ test }) => {
         <div className="carousel-card-info">
           <Heading_3
             text="oops, something went wrong..."
-            size="40px"
             color={Palette.color_bg}
-            shadow="3px 3px 3px rgba(1, 1, 1, 1)"
+            shadow="3px 3px 3px #111010"
           />
         </div>
       </div>
