@@ -5,7 +5,7 @@
   width: 100%;
   height: 100%;
   z-index: 5;
-  background-color: #cccccba7; 
+  background-color: #5c5c5ca7;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -15,7 +15,7 @@
   position: relative;
   background-color: var(--color-bg);
   width: 380px;
-  height: 200px;
+  height: 250px;
   border-radius: 8px;
   padding: 2rem;
   overflow: hidden;

@@ -90,7 +90,7 @@ const ProfileHero = ({
         position="absolute"
         src={printedUser.avatar}
         alt="user avatar"
-        margin="4rem"
+        margin="6.2rem"
       />
       {user.username == printedUser.username ? (
         <ProfileInfo
