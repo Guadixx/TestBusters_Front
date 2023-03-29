@@ -422,7 +422,7 @@ const TestDetail = () => {
                             invert="invert(100%)"
                             justify="center"
                           />
-                          {test.creator._id === user._id ? (
+                          {test.creator._id === user._id || user.admin ? (
                             <>
                               <Button
                                 textAfter="Edit Test"
