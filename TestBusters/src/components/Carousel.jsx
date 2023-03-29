@@ -177,7 +177,10 @@ const Carousel = ({ list }) => {
         }}
       >
         <div className="aruba aruba1" ref={div1}>
-          <CarouselCard test={index == 0 ? list[list.length - 1] : list[index - 1]} />
+          <CarouselCard
+            test={index == 0 ? list[list.length - 1] : list[index - 1]}
+            loop={loop}
+          />
           {/* <img
             src={index == 0 ? list[list.length - 1].banner : list[index - 1].banner}
             alt="a saber"
@@ -186,13 +189,16 @@ const Carousel = ({ list }) => {
           <h1>{index == 0 ? list[list.length - 1] : list[index - 1]}</h1> */}
         </div>
         <div className="aruba aruba2" ref={div2}>
-          <CarouselCard test={list[index]} />
+          <CarouselCard test={list[index]} loop={loop} />
           {/* <img src={list[index].banner} alt="sdfd" />
           <h2>{list[index].title}</h2>
           <h1>{list[index]}</h1> */}
         </div>
         <div className="aruba aruba3" ref={div3}>
-          <CarouselCard test={index == list.length - 1 ? list[0] : list[index + 1]} />
+          <CarouselCard
+            test={index == list.length - 1 ? list[0] : list[index + 1]}
+            loop={loop}
+          />
           {/* <img
             src={index == list.length - 1 ? list[0].banner : list[index + 1].banner}
             alt="ala"

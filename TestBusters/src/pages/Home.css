@@ -10,6 +10,7 @@
 .home-tests {
   display: flex;
   justify-content: center;
+  gap: 6rem;
 }
 
 .home-daytest {
@@ -17,11 +18,13 @@
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
+  gap: 1rem;
 }
 
-.home-randomtes {
+.home-randomtest {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
+  gap: 1rem;
 }
