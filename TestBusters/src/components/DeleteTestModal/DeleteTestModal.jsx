@@ -11,7 +11,7 @@ const DeleteTestModal = ({ test, showDeleteModal, setShowDeleteModal }) => {
   const testType = test.test_type == 'generic' ? 'generictests' : 'featuredtests';
   const navigate = useNavigate();
   const deleteModal = () => {
-    API.delete(`/${testType}/${test._id}`).then((res) => navigate('/tests'));
+    API.delete(`/${testType}/${test._id}`).then(() => navigate('/tests'));
   };
   return (
     <>
@@ -30,6 +30,7 @@ const DeleteTestModal = ({ test, showDeleteModal, setShowDeleteModal }) => {
                 color={Palette.color_bg}
                 textBefore="Cancel"
                 size="4"
+                fixed_height="30px"
                 fixed_width="90px"
                 action={() => setShowDeleteModal(false)}
               />
@@ -39,6 +40,7 @@ const DeleteTestModal = ({ test, showDeleteModal, setShowDeleteModal }) => {
                 color={Palette.color_primary}
                 textBefore="Delete"
                 size="4"
+                fixed_height="30px"
                 fixed_width="90px"
                 action={() => deleteModal()}
               />
