@@ -9,9 +9,13 @@ import CarouselCard from './CarouselCard';
 
 const Carousel = ({ list }) => {
   const [clicked, setClicked] = useState(false);
-  const [position, setPosition] = useState(-window.innerWidth / 2);
+  const [position, setPosition] = useState(
+    window.innerWidth > 800 ? -window.innerWidth / 2 : -window.innerWidth,
+  );
   const [firstClientXPosition, setFirstClientXPosition] = useState(0);
-  const [lastPosition, setLastPosition] = useState(-window.innerWidth / 2);
+  const [lastPosition, setLastPosition] = useState(
+    window.innerWidth > 800 ? -window.innerWidth / 2 : -window.innerWidth,
+  );
   const [animation, setAnimation] = useState(false);
   const [loop, setLoop] = useState(false);
   const [lastLoop, setLastLoop] = useState(false);
