@@ -707,7 +707,7 @@ const TestDetail = () => {
                               )}
                             </>
                           </div>
-                          <CircleBar value={average} label="BETTER THAN" />
+                          <CircleBar value={average} label="BETTER THAN" size2="30px" />
                         </div>
                         <div className="testdetail-statistics-bars">
                           <DivProgress

@@ -37,7 +37,7 @@ const CircleInside = styled.div`
   transform: translate(-50%, -50%);
 `;
 
-const CircleBar = ({ value, label, level = '' }) => {
+const CircleBar = ({ value, label, level = '', size2 }) => {
   //next_level = level[0] * (70 * level[0]) + 100;
   //(minMax * 100) / maxMax
   const nextLevelPoints = level * (70 * level) + 100;
@@ -83,7 +83,7 @@ const CircleBar = ({ value, label, level = '' }) => {
         <Heading_3
           text={`${Math.floor(animatedValue)}%`}
           size="40px"
-          size2="30px"
+          size2={size2}
           z={1}
           weigth="600"
         />

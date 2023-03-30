@@ -5,6 +5,7 @@
   align-items: center;
   position: relative;
   gap: var(--spacing-2);
+  width: 100%;
 }
 
 .statistics-section {
@@ -58,4 +59,14 @@
   max-width: 80vw;
   gap: var(--spacing-1);
   min-height: 10vh;
+}
+
+@media screen and (max-width: 1000px) {
+  .statistics-section {
+    flex-direction: column;
+    gap: 2rem;
+  }
+}
+
+@media screen and (max-width: 450px) {
 }

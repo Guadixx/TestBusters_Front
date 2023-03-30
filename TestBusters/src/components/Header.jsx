@@ -75,7 +75,7 @@ const Header = () => {
                   <Avatar src={user.avatar} alt="user avatar" width="m" height="m" />
                 </button>
               </li>
-              <li>Level {user.level[0]}</li>
+              <li>{user.username}</li>
             </div>
           )}
           <li className="header-menu-li">
