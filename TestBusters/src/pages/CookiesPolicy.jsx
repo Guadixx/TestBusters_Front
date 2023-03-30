@@ -4,7 +4,7 @@ const CookiesPolicy = () => {
   return (
     <div>
       <div className="policy_container">
-        <h1> About out Cookies 🍪</h1>
+        <h1> About our Cookies 🍪</h1>
         <p>
           At TestBusters, we use cookies to enhance your user experience and to analyze
           how our website is used. This Cookie Policy describes what cookies we use, how

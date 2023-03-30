@@ -14,7 +14,9 @@ const FrequentQuestions = () => {
         </h4>
       </div>
       <div className="questionF_container">
-        <h2>What is the difference between a Generic Test and a Featured Test?💡</h2>
+        <div className="questionq_container">
+          <h2>What is the difference between a Generic Test and a Featured Test?💡</h2>
+        </div>
         <h4>Featured Test</h4>
         <p>TestBusters is a test devoted to the fun and learning of our users.</p>
         <p>

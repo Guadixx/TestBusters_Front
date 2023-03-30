@@ -3,12 +3,15 @@
   width: 90vw;
 }
 .questionUser_container {
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   letter-spacing: 2px;
   margin: 1rem;
 }
+.questionq_container{
+  font-size: 1rem;
+}
 .questionAnswer_container {
-  font-size: 1.2rem;
+  font-size: 1rem;
   margin: 1.4rem;
 }
 .questionAnswer_container > h4{
@@ -27,7 +30,7 @@
     margin-top: 2rem;
   margin-left: 1.2rem;
   font-weight: 600;
-  font-size: 1.1rem;
+  font-size: 1rem;
   letter-spacing: 0.8px;
   text-transform: uppercase;
   border-bottom: 2px solid var(--color-highlight-primary);
@@ -45,7 +48,7 @@
     margin-top: 2rem;
     margin-left: 1.2rem;
     font-weight: 600;
-    font-size: 1.1rem;
+    font-size: 1rem;
     letter-spacing: 0.8px;
     border-bottom: 2px solid var(--color-highlight-primary);
     width:9rem;
