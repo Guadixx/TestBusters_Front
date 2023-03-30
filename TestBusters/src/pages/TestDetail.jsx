@@ -808,27 +808,25 @@ const TestDetail = () => {
                             .reverse()
                             .slice(0, 3)
                             .map((comment) => (
-                              <>
-                                <Comment
-                                  user={user}
-                                  comment={comment}
-                                  key={comment._id}
-                                  avatar={comment.user.avatar}
-                                  name={comment.user.username}
-                                  date={comment.date}
-                                  content={comment.content}
-                                  action={() => {
-                                    const actualizedComments = [];
-                                    comments.forEach((com) => {
-                                      if (com._id != comment._id) {
-                                        actualizedComments.push(com);
-                                      }
-                                    });
-                                    deleteComment(comment._id);
-                                    setComments(actualizedComments);
-                                  }}
-                                ></Comment>
-                              </>
+                              <Comment
+                                user={user}
+                                comment={comment}
+                                key={comment._id}
+                                avatar={comment.user.avatar}
+                                name={comment.user.username}
+                                date={comment.date}
+                                content={comment.content}
+                                action={() => {
+                                  const actualizedComments = [];
+                                  comments.forEach((com) => {
+                                    if (com._id != comment._id) {
+                                      actualizedComments.push(com);
+                                    }
+                                  });
+                                  deleteComment(comment._id);
+                                  setComments(actualizedComments);
+                                }}
+                              ></Comment>
                             ))}
                           {comments.length > 3 ? (
                             <Button

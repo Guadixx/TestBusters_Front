@@ -6,6 +6,7 @@
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 5px;
   border-radius: 10px;
   width: 44vw;
+  position: relative;
 }
 
 .daytest-header {
@@ -67,14 +68,19 @@
   z-index: 1;
 }
 
-@media screen and (max-width: 820px) {
+@media screen and (max-width: 1050px) {
   .daytest-div {
     display: flex;
     flex-direction: column;
     width: 100%;
   }
   .daytest-input-date-div {
-    position: absolute;
-    top: 53%;
+    top: 0.5vh;
   }
+  .daytest-input-text {
+    width: 100px;
+    left: 50px;
+    top: 10px;
+  }
+  
 }

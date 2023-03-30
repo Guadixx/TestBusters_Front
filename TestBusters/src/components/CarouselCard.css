@@ -3,8 +3,8 @@
   align-items: center;
   justify-content: space-around;
   gap: 5px;
-  width: 150vh;
-  height: 45vw;
+  width: 150vw;
+  height: 45vh;
   position: relative;
 }
 .carousel-navigate {
@@ -35,7 +35,11 @@
   box-shadow: 2px 2px 5px rgba(1, 1, 1, 1);
   object-fit: cover;
 }
-@media screen and (max-width: 1500px) {
+@media screen and (max-width: 820px) {
+  .carousel-card {
+    width: 100vw;
+    height: 20vh;
+  }
 }
 @-webkit-keyframes slide-in-bottom {
   0% {
