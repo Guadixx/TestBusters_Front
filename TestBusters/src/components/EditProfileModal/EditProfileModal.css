@@ -30,7 +30,30 @@
   animation-duration: 0.15s;
   animation-timing-function: ease-in-out;
 }
-
+.rescale-edit-profile {
+  min-height: 200px;
+  justify-content: center;
+}
+.edit-profile-delete-user-modal {
+  z-index: 6;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--color-bg);
+  gap: 1.7rem;
+  width: 85%;
+  height: 100%;
+  top: 0;
+}
+.profile-modal-delete-user-button {
+  border: none;
+  background-color: transparent;
+  outline: none;
+  width: fit-content;
+  height: min-content;
+}
 .edit-profile-images {
   display: flex;
   align-items: center;
