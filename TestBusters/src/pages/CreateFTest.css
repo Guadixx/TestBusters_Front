@@ -194,6 +194,21 @@
   align-items: flex-end;
   gap: 0.3rem;
 }
+
+.optionspreview img {
+  width: 150px;
+  height: auto;
+}
+
+.text-option-preview {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 2rem;
+  border-radius: 5px;
+  box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
+  margin-bottom: 0.5rem;
+}
 .create-test-button {
   padding: 0.5rem 1rem;
   background-color: var(--color-highlight-primary);

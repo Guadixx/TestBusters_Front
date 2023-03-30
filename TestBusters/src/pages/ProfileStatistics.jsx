@@ -29,7 +29,6 @@ const ProfileStatistics = () => {
   const [showFollowingModal, setShowFollowingModal] = useState(false);
   const [showPasswordModal, setShowPasswordModal] = useState(false);
   const [loaded, setLoaded] = useState(false);
-  const [keyword, setKeyword] = useState('');
   const getUser = () => {
     API.get(`/users/${id}`).then((res) => {
       setUserProfile(res.data.user);
@@ -59,7 +58,6 @@ const ProfileStatistics = () => {
           {showFollowersModal ? (
             <FollowersModal
               keyword="follower"
-              userFollowers={printedUser.followed_users}
               setShowFollowersModal={setShowFollowersModal}
             />
           ) : (
@@ -68,7 +66,6 @@ const ProfileStatistics = () => {
           {showFollowingModal ? (
             <FollowersModal
               keyword="following"
-              userFollowers={printedUser.following_users}
               setShowFollowersModal={setShowFollowingModal}
             />
           ) : (
@@ -89,7 +86,6 @@ const ProfileStatistics = () => {
             modeBtn={loaded}
             printedUser={userProfile}
             setShowModal={setShowModal}
-            setKeyword={setKeyword}
             setShowFollowersModal={setShowFollowersModal}
             setShowFollowingModal={setShowFollowingModal}
             setShowPasswordModal={setShowPasswordModal}

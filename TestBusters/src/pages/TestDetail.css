@@ -267,6 +267,7 @@
   align-items: center;
   flex-direction: column;
   gap: 0.5rem;
+  display: none;
 }
 
 .statics_content {
@@ -583,5 +584,8 @@
   }
   .testdetail-statistics-bars {
     display: none;
+  }
+  .testdetail-statistics-text-res {
+    display: flex;
   }
 }

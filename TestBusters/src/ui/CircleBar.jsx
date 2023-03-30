@@ -88,7 +88,7 @@ const CircleBar = ({ value, label, level = '', size2 }) => {
           weigth="600"
         />
       ) : (
-        <Heading_3 text={level} size="45px" z={1} weigth="500" />
+        <Heading_3 text={level} size="45px" z={1} weigth="500" size2={size2} />
       )}
       {label == 'LEVEL' && <Heading_4 text={label} z={1} size="16px" weigth="600" />}
       {label == 'LEVEL' && <Heading_4 text={nextLevel} z={1} size="10px" weigth="500" />}

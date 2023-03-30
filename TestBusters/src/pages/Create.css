@@ -1,5 +1,5 @@
 .create {
-  height: 90vh;
+  min-height: 90vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -10,7 +10,7 @@
 .create-page-generic-test {
   border-radius: 11px;
   max-width: 28vw;
-  height: 330px;
+  min-height: 330px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -40,29 +40,29 @@
   width: 80px;
 }
 
-.img_info > img{
-  width:20px;
+.img_info > img {
+  width: 20px;
   cursor: pointer;
   z-index: -1;
   filter: opacity(50%);
 }
-.img_info{
+.img_info {
   position: relative;
   display: flex;
 }
 
-.img_info > p{
+.img_info > p {
   position: absolute;
-  top:250%;
+  top: 250%;
   left: 50%;
-  color:rgb(255, 255, 255);
+  color: rgb(255, 255, 255);
   transform: translate(-50%, -50%);
   background-color: var(--color-primary);
   padding: 10px;
   border-radius: 5px;
   font-size: 16px;
   text-align: center;
- 
+
   transition: visibility 0s, opacity 0.2s ease-in-out;
   z-index: 1;
   width: 200px;
@@ -70,19 +70,36 @@
 
   overflow: visible;
 }
-.img_info > p:hover{
+.img_info > p:hover {
   visibility: visible;
   opacity: 400;
 }
 
-.Fcreatetest_title{
+.Fcreatetest_title {
   display: flex;
   align-items: center;
-  gap:1rem;
-  pointer-events: auto
+  gap: 1rem;
+  pointer-events: auto;
 }
-.Gcreatetest_title{
+.Gcreatetest_title {
   display: flex;
   align-items: center;
-  gap:1rem;
+  gap: 1rem;
+}
+
+/* @media screen and (max-width: 1250px) {
+  .create p {
+    font-size: 12px;
+  }
+}
+ */
+@media screen and (max-width: 990px) {
+  .create {
+    margin: 3rem 0;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .create p {
+    font-size: 12px;
+  }
 }

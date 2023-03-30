@@ -362,7 +362,7 @@ const CreateFTest = () => {
                   type="text"
                   id="title"
                   maxLength="100"
-                  className="input required-title"
+                  className="input-title"
                   placeholder=" "
                   onChange={(ev) => {
                     setTitle(ev.target.value.length);
@@ -384,7 +384,8 @@ const CreateFTest = () => {
               </div>
               <div className="edit-description">
                 <textarea
-                  className="input required-description"
+                  required
+                  className="input-description"
                   type="text"
                   placeholder=" "
                   id="description"
@@ -607,7 +608,9 @@ const CreateFTest = () => {
                             alt="Answer preview"
                           />
                         ) : (
-                          <Heading_3 text={info[data_type].data[0][newTest.answer]} />
+                          <div className="text-option-preview">
+                            <Heading_3 text={info[data_type].data[0][newTest.answer]} />
+                          </div>
                         )}
                         {info[data_type].data
                           .slice(1, parseInt(optionsNumber) + 1)
@@ -619,7 +622,9 @@ const CreateFTest = () => {
                                 alt="option preview"
                               />
                             ) : (
-                              <div key={item._id}>{item[newTest.answer]}</div>
+                              <div key={item._id} className="text-option-preview">
+                                {item[newTest.answer]}
+                              </div>
                             ),
                           )}
                       </div>

@@ -28,7 +28,7 @@ const Create = () => {
             text="FEATURED TEST"
             color={Palette.color_primary}
             weigth="800"
-            size="20px"
+            size={window.innerWidth < 990 ? '16px' : '20px'}
           />
           <div
             className="img_info"
@@ -71,7 +71,7 @@ const Create = () => {
             text="GENERIC TEST"
             color={Palette.color_primary}
             weigth="800"
-            size="20px"
+            size={window.innerWidth < 990 ? '16px' : '20px'}
           />
           <div
             className="img_info"
