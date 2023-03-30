@@ -1,6 +1,6 @@
 .header {
-  padding: 0rem 2rem;
-  overflow: hidden;
+  padding: 0rem 2rem; /* 
+  overflow: hidden; */
   /*   border-bottom: 0.5px solid #c5c2bc; */
 }
 
@@ -110,7 +110,7 @@
   border-radius: 5px;
   position: absolute;
   right: 7%;
-  z-index: 1;
+  z-index: 1000;
   animation: modal 0.12s cubic-bezier(0.17, 0.67, 1, 1.23),
     opacity 0.1s cubic-bezier(0.17, 0.67, 1, 1.23),
     fadein 0.1s cubic-bezier(0.17, 0.67, 1, 1.23);
@@ -139,6 +139,40 @@
 .header .user-modal a:hover,
 .header .user-modal button:hover {
   background-color: #ededed;
+}
+.header-menu-li {
+  display: none;
+}
+.header-menu {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background-color: transparent;
+}
+
+.header-menu img {
+  width: 35px;
+  height: 35px;
+}
+
+@media screen and (max-width: 800px) {
+  .header .header-pages a {
+    display: none;
+  }
+  .header .user-header {
+    display: none;
+  }
+
+  .header-menu-li {
+    display: flex;
+  }
+  .header-menu {
+    display: flex;
+  }
+  .header .user-login {
+    display: none;
+  }
 }
 @keyframes modal {
   0% {

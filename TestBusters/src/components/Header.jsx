@@ -6,14 +6,20 @@ import { useNavigate } from 'react-router-dom';
 
 import { UserContext } from '../context/UserContext';
 import Avatar from '../ui/Avatar';
+import HomeMenu from './HomeMenu/HomeMenu';
 
 const Header = () => {
   const navigate = useNavigate();
   const { logout, user } = useContext(UserContext);
   const [showModal, setShowModal] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);
 
   const showModalToggle = () => {
     setShowModal(!showModal);
+  };
+
+  const showMenuToggle = () => {
+    setShowMenu(!showMenu);
   };
   return (
     <div className="header">
@@ -72,8 +78,23 @@ const Header = () => {
               <li>Level {user.level[0]}</li>
             </div>
           )}
+          <li className="header-menu-li">
+            <button className="header-menu" onClick={() => showMenuToggle()}>
+              <img
+                src="https://res.cloudinary.com/dva9zee9r/image/upload/v1680168591/achievements%20icons/menu_iupig5.png"
+                alt="menu icon"
+              />
+            </button>
+          </li>
         </ul>
       </header>
+
+      {showMenu ? (
+        <HomeMenu user={user} setShowMenu={setShowMenu} logout={logout} />
+      ) : (
+        <></>
+      )}
+
       {showModal && (
         <div className="user-modal">
           <NavLink

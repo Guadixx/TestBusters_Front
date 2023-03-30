@@ -35,6 +35,8 @@
   box-shadow: 2px 2px 5px rgba(1, 1, 1, 1);
   object-fit: cover;
 }
+@media screen and (max-width: 1500px) {
+}
 @-webkit-keyframes slide-in-bottom {
   0% {
     -webkit-transform: translateY(1000px);
