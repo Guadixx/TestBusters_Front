@@ -106,7 +106,7 @@ const ProfileStatistics = () => {
                 <StaticsDiv text="TEST PLAYED" percentage={userProfile.tests_played} />
                 <StaticsDiv
                   text="AVERAGE SCORE"
-                  percentage={averageUser == null ? '0%' : `${averageUser}%`}
+                  percentage={averageUser > 0 ? `${averageUser}%` : '0%'}
                 />
               </div>
               <div className="profile-achievements">
