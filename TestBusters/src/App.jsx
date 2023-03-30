@@ -17,7 +17,6 @@ import LegalAdvice from './pages/LegalAdvice';
 import Login from './pages/Login';
 import NotFound from './pages/NotFound';
 import PrivacyPolicy from './pages/PrivacyPolicy';
-import Profile from './pages/Profile';
 import ProfileCreated from './pages/ProfileCreated';
 import ProfileFavorites from './pages/ProfileFavorites';
 import ProfileStatistics from './pages/ProfileStatistics';
@@ -45,14 +44,6 @@ function App() {
             element={
               <RequiredAuth>
                 <Community />
-              </RequiredAuth>
-            }
-          />
-          <Route
-            path="/profile/:id"
-            element={
-              <RequiredAuth>
-                <Profile />
               </RequiredAuth>
             }
           />

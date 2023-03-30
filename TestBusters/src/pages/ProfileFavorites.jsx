@@ -25,7 +25,6 @@ const ProfileFavorites = () => {
   const [loaded, setLoaded] = useState(false);
   const { id } = useParams();
   const navigate = useNavigate();
-
   const handleTestType = (test) => {
     if (test.test_type == 'generic') {
       navigate(`/tests/${test._id}`, { state: { testType: 'generictests' } });
@@ -91,6 +90,7 @@ const ProfileFavorites = () => {
           )}
 
           <ProfileHero
+            modeBtn={loaded}
             printedUser={userProfile}
             setShowModal={setShowModal}
             setShowFollowersModal={setShowFollowersModal}

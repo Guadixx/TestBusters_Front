@@ -62,6 +62,7 @@ const ProfileInfo = ({
   action2,
   action3,
   display,
+  modeBtn,
 }) => {
   return (
     <ProfileInfoStyled>
@@ -71,12 +72,13 @@ const ProfileInfo = ({
       </ProfileInfoUser>
       <ProfileInfoDescription>{description}</ProfileInfoDescription>
       <ProfileInfoFollows>
-        <button onClick={action1}>{`Followers ${followers}`}</button>
-        <button onClick={action2}>{`Following ${following}`}</button>
+        <button disabled={!modeBtn} onClick={action1}>{`Followers ${followers}`}</button>
+        <button disabled={!modeBtn} onClick={action2}>{`Following ${following}`}</button>
       </ProfileInfoFollows>
       <div className="profile-info-buttons">
         <Button
           src={buttonimg}
+          mode={!modeBtn}
           alt={buttonalt}
           textAfter={buttontext}
           size="3"
@@ -88,6 +90,7 @@ const ProfileInfo = ({
         />
         <Button
           src={Icons.settings}
+          mode={!modeBtn}
           alt="settings icon"
           size="3"
           margin=" 0.3rem 0 0 0 "
