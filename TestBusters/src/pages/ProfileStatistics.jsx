@@ -28,11 +28,13 @@ const ProfileStatistics = () => {
   const [showFollowersModal, setShowFollowersModal] = useState(false);
   const [showFollowingModal, setShowFollowingModal] = useState(false);
   const [showPasswordModal, setShowPasswordModal] = useState(false);
+  const [loaded, setLoaded] = useState(false);
   const [keyword, setKeyword] = useState('');
   const getUser = () => {
     API.get(`/users/${id}`).then((res) => {
       setUserProfile(res.data.user);
       setAverageUser(res.data.average);
+      setLoaded(true);
       localStorage.setItem('communityUser', JSON.stringify(res.data.user));
     });
   };
@@ -82,6 +84,7 @@ const ProfileStatistics = () => {
           )}
 
           <ProfileHero
+            modeBtn={loaded}
             printedUser={userProfile}
             setShowModal={setShowModal}
             setKeyword={setKeyword}

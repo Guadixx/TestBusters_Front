@@ -10,12 +10,13 @@ import ProfileHero from '../components/ProfileHero';
 import { UserContext } from '../context/UserContext';
 import { API } from '../services/API';
 import { Heading_4 } from '../ui/Headings';
-import TestProfile from '../ui/TestProfile';
 import Spinner from '../ui/Spinner';
+import TestProfile from '../ui/TestProfile';
 
 const ProfileCreated = () => {
   const [createdTests, setCreatedTest] = useState();
   const navigate = useNavigate();
+  const [loaded, setLoaded] = useState(false);
   const [userProfile, setUserProfile] = useState([]);
   const [printedUser] = useState(JSON.parse(localStorage.getItem('communityUser')));
   const { user } = useContext(UserContext);
@@ -41,6 +42,7 @@ const ProfileCreated = () => {
         ...res.data.user.created_featuredTests,
         ...res.data.user.created_genericTests,
       ]);
+      setLoaded(true);
     });
   };
 
@@ -86,6 +88,7 @@ const ProfileCreated = () => {
             <></>
           )}
           <ProfileHero
+            modeBtn={loaded}
             printedUser={userProfile}
             setShowModal={setShowModal}
             setShowFollowersModal={setShowFollowersModal}

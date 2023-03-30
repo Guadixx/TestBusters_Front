@@ -14,6 +14,7 @@ const ProfileHero = ({
   setShowFollowersModal,
   setShowFollowingModal,
   setShowPasswordModal,
+  modeBtn,
 }) => {
   const { id } = useParams();
   const user = JSON.parse(localStorage.getItem('user'));
@@ -100,6 +101,7 @@ const ProfileHero = ({
           followers={printedUser.followed_users.length}
           following={printedUser.following_users.length}
           buttonimg={Icons.edit}
+          modeBtn={modeBtn}
           buttonalt="edit icon"
           buttontext="Edit Profile"
           action={() => setShowModal(true)}
@@ -109,6 +111,7 @@ const ProfileHero = ({
         />
       ) : (
         <ProfileInfo
+          modeBtn={modeBtn}
           description={printedUser.bio}
           username={printedUser.username}
           level={printedUser.level[0]}
