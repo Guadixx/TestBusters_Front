@@ -4,7 +4,6 @@ import styled from 'styled-components';
 
 import useLocalStorage from '../customHooks/useLocalStorage';
 import { API } from '../services/API';
-import Icons from '../styles/Icons';
 //import { UserContext } from '../context/UserContext';
 //import { API } from '../services/API';
 import Palette from '../styles/Palette';
@@ -108,6 +107,7 @@ const ModalRecordStyled = styled.div`
 `;
 
 const ModalRecord = ({
+  userRecord,
   text,
   timeRecord,
   maxScore,
@@ -174,8 +174,71 @@ const ModalRecord = ({
             <div className="stats-container">
               <div className="circlebar-end-test-container">
                 <div className="rating-end-test-container">
-                  <img src={Icons.starsEmoji} alt="star eyes emoji" />
-                  <h2>You are awesome!!</h2>
+                  {userRecord ? (
+                    <>
+                      {parseInt(userRecord.score.split('/')[0]) /
+                        parseInt(userRecord.score.split('/')[1]) ===
+                      0 ? (
+                        <>
+                          <img
+                            src="https://res.cloudinary.com/dva9zee9r/image/upload/v1680167535/emoji-transparent-2018-32_yz1q50.png"
+                            alt="emoji smile"
+                          />
+                          <h2>Dont worry, try again!!</h2>
+                        </>
+                      ) : parseInt(userRecord.score.split('/')[0]) /
+                          parseInt(userRecord.score.split('/')[1]) <
+                        0.2 ? (
+                        <>
+                          <img
+                            src="https://res.cloudinary.com/dva9zee9r/image/upload/v1680167535/emoji-transparent-2018-32_yz1q50.png"
+                            alt="emoji smile"
+                          />
+                          <h2>Keep fighting!</h2>
+                        </>
+                      ) : parseInt(userRecord.score.split('/')[0]) /
+                          parseInt(userRecord.score.split('/')[1]) <
+                        0.4 ? (
+                        <>
+                          <img
+                            src="https://res.cloudinary.com/dva9zee9r/image/upload/v1680167464/face-with-stuck-out-tongue-and-winking-eye_1f61c_k6vaom.png"
+                            alt="emoji star eyes"
+                          />
+                          <h2>Good job!!</h2>
+                        </>
+                      ) : parseInt(userRecord.score.split('/')[0]) /
+                          parseInt(userRecord.score.split('/')[1]) <
+                        0.6 ? (
+                        <>
+                          <img
+                            src="https://res.cloudinary.com/dva9zee9r/image/upload/v1680167464/face-with-stuck-out-tongue-and-winking-eye_1f61c_k6vaom.png"
+                            alt="emoji star eyes"
+                          />
+                          <h2>Nice one pal!!</h2>
+                        </>
+                      ) : parseInt(userRecord.score.split('/')[0]) /
+                          parseInt(userRecord.score.split('/')[1]) <
+                        0.8 ? (
+                        <>
+                          <img
+                            src="https://res.cloudinary.com/dva9zee9r/image/upload/v1680167500/4_grande_fntwp0.png"
+                            alt="emoji star eyes"
+                          />
+                          <h2>You are the best!!</h2>
+                        </>
+                      ) : (
+                        <>
+                          <img
+                            src="https://res.cloudinary.com/dva9zee9r/image/upload/v1680167593/3_grande_t6paml.png"
+                            alt="emoji star eyes"
+                          />
+                          <h2>You are awesome!!</h2>
+                        </>
+                      )}
+                    </>
+                  ) : (
+                    <div></div>
+                  )}
                 </div>
               </div>
               <div className="containers-end-test-container">
