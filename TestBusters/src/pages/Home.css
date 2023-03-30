@@ -70,3 +70,21 @@
   gap: 2vw;
   margin-bottom: 2.5rem;
 }
+
+@media screen and (max-width: 800px) {
+  .home-message {
+    display: none;
+  }
+
+  .home-test-today {
+    display: flex;
+    flex-direction: column;
+  }
+  .home-tests {
+    display: flex;
+    flex-direction: column;
+  }
+  .home-create {
+    width: 100%;
+  }
+}

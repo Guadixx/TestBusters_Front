@@ -66,3 +66,15 @@
   height: 35px;
   z-index: 1;
 }
+
+@media screen and (max-width: 820px) {
+  .daytest-div {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  .daytest-input-date-div {
+    position: absolute;
+    top: 53%;
+  }
+}
