@@ -128,13 +128,15 @@
   gap: 2rem;
 }
 .test-page-button-page {
-  background-color: rgb(214, 214, 214);
+  background-color: var(--color-bg);
+  box-shadow: rgba(121, 121, 121, 0.3) 0px 0px 2px 0px,
+    rgba(192, 192, 192, 0.15) 0px 1px 2px 1px;
   outline: none;
   width: 120px;
   height: 44px;
   font-size: 20px;
   border: none;
-  border-radius: 2px;
+  border-radius: 5px;
 }
 .test-page-button-page-disabled {
   color: rgb(214, 214, 214);
@@ -142,15 +144,18 @@
 }
 .button-go-specific-page {
   border: none;
-  border-radius: 2px;
+  border-radius: 5px;
   outline: none;
-  background-color: rgb(214, 214, 214);
+  background-color: var(--color-bg);
+  box-shadow: rgba(121, 121, 121, 0.3) 0px 0px 2px 0px,
+    rgba(192, 192, 192, 0.15) 0px 1px 2px 1px;
   height: 44px;
   width: 44px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
+
 .nav-pagination-specific-page {
   display: flex;
   justify-content: center;
@@ -161,11 +166,17 @@
 .actual-page-nav-buttons {
   background-color: var(--color-highlight-primary);
 }
-.button-go-specific-page:hover {
-  background-color: var(--color-highlight-primary);
+.actual-page-nav-buttons h4 {
+  color: var(--color-bg);
+  font-size: 16px;
 }
+
+.button-go-specific-page h4 {
+  font-size: 16px;
+}
+
 .test-page-button-page:hover {
-  background-color: var(--color-highlight-primary);
+  background-color: rgb(235, 235, 235);
 }
 .test-page-button-page-disabled {
   color: rgb(214, 214, 214);
@@ -178,32 +189,30 @@
 .more-nav-buttons-pages {
   letter-spacing: 5px;
 }
-.tests .test-hamburger{
+.tests .test-hamburger {
   border: none;
   background: transparent;
   width: 35px;
   display: none;
 }
 
-.tests .test-hamburger > img{
+.tests .test-hamburger > img {
   width: 35px;
   height: 35px;
 }
 @media screen and (max-width: 800px) {
-    .tests-body .tests-filters {
-      display: none;
-    }
-  
-    .tests .test-hamburger {
-      display: flex;
-    }
+  .tests-body .tests-filters {
+    display: none;
+  }
 
-    .tests .tests_input_container {
+  .tests .test-hamburger {
+    display: flex;
+  }
+
+  .tests .tests_input_container {
     display: flex;
     flex-direction: row;
     align-items: center;
     gap: 10px;
-    }
   }
-
-  
+}

@@ -91,7 +91,7 @@ const Tests = () => {
   };
   return (
     <div className="tests">
-      <h1>Choose a Test!!</h1>
+      <h1>Choose a Test</h1>
       <div className="tests_input_container">
         <input
           className="input_title"

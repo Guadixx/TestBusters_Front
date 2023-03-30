@@ -30,21 +30,21 @@ const Home = () => {
     order: 'favorites',
     title: '',
     page: 1,
-    mode: 1,
+    mode: -1,
   };
   const params2 = {
     limit: 6,
     order: 'times_played',
     title: '',
     page: 1,
-    mode: 1,
+    mode: -1,
   };
   const params3 = {
     limit: 6,
     order: 'created',
     title: '',
     page: 1,
-    mode: 1,
+    mode: -1,
   };
 
   const getRecentTests = () => {

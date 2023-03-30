@@ -88,7 +88,7 @@ const Register = () => {
         <input
           className="input_content"
           type="text"
-          placeholder={onFocus ? ' ' : 'email'}
+          placeholder={onFocus ? ' ' : ''}
           onFocus={() => setOnFocus(true)}
           onBlur={() => setOnFocus(false)}
           onChange={(ev) => {
@@ -108,7 +108,7 @@ const Register = () => {
         <input
           className="input_content"
           type="text"
-          placeholder={onFocus ? ' ' : 'username'}
+          placeholder={onFocus ? ' ' : ''}
           onFocus={() => setOnFocus(true)}
           onBlur={() => setOnFocus(false)}
           onChange={(ev) => {
@@ -128,7 +128,7 @@ const Register = () => {
         <input
           className="input_content"
           type={see ? 'text' : 'password'}
-          placeholder={onFocus ? ' ' : 'password'}
+          placeholder={onFocus ? ' ' : ''}
           onFocus={() => setOnFocus(true)}
           onBlur={() => setOnFocus(false)}
           onChange={(ev) => {
@@ -161,7 +161,7 @@ const Register = () => {
         <input
           className="input_content"
           type={see ? 'text' : 'password'}
-          placeholder={onFocus ? ' ' : 'confirm password'}
+          placeholder={onFocus ? ' ' : ''}
           onFocus={() => setOnFocus(true)}
           onBlur={() => setOnFocus(false)}
           onChange={(ev) => setNewUser({ ...newUser, confirmPassword: ev.target.value })}
