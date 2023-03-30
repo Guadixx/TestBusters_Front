@@ -594,8 +594,87 @@ const TestDetail = () => {
                         <Heading_4 text="Your Stats" size="22px" weigth="600" />
                         <div className="testdetail-circle-message">
                           <div className="test-detail-message">
-                            <img src={Icons.starsEmoji} alt="emoji star eyes" />
-                            <Heading_5 text="You are awesome!" size="20px" weigth="500" />
+                            <>
+                              {parseInt(userRecord.score.split('/')[0]) /
+                                parseInt(userRecord.score.split('/')[1]) ===
+                              0 ? (
+                                <>
+                                  <img
+                                    src="https://res.cloudinary.com/dva9zee9r/image/upload/v1680167535/emoji-transparent-2018-32_yz1q50.png"
+                                    alt="emoji star eyes"
+                                  />
+                                  <Heading_5
+                                    text="Dont worry, try again!"
+                                    size="20px"
+                                    weight="500"
+                                  />
+                                </>
+                              ) : parseInt(userRecord.score.split('/')[0]) /
+                                  parseInt(userRecord.score.split('/')[1]) <
+                                0.2 ? (
+                                <>
+                                  <img
+                                    src="https://res.cloudinary.com/dva9zee9r/image/upload/v1680167535/emoji-transparent-2018-32_yz1q50.png"
+                                    alt="emoji star eyes"
+                                  />
+                                  <Heading_5 text="Try again!" size="20px" weight="500" />
+                                </>
+                              ) : parseInt(userRecord.score.split('/')[0]) /
+                                  parseInt(userRecord.score.split('/')[1]) <
+                                0.4 ? (
+                                <>
+                                  <img
+                                    src="https://res.cloudinary.com/dva9zee9r/image/upload/v1680167464/face-with-stuck-out-tongue-and-winking-eye_1f61c_k6vaom.png"
+                                    alt="emoji star eyes"
+                                  />
+                                  <Heading_5
+                                    text="Could you do it better!"
+                                    size="20px"
+                                    weight="500"
+                                  />
+                                </>
+                              ) : parseInt(userRecord.score.split('/')[0]) /
+                                  parseInt(userRecord.score.split('/')[1]) <
+                                0.6 ? (
+                                <>
+                                  <img
+                                    src="https://res.cloudinary.com/dva9zee9r/image/upload/v1680167464/face-with-stuck-out-tongue-and-winking-eye_1f61c_k6vaom.png"
+                                    alt="emoji star eyes"
+                                  />
+                                  <Heading_5
+                                    text="Nice one pal!"
+                                    size="20px"
+                                    weight="500"
+                                  />
+                                </>
+                              ) : parseInt(userRecord.score.split('/')[0]) /
+                                  parseInt(userRecord.score.split('/')[1]) <
+                                0.8 ? (
+                                <>
+                                  <img
+                                    src="https://res.cloudinary.com/dva9zee9r/image/upload/v1680167500/4_grande_fntwp0.png"
+                                    alt="emoji star eyes"
+                                  />
+                                  <Heading_5
+                                    text="You are the best!"
+                                    size="20px"
+                                    weight="500"
+                                  />
+                                </>
+                              ) : (
+                                <>
+                                  <img
+                                    src="https://res.cloudinary.com/dva9zee9r/image/upload/v1680167593/3_grande_t6paml.png"
+                                    alt="emoji star eyes"
+                                  />
+                                  <Heading_5
+                                    text="You are awesome!"
+                                    size="20px"
+                                    weight="500"
+                                  />
+                                </>
+                              )}
+                            </>
                           </div>
                           <CircleBar value={average} label="BETTER THAN" />
                         </div>
@@ -967,6 +1046,7 @@ const TestDetail = () => {
         />
       ) : finish ? (
         <ModalRecord
+          userRecord={userRecord}
           text="Time ran out!"
           score={score}
           maxScore={randomQuestions.length}
