@@ -1,6 +1,6 @@
 .header {
-  padding: 0rem 2rem; /* 
-  overflow: hidden; */
+  padding: 0rem 2rem;
+  overflow: hidden;
   /*   border-bottom: 0.5px solid #c5c2bc; */
 }
 
@@ -157,6 +157,10 @@
 }
 
 @media screen and (max-width: 800px) {
+  .header header ul {
+    display: flex;
+    justify-content: space-between;
+  }
   .header .header-pages a {
     display: none;
   }
@@ -166,6 +170,7 @@
 
   .header-menu-li {
     display: flex;
+    justify-self: flex-start;
   }
   .header-menu {
     display: flex;

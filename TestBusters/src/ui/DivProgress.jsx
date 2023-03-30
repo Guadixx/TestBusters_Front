@@ -18,6 +18,7 @@ const animation = (props) =>
   `;
 const ProgressBarStyled = styled.div`
   background-color: ${Palette.color_highlight_secondary};
+  display: ${({ display2 }) => (display2 ? display2 : 'block')};
   height: ${({ height }) => (height ? `${height - 3}px` : '21px')};
   width: ${({ width, type, range }) =>
     type != 'CountDown' ? `${width * range + 0.5}%` : '100%'};
@@ -30,6 +31,7 @@ const ProgressBarStyled = styled.div`
   }
 `;
 const ProgressTrackStyled = styled.div`
+  display: ${({ display }) => (display ? display : 'block')};
   background-color: #ffffff;
   height: ${({ heighta }) => (heighta ? `${heighta - 3}px` : '24px')};
   width: ${({ widtha }) => (widtha ? widtha : '600px')};
@@ -39,6 +41,13 @@ const ProgressTrackStyled = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+
+  @media screen and (max-width: 1250px) {
+    width: ${({ widthc }) => (widthc ? widthc : '310px')};
+  }
+  @media screen and (max-width: 1000px) {
+    width: ${({ widthc }) => (widthc ? widthc : '230px')};
+  }
 `;
 const DivProgressStyled = styled.div`
   margin-top: ${({ margintop }) => (margintop ? margintop : '2rem')};
@@ -48,10 +57,21 @@ const DivProgressStyled = styled.div`
   align-items: center;
   height: min-content;
   width: ${({ widthb }) => (widthb ? widthb : '800px')};
+  @media screen and (max-width: 1250px) {
+    width: ${({ widthd }) => (widthd ? widthd : '520px')};
+  }
+  @media screen and (max-width: 1000px) {
+    width: ${({ widthc }) => (widthc ? widthc : '420px')};
+  }
+  @media screen and (max-width: 470px) {
+    width: ${({ widthc }) => (widthc ? widthc : '350px')};
+    flex-direction: column;
+  }
 `;
 const DivProgress = ({
   widtha,
   widthb,
+  widthc,
   heighta,
   height,
   type,
@@ -61,6 +81,8 @@ const DivProgress = ({
   className,
   marginright,
   margintop,
+  display,
+  display2,
 }) => {
   const [animatedWidth, setanimatedWidth] = useState(() => {
     return type == 'CountDown' ? maxValue : 0;
@@ -124,6 +146,7 @@ const DivProgress = ({
       height={height}
       heighta={heighta}
       widthb={widthb}
+      widthc={widthc}
       text1={text1}
       type={type}
       value={value}
@@ -131,7 +154,7 @@ const DivProgress = ({
       margintop={margintop}
     >
       <Heading_3 text={text1} size="14px" marginleft="1.5rem" />
-      <ProgressTrackStyled heighta={heighta} widtha={widtha}>
+      <ProgressTrackStyled heighta={heighta} widtha={widtha} display={display}>
         {animatedWidth != 0 && (
           <ProgressBarStyled
             height={height}
@@ -139,6 +162,7 @@ const DivProgress = ({
             className={className}
             maxValue={maxValue}
             range={range}
+            display2={display2}
           />
         )}
       </ProgressTrackStyled>
@@ -152,6 +176,7 @@ const DivProgress = ({
             ? `${minutes}:${seconds}/${totalMinutes}:${totalSeconds}`
             : `${Math.ceil(animatedWidth)}/${maxValue}`
         }
+        size2="14px"
       />
     </DivProgressStyled>
   );

@@ -359,10 +359,20 @@ const TestDetail = () => {
                       />
                       <div className="createinfo_container">
                         <div className="testdetail-title-creator">
-                          <h1>{test != {} && test.title}</h1>
-                          <div className="creator_container">
-                            <img src={test.creator.avatar} alt="avatar of the creator" />
-                            <h3>{test.creator.username}</h3>
+                          <img
+                            src={test.thumbnail}
+                            alt="test thumbnail"
+                            className="testdetail_thumbnail_mini"
+                          />
+                          <div className="creator_container_thumbnail">
+                            <h1>{test != {} && test.title}</h1>
+                            <div className="creator_container">
+                              <img
+                                src={test.creator.avatar}
+                                alt="avatar of the creator"
+                              />
+                              <h3>{test.creator.username}</h3>
+                            </div>
                           </div>
                         </div>
                         <div className="testdetail-info-others">
@@ -396,7 +406,7 @@ const TestDetail = () => {
                               size="14px"
                             />
                           </div>
-                          <span></span>
+                          <span className="the-span"></span>
                           <div className="testdetail-created">
                             <div>
                               <h6>{test.created.split('T')[0]}</h6>
@@ -408,35 +418,56 @@ const TestDetail = () => {
                               size="14px"
                             />
                           </div>
+                          <span></span>
+                          <div className="testdetail-smallRating">
+                            <div className="testdetail-rating-small">
+                              {test.rating[0] != 0 ? (
+                                <>
+                                  <Heading_3
+                                    text={(test.rating[0] / test.rating[1]).toFixed(1)}
+                                    size="20px"
+                                  />
+                                  <Heading_4 text="/5" size="14px" />{' '}
+                                </>
+                              ) : (
+                                <Heading_3 text="No ratings yet" />
+                              )}
+                            </div>
+                            <RatingStatic
+                              rating={test.rating[0] / test.rating[1]}
+                              width="20px"
+                              height="20px"
+                            />
+                          </div>
                         </div>
                         <div className="finalbtn_container">
                           <Button
                             action={() => {
                               handleStart();
                             }}
-                            fixed_width="180px"
+                            fixed_width={window.innerWidth < 550 ? '120px' : '180px'}
                             src={Icons.play}
                             background={Palette.color_highlight_primary}
                             color={Palette.color_bg}
                             textAfter="Play"
-                            size={5}
+                            size={window.innerWidth < 550 ? 4 : 5}
                             invert="invert(100%)"
                             justify="center"
                           />
                           {test.creator._id === user._id || user.admin ? (
                             <>
                               <Button
-                                textAfter="Edit Test"
+                                textAfter={window.innerWidth < 400 ? 'Edit' : 'Edit Test'}
                                 src={Icons.edit}
-                                size={5}
-                                fixed_width="180px"
+                                size={window.innerWidth < 550 ? 4 : 5}
+                                fixed_width={window.innerWidth < 550 ? '120px' : '180px'}
                                 action={() => setShowEditModal(true)}
                               />
                               <Button
                                 src={Icons.delete}
-                                size={5}
+                                size={window.innerWidth < 550 ? 4 : 5}
                                 fixed_width="30px"
-                                fixed_height="41px"
+                                fixed_height={window.innerWidth < 550 ? '28px' : '41px'}
                                 action={() => setShowDeleteModal(true)}
                               />
                             </>
@@ -475,7 +506,7 @@ const TestDetail = () => {
 
                 <div className="middle_content">
                   <div className="leaderboard_content">
-                    <Heading_3 text="Leaderboard" size="22px" weigth="600" />
+                    <Heading_3 text="Leaderboard" size="22px" size2="22px" weigth="600" />
                     <div className="leaderranking_container">
                       {test.first.length != 0 ? (
                         <Leaderboard
@@ -676,31 +707,63 @@ const TestDetail = () => {
                               )}
                             </>
                           </div>
-                          <CircleBar value={average} label="BETTER THAN" />
+                          <CircleBar value={average} label="BETTER THAN" size2="30px" />
                         </div>
-                        <DivProgress
-                          value={parseInt(userRecord.score.split('/')[0])}
-                          maxValue={parseInt(userRecord.score.split('/')[1])}
-                          type="score"
-                          text1="record"
-                          widthb="50vw"
-                          widtha="37vw"
-                          marginright="1rem"
-                        />
-                        <DivProgress
-                          value={
-                            parseInt(userRecord.score.split('/')[2].split(':')[0]) * 60 +
-                            parseInt(userRecord.score.split(':')[1])
-                          }
-                          maxValue={
-                            parseInt(test.time.split(':')[0] * 60) +
-                            parseInt(test.time.split(':')[1])
-                          }
-                          type="time"
-                          text1="time"
-                          widthb="50vw"
-                          widtha="37vw"
-                        />
+                        <div className="testdetail-statistics-bars">
+                          <DivProgress
+                            value={parseInt(userRecord.score.split('/')[0])}
+                            maxValue={parseInt(userRecord.score.split('/')[1])}
+                            type="score"
+                            text1="record"
+                            widthb="50vw"
+                            widtha="37vw"
+                            marginright="1rem"
+                          />
+                          <DivProgress
+                            value={
+                              parseInt(userRecord.score.split('/')[2].split(':')[0]) *
+                                60 +
+                              parseInt(userRecord.score.split(':')[1])
+                            }
+                            maxValue={
+                              parseInt(test.time.split(':')[0] * 60) +
+                              parseInt(test.time.split(':')[1])
+                            }
+                            type="time"
+                            text1="time"
+                            widthb="50vw"
+                            widtha="37vw"
+                          />
+                        </div>
+                        <div className="testdetail-statistics-text-res">
+                          <Heading_3
+                            text={`Record: ${userRecord.score.split('/')[0]}/${
+                              userRecord.score.split('/')[1]
+                            }`}
+                            size2="20px"
+                            weigth="800"
+                          />
+                          <Heading_3
+                            size2="20px"
+                            weigth="800"
+                            text={
+                              userRecord.score.split('/')[2].split(':')[1].length == 1 &&
+                              userRecord.score.split('/')[2].split(':')[0].length == 1
+                                ? `Time: 0${
+                                    userRecord.score.split('/')[2].split(':')[0]
+                                  }:0${userRecord.score.split('/')[2].split(':')[1]}`
+                                : userRecord.score.split('/')[2].split(':')[0].length == 1
+                                ? `Time: 0${
+                                    userRecord.score.split('/')[2].split(':')[0]
+                                  }:${userRecord.score.split('/')[2].split(':')[1]}`
+                                : userRecord.score.split('/')[2].split(':')[1].length == 1
+                                ? `Time: ${
+                                    userRecord.score.split('/')[2].split(':')[0]
+                                  }:0${userRecord.score.split('/')[2].split(':')[1]}`
+                                : `Time: ${userRecord.score.split('/')[2]}`
+                            }
+                          />
+                        </div>
                       </>
                     ) : (
                       <div className="emptyplayer_container">
@@ -765,7 +828,6 @@ const TestDetail = () => {
                                     setComments(actualizedComments);
                                   }}
                                 ></Comment>
-                                <span></span>
                               </>
                             ))}
                           {comments.length > 3 ? (
@@ -871,7 +933,7 @@ const TestDetail = () => {
                     </h3>
                     <Heading_4
                       text={`Score ${score}/${randomQuestions.length}`}
-                      size="2wpx"
+                      size={window.innerWidth < 650 ? '18px' : '20px'}
                       weigth="500"
                     />
                     <DivProgress
@@ -879,6 +941,7 @@ const TestDetail = () => {
                       className="timer"
                       maxValue={initialSeconds}
                       margintop="1.5rem"
+                      widthc="100px"
                     />
                   </div>
                 )}
@@ -889,7 +952,7 @@ const TestDetail = () => {
                   <h3>{randomQuestions[index].question}</h3>
                   <Heading_4
                     text={`Score: ${score}/${randomQuestions.length}`}
-                    size="22px"
+                    size={window.innerWidth < 650 ? '18px' : '20px'}
                     weigth="500"
                   />
                 </div>

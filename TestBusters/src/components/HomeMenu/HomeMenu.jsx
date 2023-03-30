@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import './HomeMenu.css';
 
 import { NavLink, useNavigate } from 'react-router-dom';
@@ -15,13 +17,19 @@ const HomeMenu = ({ user, setShowMenu, logout }) => {
       <nav>
         <ul>
           <div className="menu-pages">
-            <div className="menu-user-header">
+            <div
+              className="menu-user-header"
+              onClick={() => {
+                navigate(`/profile/statistics/${user._id}`);
+                setShowMenu(false);
+              }}
+            >
               <li>
                 <button className="menu-avatar-button">
                   <Avatar src={user.avatar} alt="user avatar" width="m" height="m" />
                 </button>
               </li>
-              <li>Level {user.level[0]}</li>
+              <li>{user.username}</li>
             </div>
             <span></span>
             <li>
@@ -40,18 +48,6 @@ const HomeMenu = ({ user, setShowMenu, logout }) => {
               <NavLink to="/community" onClick={() => setShowMenu(false)}>
                 Community
               </NavLink>
-            </li>
-            <span></span>
-            <li>
-              <button
-                onClick={() => {
-                  navigate('/create');
-                  setShowMenu(false);
-                }}
-                className="menu-create-button"
-              >
-                Create Test
-              </button>
             </li>
           </div>
           <div className="home-menu-logout">

@@ -21,7 +21,7 @@ const ModalRecordStyled = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    min-width: 500px;
+    min-width: 350px;
     padding: 2rem;
     gap: 2rem;
     border-radius: 10px;
@@ -29,9 +29,10 @@ const ModalRecordStyled = styled.div`
     animation-name: vibrar;
     animation-duration: 0.3s;
     animation-timing-function: ease-out;
+    text-align: center;
   }
   & .modal-end-test {
-    background-color: #cccccba7;
+    background-color: #5c5c5ca7;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -61,9 +62,9 @@ const ModalRecordStyled = styled.div`
   & .rating-end-test-container {
     display: flex;
     width: 100%;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
+    gap: 0.8rem;
   }
   & .rating-end-test-container img {
     width: 80px;
@@ -79,14 +80,25 @@ const ModalRecordStyled = styled.div`
     gap: 20px;
   }
   & .container-end-test-container {
-    border: 1px solid black;
     border-radius: 10px;
-    padding: 20px 20px;
+    padding: 20px 10px;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 5px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 1.5rem;
   }
-  & .bar-end-test-container > h4 {
-    position: relative;
-    left: 10%;
-    top: 50px;
+
+  & .container-end-test-title {
+    font-size: 22px;
+    font-weight: 800;
+  }
+
+  & .bar-end-test-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 0.5rem;
   }
   & .stats-container {
     display: flex;
@@ -95,6 +107,20 @@ const ModalRecordStyled = styled.div`
   }
   & .button-end-test-container {
     padding: 2rem;
+  }
+
+  @media screen and (max-width: 1200px) {
+    & .containers-end-test-container {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+  @media screen and (max-width: 650px) {
+    & .modal-end-test-container {
+      min-width: 350px;
+      width: 90%;
+      padding: 2rem 1rem;
+    }
   }
   @keyframes vibrar {
     0% {
@@ -107,7 +133,6 @@ const ModalRecordStyled = styled.div`
 `;
 
 const ModalRecord = ({
-  userRecord,
   text,
   timeRecord,
   maxScore,
@@ -174,121 +199,117 @@ const ModalRecord = ({
             <div className="stats-container">
               <div className="circlebar-end-test-container">
                 <div className="rating-end-test-container">
-                  {userRecord ? (
-                    <>
-                      {parseInt(userRecord.score.split('/')[0]) /
-                        parseInt(userRecord.score.split('/')[1]) ===
-                      0 ? (
-                        <>
-                          <img
-                            src="https://res.cloudinary.com/dva9zee9r/image/upload/v1680167535/emoji-transparent-2018-32_yz1q50.png"
-                            alt="emoji smile"
-                          />
-                          <h2>Dont worry, try again!!</h2>
-                        </>
-                      ) : parseInt(userRecord.score.split('/')[0]) /
-                          parseInt(userRecord.score.split('/')[1]) <
-                        0.2 ? (
-                        <>
-                          <img
-                            src="https://res.cloudinary.com/dva9zee9r/image/upload/v1680167535/emoji-transparent-2018-32_yz1q50.png"
-                            alt="emoji smile"
-                          />
-                          <h2>Keep fighting!</h2>
-                        </>
-                      ) : parseInt(userRecord.score.split('/')[0]) /
-                          parseInt(userRecord.score.split('/')[1]) <
-                        0.4 ? (
-                        <>
-                          <img
-                            src="https://res.cloudinary.com/dva9zee9r/image/upload/v1680167464/face-with-stuck-out-tongue-and-winking-eye_1f61c_k6vaom.png"
-                            alt="emoji star eyes"
-                          />
-                          <h2>Good job!!</h2>
-                        </>
-                      ) : parseInt(userRecord.score.split('/')[0]) /
-                          parseInt(userRecord.score.split('/')[1]) <
-                        0.6 ? (
-                        <>
-                          <img
-                            src="https://res.cloudinary.com/dva9zee9r/image/upload/v1680167464/face-with-stuck-out-tongue-and-winking-eye_1f61c_k6vaom.png"
-                            alt="emoji star eyes"
-                          />
-                          <h2>Nice one pal!!</h2>
-                        </>
-                      ) : parseInt(userRecord.score.split('/')[0]) /
-                          parseInt(userRecord.score.split('/')[1]) <
-                        0.8 ? (
-                        <>
-                          <img
-                            src="https://res.cloudinary.com/dva9zee9r/image/upload/v1680167500/4_grande_fntwp0.png"
-                            alt="emoji star eyes"
-                          />
-                          <h2>You are the best!!</h2>
-                        </>
-                      ) : (
-                        <>
-                          <img
-                            src="https://res.cloudinary.com/dva9zee9r/image/upload/v1680167593/3_grande_t6paml.png"
-                            alt="emoji star eyes"
-                          />
-                          <h2>You are awesome!!</h2>
-                        </>
-                      )}
-                    </>
-                  ) : (
-                    <div></div>
-                  )}
+                  <>
+                    {score / maxScore === 0 ? (
+                      <>
+                        <img
+                          src="https://res.cloudinary.com/dva9zee9r/image/upload/v1680167535/emoji-transparent-2018-32_yz1q50.png"
+                          alt="emoji smile"
+                        />
+                        <h2>Dont worry, try again!!</h2>
+                      </>
+                    ) : score / maxScore < 0.2 ? (
+                      <>
+                        <img
+                          src="https://res.cloudinary.com/dva9zee9r/image/upload/v1680167535/emoji-transparent-2018-32_yz1q50.png"
+                          alt="emoji smile"
+                        />
+                        <h2>Keep fighting!</h2>
+                      </>
+                    ) : score / maxScore < 0.4 ? (
+                      <>
+                        <img
+                          src="https://res.cloudinary.com/dva9zee9r/image/upload/v1680167464/face-with-stuck-out-tongue-and-winking-eye_1f61c_k6vaom.png"
+                          alt="emoji star eyes"
+                        />
+                        <h2>Good job!!</h2>
+                      </>
+                    ) : score / maxScore < 0.6 ? (
+                      <>
+                        <img
+                          src="https://res.cloudinary.com/dva9zee9r/image/upload/v1680167464/face-with-stuck-out-tongue-and-winking-eye_1f61c_k6vaom.png"
+                          alt="emoji star eyes"
+                        />
+                        <h2>Nice one pal!!</h2>
+                      </>
+                    ) : score / maxScore < 0.8 ? (
+                      <>
+                        <img
+                          src="https://res.cloudinary.com/dva9zee9r/image/upload/v1680167500/4_grande_fntwp0.png"
+                          alt="emoji star eyes"
+                        />
+                        <h2>You are the best!!</h2>
+                      </>
+                    ) : (
+                      <>
+                        <img
+                          src="https://res.cloudinary.com/dva9zee9r/image/upload/v1680167593/3_grande_t6paml.png"
+                          alt="emoji star eyes"
+                        />
+                        <h2>You are awesome!!</h2>
+                      </>
+                    )}
+                  </>
                 </div>
               </div>
               <div className="containers-end-test-container">
                 <div className="container-end-test-container">
-                  <h3>{isNewRecord ? 'New Record!!!' : 'Score'}</h3>
+                  <h3 className="container-end-test-title">
+                    {isNewRecord ? 'NEW RECORD!!!' : 'SCORE'}
+                  </h3>
                   <div className="bar-end-test-container">
-                    <h4>score</h4>
                     <DivProgress
                       widtha="200px"
                       widthb="400px"
-                      heighta="27"
+                      widthc="180px"
                       value={score}
                       maxValue={maxScore}
                       type="score"
+                      margintop="1rem"
+                      text1="score"
+                      marginright="1.5rem"
+                      display2={window.innerWidth < 520 ? 'none' : 'block'}
+                      display={window.innerWidth < 520 ? 'none' : 'block'}
                     />
-                  </div>
-                  <div className="bar-end-test-container">
-                    <h4>time</h4>
                     <DivProgress
                       widtha="200px"
                       widthb="400px"
-                      heighta="27"
+                      widthc="180px"
                       value={time}
                       maxValue={maxTime}
                       type="time"
+                      text1="time"
+                      display2={window.innerWidth < 520 ? 'none' : 'block'}
+                      display={window.innerWidth < 520 ? 'none' : 'block'}
                     />
                   </div>
                 </div>
                 <div className="container-end-test-container">
-                  <h3>Record</h3>
+                  <h3 className="container-end-test-title">RECORD</h3>
                   <div className="bar-end-test-container">
-                    <h4>score</h4>
                     <DivProgress
                       widtha="200px"
                       widthb="400px"
-                      heighta="27"
+                      widthc="180px"
                       value={scoreRecord}
                       maxValue={maxScore}
                       type="score"
+                      text1="score"
+                      margintop="1rem"
+                      marginright="1.5rem"
+                      display2={window.innerWidth < 520 ? 'none' : 'block'}
+                      display={window.innerWidth < 520 ? 'none' : 'block'}
                     />
-                  </div>
-                  <div className="bar-end-test-container">
-                    <h4>time</h4>
                     <DivProgress
                       widtha="200px"
                       widthb="400px"
-                      heighta="27"
+                      widthc="180px"
                       value={timeRecord}
                       maxValue={maxTime}
                       type="time"
+                      text1="time"
+                      display={window.innerWidth < 520 ? 'none' : 'block'}
+                      display2={window.innerWidth < 520 ? 'none' : 'block'}
                     />
                   </div>
                 </div>

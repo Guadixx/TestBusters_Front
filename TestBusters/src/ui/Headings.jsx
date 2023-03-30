@@ -47,6 +47,7 @@ export const Heading_2 = ({ font, size, color, text, z, weigth }) => {
 };
 const Heading3Styled = styled.h3`
   font-family: ${({ font }) => (font ? font : 'Figtree')};
+  display: ${({ display }) => (display ? display : 'flex')};
   font-size: ${({ size }) => (size ? size : Spacing._4)};
   color: ${({ color }) => (color ? color : Palette.color_primary)};
   font-weight: ${({ weigth }) => (weigth ? weigth : 400)};
@@ -55,6 +56,10 @@ const Heading3Styled = styled.h3`
   text-shadow: ${({ shadow }) => (shadow ? shadow : 0)};
   margin-bottom: ${({ marginbottom }) => (marginbottom ? marginbottom : 0)};
   z-index: ${({ z }) => z};
+
+  @media screen and (max-width: 650px) {
+    font-size: ${({ size2 }) => (size2 ? size2 : Spacing._4)};
+  }
 `;
 export const Heading_3 = ({
   font,
@@ -67,6 +72,8 @@ export const Heading_3 = ({
   marginright,
   shadow,
   marginbottom,
+  size2,
+  display,
 }) => {
   return (
     <Heading3Styled
@@ -80,6 +87,8 @@ export const Heading_3 = ({
       marginright={marginright}
       shadow={shadow}
       marginbottom={marginbottom}
+      size2={size2}
+      display={display}
     >
       {text}
     </Heading3Styled>

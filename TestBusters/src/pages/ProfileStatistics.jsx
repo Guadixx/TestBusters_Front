@@ -58,6 +58,7 @@ const ProfileStatistics = () => {
           )}
           {showFollowersModal ? (
             <FollowersModal
+              keyword="follower"
               userFollowers={printedUser.followed_users}
               setShowFollowersModal={setShowFollowersModal}
             />
@@ -66,6 +67,7 @@ const ProfileStatistics = () => {
           )}
           {showFollowingModal ? (
             <FollowersModal
+              keyword="following"
               userFollowers={printedUser.following_users}
               setShowFollowersModal={setShowFollowingModal}
             />
@@ -100,6 +102,7 @@ const ProfileStatistics = () => {
                     level={userProfile.level[0]}
                     value={userProfile.level[1]}
                     label="LEVEL"
+                    size2="45px"
                   />
                 </div>
 

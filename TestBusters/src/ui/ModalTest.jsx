@@ -23,7 +23,7 @@ const ModalTestStyled = styled.div`
     animation-timing-function: ease-out;
   }
   & .modal {
-    background-color: #cccccba7;
+    background-color: #5c5c5ca7;
     display: flex;
     flex-direction: column;
     justify-content: center;
