@@ -7,7 +7,7 @@ import { NavLink } from 'react-router-dom';
 
 import { UserContext } from '../context/UserContext';
 import { API } from '../services/API';
-import { Heading_6 } from '../ui/Headings';
+import { Heading_3, Heading_6 } from '../ui/Headings';
 
 const Login = () => {
   const [onFocus, setOnFocus] = useState(false);
@@ -52,12 +52,18 @@ const Login = () => {
       .then((res) => {
         if (res.status == 200) {
           setEmailSent(true);
+          setTimeout(() => {
+            setEmailSent(false);
+            setForgot(false);
+            setUserNotFound(false);
+          }, 2000);
         } else {
           setUserNotFound(true);
         }
       })
       .catch(() => {
         setUserNotFound(true);
+        setForgot(false);
       });
   };
   return (
@@ -121,13 +127,7 @@ const Login = () => {
           <div className="error_container">
             <Heading_6
               text={
-                userNotFound
-                  ? 'User not found'
-                  : wrongPassword
-                  ? 'Wrong Password'
-                  : emailSent
-                  ? 'Check your email. We have sent you a new password'
-                  : ''
+                userNotFound ? 'User not found' : wrongPassword ? 'Wrong Password' : ''
               }
               color="red"
               size="16px"
@@ -152,8 +152,14 @@ const Login = () => {
             >
               Forgot your password?
             </h4>
+          ) : emailSent ? (
+            <div className="email-sent-div-modal">
+              <div>
+                <Heading_3 text="We have sent you an email. Please check your mailbox" />
+              </div>
+            </div>
           ) : (
-            <div className="div-send-email-forgot">
+            <div className="email-sent-div-modal">
               <input
                 className="input_user rescale-input-user"
                 type="text"
