@@ -3,6 +3,7 @@ import './Tests.css';
 import { useEffect, useState } from 'react';
 import { useDebounce } from 'use-debounce';
 
+import FilterTest from '../components/FilterTest/FilterTest';
 import TestCard from '../components/TestCard';
 import { API } from '../services/API';
 import { Heading_3 } from '../ui/Headings';
@@ -16,6 +17,7 @@ const Tests = () => {
   const [nextPage, setNextPage] = useState(false);
   const [info, setInfo] = useState(undefined);
   const [loaded, setLoaded] = useState(false);
+  const [showFilter, setShowFilter] = useState(false);
   const [pagesButtons, setPagesButtons] = useState([]);
   //const [offSet, setOffset] = useState(0);
   const [params, setParams] = useState({
@@ -84,6 +86,9 @@ const Tests = () => {
       setParams({ ...params, page: numPage });
     }
   };
+  const showFilterToggle = () => {
+    setShowFilter(!showFilter);
+  };
   return (
     <div className="tests">
       <h1>Choose a Test!!</h1>
@@ -100,6 +105,13 @@ const Tests = () => {
         <label htmlFor="custom_input" className="placeholder_title">
           Search by title
         </label>
+
+        <button className="test-hamburger" onClick={() => showFilterToggle()}>
+          <img
+            src="https://res.cloudinary.com/dva9zee9r/image/upload/v1679671423/achievements%20icons/customize_dbbv2c.png"
+            alt="menu icon"
+          />
+        </button>
       </div>
       <section className="tests-body">
         <div className="tests-filters">
@@ -347,6 +359,19 @@ const Tests = () => {
           )}
         </div>
       </section>
+      {showFilter ? (
+        <FilterTest
+          disable={disable}
+          setDisable={setDisable}
+          setShowFilter={setShowFilter}
+          typeTest={typeTest}
+          setTypeTest={setTypeTest}
+          params={params}
+          setParams={setParams}
+        />
+      ) : (
+        <></>
+      )}
     </div>
   );
 };
