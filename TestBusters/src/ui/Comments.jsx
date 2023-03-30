@@ -21,7 +21,7 @@ const CommentsStyled = styled.div`
   }
   & .avatar {
     display: flex;
-    width: 100%;
+    width: 90%;
   }
 
   & .comment-content {
@@ -29,6 +29,7 @@ const CommentsStyled = styled.div`
     flex-direction: column;
     align-items: flex-start;
     gap: 0.5rem;
+    width: 90%;
   }
   & .button-close-comment {
     height: 30%;
@@ -51,6 +52,7 @@ const CommentsStyled = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    min-width: 350px;
     width: 35%;
     padding: 2rem;
     gap: 2rem;
@@ -108,7 +110,7 @@ const Date = styled.div`
 `;
 const Content = styled.div`
   text-align: left;
-  width: 500px;
+  width: 90%;
   padding-left: 20px;
 `;
 const Comment = ({ comment, user, avatar, name, date, content, action }) => {

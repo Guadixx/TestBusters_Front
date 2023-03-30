@@ -157,6 +157,10 @@
 }
 
 @media screen and (max-width: 800px) {
+  .header header ul {
+    display: flex;
+    justify-content: space-between;
+  }
   .header .header-pages a {
     display: none;
   }
@@ -166,6 +170,7 @@
 
   .header-menu-li {
     display: flex;
+    justify-self: flex-start;
   }
   .header-menu {
     display: flex;

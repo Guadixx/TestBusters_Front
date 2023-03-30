@@ -77,12 +77,13 @@ const CircleBar = ({ value, label, level = '' }) => {
       range={range}
     >
       {label == 'BETTER THAN' && (
-        <Heading_3 text={label} size={Spacing._3} z={1} weigth="500" />
+        <Heading_3 text={label} size={Spacing._3} z={1} weigth="500" size2="14px" />
       )}
       {label == 'BETTER THAN' ? (
         <Heading_3
           text={`${Math.floor(animatedValue)}%`}
           size="40px"
+          size2="30px"
           z={1}
           weigth="600"
         />
