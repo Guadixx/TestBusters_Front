@@ -129,7 +129,7 @@ const EditTestsModal = ({ test, showEditModal, setShowEditModal }) => {
                 onChange={(ev) => setEditTitle(ev.target.value.length)}
               />
               <label htmlFor="title" className="custom-placeholder-profile">
-                Username
+                Title
               </label>
               <Heading_6
                 position="absolute"

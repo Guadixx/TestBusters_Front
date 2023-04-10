@@ -31,7 +31,11 @@ const FollowersModal = ({ keyword, setShowFollowersModal }) => {
     <div className="followers-modal">
       <div className="followers-modal-content">
         <div className="followers-modal-header">
-          <Heading_3 text="Followers" weigth="600" size="18px" />
+          <Heading_3
+            text={keyword == 'follower' ? 'Followers' : 'Following'}
+            weigth="600"
+            size="18px"
+          />
           <button onClick={() => setShowFollowersModal(false)}>X</button>
         </div>
         {loaded ? (
